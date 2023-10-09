@@ -159,6 +159,7 @@ if (!isset($_SESSION['id'])) {
 															<?= $total ?>
 														</td>
 
+
 														<td class="remove-col">
 															<!-- <form action="../Controller/cartController.php" method="POST"> -->
 															<button class="btn-remove"
@@ -168,11 +169,12 @@ if (!isset($_SESSION['id'])) {
 														</td>
 													</tr>
 													<form action="../Controller/cartController.php" method="POST">
-														<input type="hidden" name="cart_id[]" value="<?= $c['id'] ?>">
 														<input type="hidden" name="total[]" value="<?= $total ?>">
+														<input type="hidden" name="cart_id[]" value="<?= $c['id'] ?>">
 														<input type="hidden" name="quantity[]"
 															value="<?php echo $c['quantity'] ?>">
 													<?php endwhile; ?>
+
 													<tr class="d-flex subtotal-row" style="position:absolute;right: 0;">
 														<td colspan="1"></td>
 														<td class="subtotal-col" colspan="1"
@@ -227,7 +229,6 @@ if (!isset($_SESSION['id'])) {
 			updateSubtotal(sellerTable);
 			$("input[name='total[]']").val(total.toFixed(2));
 			$("input[name='quantity[]']").val(quantity);
-
 		});
 
 		// Function to calculate and update the subtotal for a specific seller's table

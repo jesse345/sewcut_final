@@ -48,8 +48,10 @@ if (isset($_POST['ADDTOCART'])) {
             $fields,
             array($cartID, $total[$i], $quantity[$i])
         );
-
+        echo "cartID " . $cartID . " total " . $total[$i] . " quantity " . $quantity[$i];
         $seller_id = mysqli_fetch_assoc(displayDetails('carts', 'id', $cart_id[$i]));
     }
-    header("location: ../View/checkout.php?seller=" . $seller_id['seller_id']);
+
+    // Redirect to the checkout page with seller_id
+    // header("Location: ../View/checkout.php?seller=" . $seller_id['seller_id']);
 }

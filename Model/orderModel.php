@@ -55,3 +55,22 @@ function getOrderbyID($table, $value)
     disconnect();
     return $query;
 }
+
+//Seller
+function getOrderEachBuyer($table, $value)
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT DISTINCT user_id FROM `$table` WHERE `seller_id` = '$value'");
+    disconnect();
+    return $query;
+}
+
+function getOrderSeller($table, $value)
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `seller_id` = '$value'");
+    disconnect();
+    return $query;
+}

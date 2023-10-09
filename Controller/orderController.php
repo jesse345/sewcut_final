@@ -53,7 +53,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
                 $order_id = mysqli_insert_id($conn);
                 header("location:../View/payment.php?order_id=" . $order_id);
             } else {
-                header("location:myPurchase.php");
+                header("location:../View/myPurchase.php");
             }
         } else {
             echo "Order placement failed!";

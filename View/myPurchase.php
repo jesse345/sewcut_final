@@ -44,7 +44,7 @@ if (!isset($_SESSION['id'])) {
                                         <a href="myProduct.php" class="nav-link">My Product</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="manageOrder.php" class="nav-link">My Orders</a>
+                                        <a href="manageOrder.php" class="nav-link">Orders</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="myPurchase.php" class="nav-link active">My Purchase</a>
