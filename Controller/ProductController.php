@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 if (!empty($_SESSION['id'])) {
-    if(isset($_POST['ADDPRODUCT'])) {
+    if (isset($_POST['ADDPRODUCT'])) {
         $category = $_POST['category'];
         $product_name = $_POST['product_name'];
         $description = $_POST['description'];
@@ -17,11 +17,20 @@ if (!empty($_SESSION['id'])) {
         $size = $_POST['size'];
         $price = $_POST['price'];
         $quantity = $_POST['stock'];
-        
-        
-        $product_fields = array('id','category','product_name','description','additional_info','brand');
-        $product_values = array($category,$product_name,$description,$add_info,$brand);
-        
+
+        // Gcash
+        $gcash_name = $_POST['gcash_name'];
+        $gcash_number = $_POST['gcash_number'];
+
+        updateUser(
+            'user_details',
+            array('id', 'gcash_name', 'gcash_number'),
+            array($_SESSION['id'], $gcash_name, $gcash_number)
+        );
+
+        $product_fields = array('id', 'category', 'product_name', 'description', 'additional_info', 'brand');
+        $product_values = array($category, $product_name, $description, $add_info, $brand);
+
         addProduct(
             'products',
             array('user_id'),
@@ -62,51 +71,56 @@ if (!empty($_SESSION['id'])) {
         //                 array('product_id','quantity'),
         //                 array($product_id,$q));
         // }
-       
+
         $targetDir = "../images/";
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'avi', 'mov'];
 
         foreach ($_FILES['image']['name'] as $key => $name) {
             $fileType = pathinfo($_FILES['image']['name'][$key], PATHINFO_EXTENSION);
             $targetPath = $targetDir . basename($name);
-            
+
             if (in_array($fileType, $allowedTypes)) {
                 move_uploaded_file($_FILES['image']['tmp_name'][$key], $targetPath);
-                insertProduct('product_images', 
-                    array('product_id', 'image'), 
-                    array($product_id, $targetPath));
+                insertProduct(
+                    'product_images',
+                    array('product_id', 'image'),
+                    array($product_id, $targetPath)
+                );
             } else {
                 echo "Invalid file type: $name<br>";
             }
         }
+
         flash("msg", "success", "Successfully Added");
         header("Location: ../View/myProduct.php");
         exit();
 
     } elseif (isset($_POST['DELETEPRODUCT'])) {
         $id = $_POST['id'];
-        $deleteOrder = mysqli_fetch_assoc(getrecord('orders','product_id',$id));
+        $deleteOrder = mysqli_fetch_assoc(getrecord('orders', 'product_id', $id));
 
-        if($deleteOrder['status'] != 'Approved'){
+        if ($deleteOrder['status'] != 'Approved') {
             deleteProduct($id);
             flash("msg", "success", "Success");
             header("Location: ../View/myProduct.php");
             exit();
-            
+
         } else {
-            updateProduct('product_quantity',
-                        array('product_id','quantity'),
-                        array($id,0));
+            updateProduct(
+                'product_quantity',
+                array('product_id', 'quantity'),
+                array($id, 0)
+            );
             flash("msg", "success", "Stock at 0");
             header("Location: ../View/myProduct.php");
             exit();
         }
-        
+
     } elseif (isset($_POST['UPDATEPRODUCT'])) {
         $product_id = $_POST['product_id'];
-        $order = mysqli_fetch_assoc(getrecord('orders','product_id',$product_id));
+        $order = mysqli_fetch_assoc(getrecord('orders', 'product_id', $product_id));
 
-        if( $order['status'] != 'Approved'){
+        if ($order['status'] != 'Approved') {
             $category = $_POST['category'];
             $product_name = $_POST['product_name'];
             $description = $_POST['description'];
@@ -118,15 +132,17 @@ if (!empty($_SESSION['id'])) {
             $quantity = $_POST['stock'];
             $brand = $_POST['brand'];
 
-            
+
             $pde_id = $_POST['pqe_id'];
 
-            $product_fields = array('id','category','product_name','description','additional_info','brand');
-            $product_values = array($product_id,$category,$product_name,$description,$add_info,$brand);
-            
-            updateProduct('product_details',
-                        $product_fields,
-                        $product_values);
+            $product_fields = array('id', 'category', 'product_name', 'description', 'additional_info', 'brand');
+            $product_values = array($product_id, $category, $product_name, $description, $add_info, $brand);
+
+            updateProduct(
+                'product_details',
+                $product_fields,
+                $product_values
+            );
 
             foreach ($color as $i => $c) {
                 updateProduct(
@@ -162,12 +178,14 @@ if (!empty($_SESSION['id'])) {
             foreach ($_FILES['image']['name'] as $key => $name) {
                 $fileType = pathinfo($_FILES['image']['name'][$key], PATHINFO_EXTENSION);
                 $targetPath = $targetDir . basename($name);
-                
+
                 if (in_array($fileType, $allowedTypes)) {
                     move_uploaded_file($_FILES['image']['tmp_name'][$key], $targetPath);
-                     updateProduct('product_images', 
-                                array('id', 'image'), 
-                                array($img_id[$key], $targetPath));
+                    updateProduct(
+                        'product_images',
+                        array('id', 'image'),
+                        array($img_id[$key], $targetPath)
+                    );
                 } else {
                     echo "Invalid file type: $name<br>";
                 }
@@ -180,12 +198,10 @@ if (!empty($_SESSION['id'])) {
             header("Location: ../View/myProduct.php");
             exit();
         }
-    } 
+    }
 } else {
     echo "<script>
             alert('Login First');
             window.location.href='../index.php';
         </script>";
-}   
-
-
+}

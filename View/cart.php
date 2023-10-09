@@ -4,46 +4,49 @@ session_start();
 error_reporting(0);
 
 if (!isset($_SESSION['id'])) {
-    header("Location: ../index.php");
-    exit();
+	header("Location: ../index.php");
+	exit();
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php include("../layouts/head.layout.php")?>
-    <title>My Product</title>
+	<?php include("../layouts/head.layout.php") ?>
+	<title>My Product</title>
 	<style>
-		.table.table-summary tbody td{
-			border-bottom:none;
-			height:40px;
+		.table.table-summary tbody td {
+			border-bottom: none;
+			height: 40px;
 		}
-		.summary-total{
-			border-top:.1rem solid #ebebeb;
+
+		.summary-total {
+			border-top: .1rem solid #ebebeb;
 		}
 	</style>
 </head>
+
 <body>
-    <?php
-    $user = mysqli_fetch_assoc(getrecord('user_details','id',$_SESSION['id']));
-    $p = displayDetails('product_details','category','dress');
-    ?>
-    <div class="page-wrapper">
-        <?php include("../layouts/header_layout.php"); ?>
-        <main class="main">
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">My Cart</li>
-                    </ol>
-                </div>
-            </nav>
-            <div class="page-content">
-            	<div class="cart">
-	                <div class="container">
-	                	<div class="row">
-	                		<div class="col-lg-12">
+	<?php
+	$user = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
+	$p = displayDetails('product_details', 'category', 'dress');
+	?>
+	<div class="page-wrapper">
+		<?php include("../layouts/header_layout.php"); ?>
+		<main class="main">
+			<nav aria-label="breadcrumb" class="breadcrumb-nav">
+				<div class="container">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">My Cart</li>
+					</ol>
+				</div>
+			</nav>
+			<div class="page-content">
+				<div class="cart">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12">
 								<?php
 								$cart = displayCart($_SESSION['id']);
 								while ($seller = mysqli_fetch_assoc($cart)):
@@ -51,7 +54,9 @@ if (!isset($_SESSION['id'])) {
 									$subtotal = 0;
 									?>
 									<div style="margin-bottom: 150px;">
-										<u><?= ucfirst($sel['firstname']) . ' ' . ucfirst($sel['lastname']) ?></u>
+										<u>
+											<?= ucfirst($sel['firstname']) . ' ' . ucfirst($sel['lastname']) ?>
+										</u>
 										<table class="table table-cart table-mobile text-center">
 											<thead>
 												<tr>
@@ -78,38 +83,51 @@ if (!isset($_SESSION['id'])) {
 														<td class="product-col">
 															<div class="product" style="margin-left: 32px;">
 																<figure class="product-media">
-																	<a href="#productViewMore-Modal<?php echo $c['id'] ?>" data-toggle="modal" >
-																		<img src="<?php echo $p['image']?>">
+																	<a href="#productViewMore-Modal<?php echo $c['id'] ?>"
+																		data-toggle="modal">
+																		<img src="<?php echo $p['image'] ?>">
 																	</a>
-																	<div class="modal fade" id="productViewMore-Modal<?php echo $c['id'] ?>" tabindex="-1" role="dialog" aria-hidden="true">
-																		<div class="modal-dialog custom-modal add-modal" role="document">
+																	<div class="modal fade"
+																		id="productViewMore-Modal<?php echo $c['id'] ?>"
+																		tabindex="-1" role="dialog" aria-hidden="true">
+																		<div class="modal-dialog custom-modal add-modal"
+																			role="document">
 																			<div class="modal-content">
 																				<div class="modal-body">
 																					<div class="card-body">
 																						<label>Images and Videos</label><br>
-																						<img src="<?php echo $p['image']?>" class="img-responsive">
+																						<img src="<?php echo $p['image'] ?>"
+																							class="img-responsive">
 																						<?php while ($pi = mysqli_fetch_assoc($productImages)): ?>
 																							<?php
 																							$fileExtension = pathinfo($pi['image'], PATHINFO_EXTENSION);
 
 																							if (in_array($fileExtension, array('jpg', 'jpeg', 'png', 'gif'))):
 																								// Display Image
-																							?>
-																								<img src="<?php echo $pi['image']; ?>" class="img-responsive mt-3" alt="Image">
+																								?>
+																								<img src="<?php echo $pi['image']; ?>"
+																									class="img-responsive mt-3"
+																									alt="Image">
 																							<?php elseif (in_array($fileExtension, array('mp4', 'avi', 'mov'))):
 																								// Display Video
-																							?>
-																								<video controls class="video-responsive" style="margin-top:10px;width:523px;">
-																									<source src="<?php echo $pi['image']; ?>" type="video/<?php echo $fileExtension; ?>">
+																								?>
+																								<video controls class="video-responsive"
+																									style="margin-top:10px;width:523px;">
+																									<source
+																										src="<?php echo $pi['image']; ?>"
+																										type="video/<?php echo $fileExtension; ?>">
 																									<!-- Add more source elements for other video formats if needed -->
-																									Your browser does not support the video tag.
+																									Your browser does not support the
+																									video tag.
 																								</video>
 																							<?php endif; ?>
 																						<?php endwhile; ?>
-																					</div> 
+																					</div>
 																				</div>
 																				<div class="modal-footer">
-																					<button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
+																					<button type="button"
+																						class="btn btn-danger products"
+																						data-dismiss="modal" aria-label="Close">
 																						Close
 																					</button>
 																				</div>
@@ -119,60 +137,78 @@ if (!isset($_SESSION['id'])) {
 																</figure>
 
 																<h3 class="product-title">
-																	<a href="#"><?php echo $productDetails['product_name']?></a>
+																	<a href="#">
+																		<?php echo $productDetails['product_name'] ?>
+																	</a>
 																</h3><!-- End .product-title -->
 															</div><!-- End .product -->
 														</td>
-														<td class="price-col" id="cartPrice"><?php echo $productPrice['price'] ?></td>
+														<td class="price-col" id="cartPrice">
+															<?php echo $productPrice['price'] ?>
+														</td>
 														<td class="quantity-col">
 															<div class="cart-product-quantity">
-																<input type="number" class="form-control product-quantity" value="<?php echo $c['quantity'] ?>" min="1" max="<?php echo $productDetailsETC['quantity'] ?>" step="1" data-decimals="0" required>
+																<input type="number" class="form-control product-quantity"
+																	value="<?php echo $c['quantity'] ?>" min="1"
+																	max="<?php echo $productDetailsETC['quantity'] ?>" step="1"
+																	data-decimals="0" required>
 															</div><!-- End .cart-product-quantity -->
 														</td>
-														<?php $total = $productPrice['price'] * $c['quantity']?>
-														<td class="total-price-col"><?=$total?></td>
-														
+														<?php $total = $productPrice['price'] * $c['quantity'] ?>
+														<td class="total-price-col">
+															<?= $total ?>
+														</td>
+
 														<td class="remove-col">
 															<!-- <form action="../Controller/cartController.php" method="POST"> -->
-																<button class="btn-remove" data-product_id="<?php echo $c['product_id'] ?>" style="color:red;"><i class="icon-close"></i></button>
+															<button class="btn-remove"
+																data-product_id="<?php echo $c['product_id'] ?>"
+																style="color:red;"><i class="icon-close"></i></button>
 															<!-- </form> -->
 														</td>
 													</tr>
-												<form action="../Controller/cartController.php" method="POST">
-														<input type="hidden" name="cart_id[]" value="<?=$c['id']?>">
-														<input type="hidden" name="total[]" value="<?=$total?>">
-														<input type="hidden" name="quantity[]" value="<?php echo $c['quantity'] ?>">
-														<?php endwhile; ?>
-														<tr class="d-flex subtotal-row" style="position:absolute;right: 0;">
+													<form action="../Controller/cartController.php" method="POST">
+														<input type="hidden" name="cart_id[]" value="<?= $c['id'] ?>">
+														<input type="hidden" name="total[]" value="<?= $total ?>">
+														<input type="hidden" name="quantity[]"
+															value="<?php echo $c['quantity'] ?>">
+													<?php endwhile; ?>
+													<tr class="d-flex subtotal-row" style="position:absolute;right: 0;">
 														<td colspan="1"></td>
-														<td class="subtotal-col" colspan="1" style="font-size:18px;font-weight:500">SubTotal: <span class="subtotal"><?= $subtotal ?></span></td>
+														<td class="subtotal-col" colspan="1"
+															style="font-size:18px;font-weight:500">SubTotal: <span
+																class="subtotal">
+																<?= $subtotal ?>
+															</span></td>
 														<input type="hidden" name="Subtotal" value="<?= $subtotal ?>">
-														<td colspan="1" style="margin-left:30px;"><button type="sumbit" name="CHECKOUT" class="btn btn-primary">Checkout</button></td>
+														<td colspan="1" style="margin-left:30px;"><button type="sumbit"
+																name="CHECKOUT" class="btn btn-primary">Checkout</button>
+														</td>
 													</tr>
 												</form>
-												
+
 											</tbody>
 										</table>
 									</div>
 								<?php endwhile; ?>
-	                		</div>
-	                	</div><!-- End .row -->
-	                </div><!-- End .container -->
-                </div><!-- End .cart -->
-            </div><!-- End .page-content -->
-        </main><!-- End .main -->
-        <br>
-        <?php include("../layouts/footer.layout1.php"); ?>
-    </div>
-	
-   <?php 
-    include("../layouts/jsfile.layout.php");
-    include("toastr.php");
-    ?>
+							</div>
+						</div><!-- End .row -->
+					</div><!-- End .container -->
+				</div><!-- End .cart -->
+			</div><!-- End .page-content -->
+		</main><!-- End .main -->
+		<br>
+		<?php include("../layouts/footer.layout1.php"); ?>
+	</div>
+
+	<?php
+	include("../layouts/jsfile.layout.php");
+	include("toastr.php");
+	?>
 </body>
 <script>
-	$(document).ready(function() {
-		$(".product-quantity").change(function() {
+	$(document).ready(function () {
+		$(".product-quantity").change(function () {
 			// Get the quantity input field within the same row
 			var quantityInput = $(this).closest("tr").find(".product-quantity");
 
@@ -191,6 +227,7 @@ if (!isset($_SESSION['id'])) {
 			updateSubtotal(sellerTable);
 			$("input[name='total[]']").val(total.toFixed(2));
 			$("input[name='quantity[]']").val(quantity);
+
 		});
 
 		// Function to calculate and update the subtotal for a specific seller's table
@@ -198,16 +235,16 @@ if (!isset($_SESSION['id'])) {
 			var subtotal = 0;
 
 			// Iterate through the rows in the seller's table and sum up the individual totals
-			sellerTable.find(".total-price-col").each(function() {
+			sellerTable.find(".total-price-col").each(function () {
 				subtotal += parseFloat($(this).text());
 			});
 
 			// Update the subtotal displayed in the corresponding row
 			sellerTable.find(".subtotal").text(subtotal.toFixed(2));
-			 $("input[name='newTotal']").val(subtotal.toFixed(2));
+			$("input[name='newTotal']").val(subtotal.toFixed(2));
 		}
 
-		$(".btn-remove").click(function() {
+		$(".btn-remove").click(function () {
 			var product_id = $(this).data("product_id");
 
 			// Display a confirmation dialog
@@ -220,14 +257,14 @@ if (!isset($_SESSION['id'])) {
 						REMOVECART: true,
 						product_id: product_id
 					},
-					success: function(response) {
+					success: function (response) {
 						// Handle the response from the server here
 						console.log(response);
 
 						// Reload the current page to reflect the updated cart
 						location.reload();
 					},
-					error: function(xhr, status, error) {
+					error: function (xhr, status, error) {
 						// Handle any AJAX errors here
 						console.error("AJAX error:", error);
 					}
@@ -238,4 +275,5 @@ if (!isset($_SESSION['id'])) {
 
 	});
 </script>
+
 </html>
