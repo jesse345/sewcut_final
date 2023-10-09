@@ -53,5 +53,11 @@ if (isset($_POST['ADDTOCART'])) {
     }
 
     // Redirect to the checkout page with seller_id
-    // header("Location: ../View/checkout.php?seller=" . $seller_id['seller_id']);
+    header("Location: ../View/checkout.php?seller=" . $seller_id['seller_id']);
+} elseif (isset($_POST['UPDATEQUANTITY'])) {
+    $cart_id = $_POST['cart_id'];
+    $product_quantity = $_POST['product_quantity'];
+
+    updateCart('carts', array('id', 'quantity'), array($cart_id, $product_quantity));
+    header("Location: " . $_SERVER['HTTP_REFERER']);
 }

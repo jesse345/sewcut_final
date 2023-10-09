@@ -149,6 +149,7 @@ if (!isset($_SESSION['id'])) {
 														<td class="quantity-col">
 															<div class="cart-product-quantity">
 																<input type="number" class="form-control product-quantity"
+																	data-cart_id="<?php echo $c['id'] ?>"
 																	value="<?php echo $c['quantity'] ?>" min="1"
 																	max="<?php echo $productDetailsETC['quantity'] ?>" step="1"
 																	data-decimals="0" required>
@@ -158,8 +159,6 @@ if (!isset($_SESSION['id'])) {
 														<td class="total-price-col">
 															<?= $total ?>
 														</td>
-
-
 														<td class="remove-col">
 															<!-- <form action="../Controller/cartController.php" method="POST"> -->
 															<button class="btn-remove"
@@ -211,25 +210,50 @@ if (!isset($_SESSION['id'])) {
 <script>
 	$(document).ready(function () {
 		$(".product-quantity").change(function () {
-			// Get the quantity input field within the same row
-			var quantityInput = $(this).closest("tr").find(".product-quantity");
+			var cart_id = $(this).data("cart_id");
+			var product_quantity = $(this).val();
 
-			// Get the current quantity and price for this row
-			var quantity = parseInt(quantityInput.val());
-			var price = parseFloat($(this).closest("tr").find(".price-col").text());
+			$.ajax({
+				type: "POST",
+				url: "../Controller/cartController.php",
+				data: {
+					UPDATEQUANTITY: true,
+					cart_id: cart_id,
+					product_quantity: product_quantity
+				},
+				success: function (response) {
+					// Handle the response from the server here
+					console.log(response);
 
-			// Calculate the total price for this row
-			var total = quantity * price;
-
-			// Update the total price cell in this row
-			$(this).closest("tr").find(".total-price-col").text(total.toFixed(2));
-
-			// Recalculate and update the subtotal for this seller's table
-			var sellerTable = $(this).closest(".seller-table");
-			updateSubtotal(sellerTable);
-			$("input[name='total[]']").val(total.toFixed(2));
-			$("input[name='quantity[]']").val(quantity);
+					// Reload the current page to reflect the updated cart
+					location.reload();
+				},
+				error: function (xhr, status, error) {
+					// Handle any AJAX errors here
+					console.error("AJAX error:", error);
+				}
+			});
 		});
+		// $(".product-quantity").change(function () {
+		// 	// Get the quantity input field within the same row
+		// 	var quantityInput = $(this).closest("tr").find(".product-quantity");
+
+		// 	// Get the current quantity and price for this row
+		// 	var quantity = parseInt(quantityInput.val());
+		// 	var price = parseFloat($(this).closest("tr").find(".price-col").text());
+
+		// 	// Calculate the total price for this row
+		// 	var total = quantity * price;
+
+		// 	// Update the total price cell in this row
+		// 	$(this).closest("tr").find(".total-price-col").text(total.toFixed(2));
+
+		// 	// Recalculate and update the subtotal for this seller's table
+		// 	var sellerTable = $(this).closest(".seller-table");
+		// 	updateSubtotal(sellerTable);
+		// 	$("input[name='total[]']").val(total.toFixed(2));
+		// 	$("input[name='quantity[]']").val(quantity);
+		// });
 
 		// Function to calculate and update the subtotal for a specific seller's table
 		function updateSubtotal(sellerTable) {
