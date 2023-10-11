@@ -13,9 +13,9 @@ try {
     echo "Connection failed : " . $e->getMessage();
 }
 
-function getUser($connection,$id)
+function getUser($id, $connection)
 {
-    $sql = "SELECT * FROM users WHERE id=?";
+    $sql = "SELECT * FROM user_details WHERE id=?";
     $stmt = $connection->prepare($sql);
     $stmt->execute([$id]);
 
@@ -29,7 +29,10 @@ function getUser($connection,$id)
 }
 function getConversation($user_id, $connection)
 {
-
+    /**
+      Getting all the conversations 
+      for current (logged in) user
+     **/
     $sql = "SELECT * FROM conversations
             WHERE user_1=? OR user_2=?
             ORDER BY id DESC";
@@ -39,19 +42,24 @@ function getConversation($user_id, $connection)
 
     if ($stmt->rowCount() > 0) {
         $conversations = $stmt->fetchAll();
+
+        /**
+          creating empty array to 
+          store the user conversation
+         **/
         $user_data = [];
 
-        
+        # looping through the conversations
         foreach ($conversations as $conversation) {
             # if conversations user_1 row equal to user_id
             if ($conversation['user_1'] == $user_id) {
-                $sql2  = "SELECT *
-            	          FROM users WHERE id=?";
+                $sql2 = "SELECT *
+            	          FROM user_details WHERE id=?";
                 $stmt2 = $connection->prepare($sql2);
                 $stmt2->execute([$conversation['user_2']]);
             } else {
-                $sql2  = "SELECT *
-            	          FROM usersWHERE id=?";
+                $sql2 = "SELECT *
+            	          FROM user_details WHERE id=?";
                 $stmt2 = $connection->prepare($sql2);
                 $stmt2->execute([$conversation['user_1']]);
             }
@@ -125,22 +133,21 @@ function opened($id_1, $connection, $chats)
             $opened = 1;
             $chat_id = $chat['id'];
 
-            $sql = "UPDATE chats SET   opened = ? WHERE from_id=? AND   id = ?";
+            $sql = "UPDATE chats SET   opened = ? WHERE from_id=? AND  id = ?";
             $stmt = $connection->prepare($sql);
             $stmt->execute([$opened, $id_1, $chat_id]);
         }
     }
 }
 
-
 function connect()
 {
     global $conn;
-    $conn = mysqli_connect('localhost', 'root', '', 'sewcut') or die("Connection Failed");
+    $conn = mysqli_connect('localhost', 'root', '', 'eaquaria') or die("Connection Failed");
     return $conn;
 }
 
-// include("notificationModel.php");
+include("NotificationModel.php");
 
 function disconnect()
 {

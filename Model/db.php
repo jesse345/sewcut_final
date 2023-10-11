@@ -18,9 +18,10 @@ include("cartModel.php");
 
 include("orderModel.php");
 
+include("notificationModel.php");
+
 function disconnect()
 {
     global $conn;
     mysqli_close($conn);
 }
-

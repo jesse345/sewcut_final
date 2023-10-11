@@ -52,6 +52,17 @@ if (isset($_POST['UPDATESHIPPING'])) {
             if ($payment_type != 'COD') {
                 $order_id = mysqli_insert_id($conn);
                 header("location:../View/payment.php?order_id=" . $order_id);
+                $getUser = mysqli_fetch_assoc(getrecord('user_details', 'user_id', $_SESSION['id']));
+                $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
+
+                $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " ordered your product " . $getProduct['product_name'];
+                $notif = sendNotif('notification', array('user_id', 'date_send', 'isRead', 'redirect'), array($seller['user_id'], $date, 'No', 'manageOrder.php'));
+                $last_id = mysqli_insert_id($conn);
+                sendNotif(
+                    'notification_details',
+                    array('notification_id', 'title', 'Description'),
+                    array($last_id, 'Product Order', $desc)
+                );
             } else {
                 header("location:../View/myPurchase.php");
             }

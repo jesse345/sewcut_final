@@ -22,8 +22,6 @@ function viewAllNotif($table_name, $fld, $val, $id)
     return $query;
 }
 
-
-
 function deleteNotifs($id)
 {
     global $conn;

@@ -77,7 +77,6 @@ if (!isset($_SESSION['id'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-
                                             $b = getOrderSeller('orders', $_SESSION['id']);
                                             while ($c = mysqli_fetch_assoc($b)):
                                                 $orderby = mysqli_fetch_assoc(getrecord('user_details', 'id', $c['user_id']));

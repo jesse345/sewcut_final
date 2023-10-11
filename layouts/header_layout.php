@@ -13,10 +13,19 @@
             </div><!-- End .header-left -->
 
             <div class="header-right">
-                    <a href="../View/notification.php" class="mr-4">Notifications</a>
-                    <a href="../View/chat.php" class="mr-4">Chat</a>
+                <?php if (isset($_SESSION['id'])) { ?>
+                    <?php
+                    $unread = mysqli_num_rows(unRead($_SESSION['id'])) ?>
+                    <a href="../View/notification.php" class="mr-4">
+                        Notifications
+                        <?php echo $unread > 0 ? "($unread)" : '' ?>
+                    </a>
+                <?php } ?>
+                <a href="../View/chat.php" class="mr-4">Chat</a>
                 <div class="header-dropdown">
-                    <a href="#"><i class="icon-user"> </i> <?php echo ucfirst($user['firstname']) . " ". ucfirst($user['lastname'])?></a>
+                    <a href="#"><i class="icon-user"> </i>
+                        <?php echo ucfirst($user['firstname']) . " " . ucfirst($user['lastname']) ?>
+                    </a>
                     <div class="header-menu">
                         <ul>
                             <li><a href="myAccount.php">My Account</a></li>
@@ -25,9 +34,10 @@
                             <li><a href="myPurchase.php">My Purchase</a></li>
                             <li><a href="myShop.php">My Shop</a></li>
                             <form action="../Controller/userController.php" method="POST">
-                                <li><a><button type="submit" name="LOGOUT" style="border:none;background-color:transparent;">Logout</button></a></li>
+                                <li><a><button type="submit" name="LOGOUT"
+                                            style="border:none;background-color:transparent;">Logout</button></a></li>
                             </form>
-                            
+
                         </ul>
                     </div><!-- End .header-menu -->
                 </div><!-- End .header-dropdown -->
@@ -43,7 +53,8 @@
                         <div class="header-search-wrapper search-wrapper-wide">
                             <label for="q" class="sr-only">Search</label>
                             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..."
+                                required>
                         </div><!-- End .header-search-wrapper -->
                     </form>
                 </div><!-- End .header-search -->
@@ -59,7 +70,9 @@
                 <a href="../View/wishlist.php" class="wishlist-link">
                     <i class="icon-heart-o"></i>
                     <?php $count = countWishlist($_SESSION['id']) ?>
-                    <span class="wishlist-count"><?php echo $count?></span>
+                    <span class="wishlist-count">
+                        <?php echo $count ?>
+                    </span>
                     <span class="wishlist-txt">My Wishlist</span>
                 </a>
 
@@ -67,9 +80,11 @@
                     <a href="../View/cart.php" class="dropdown-toggle">
                         <i class="icon-shopping-cart"></i>
                         <?php $countCart = countCart($_SESSION['id']) ?>
-                        <span class="cart-count"><?php echo $countCart?></span>
+                        <span class="cart-count">
+                            <?php echo $countCart ?>
+                        </span>
                         <span class="cart-txt">My Cart</span>
-                    </a> 
+                    </a>
                 </div><!-- End .cart-dropdown -->
             </div>
         </div><!-- End .container -->
@@ -82,10 +97,10 @@
                         <li class="megamenu-container active">
                             <a href="../View/homepage.php" class="sf-with-ul">Home</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="../View/products.php" class="sf-with-u1l">Products</a>
                         </li>
-                         <li>
+                        <li>
                             <a href="../View/ShopCategories.php" class="sf-with-ul1">Categories</a>
                         </li>
                         <li>
