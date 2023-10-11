@@ -350,7 +350,6 @@ if (!isset($_SESSION['id'])) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                                 <?php endwhile; ?>
                                             <?php } else { ?>
                                                 <tr>
@@ -472,7 +471,6 @@ if (!isset($_SESSION['id'])) {
                         <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
                             Close
                         </button>
-                        
                         <a href="#gcashModal" data-toggle="modal" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">Add</a>
                         <div class="modal fade" id="gcashModal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog custom-modal add-modal" role="document">
@@ -490,7 +488,7 @@ if (!isset($_SESSION['id'])) {
                                             <input type="text" class="form-control" name="gcash_name" value="<?=$gcashuser['gcash_name']?>"  required>
                                         </div>
                                         <div class="form-group">
-                                            <label>gcash Number</label>
+                                            <label>Gcash Number</label>
                                             <input type="text" class="form-control" name="gcash_number" value="<?=$gcashuser['gcash_name']?>"  required>
                                         </div>
                                     </div>

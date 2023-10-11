@@ -37,6 +37,15 @@ function displayProduct($table)
     return $query;
     disconnect();
 }
+function displayProductInShop($table, $field1, $value1, $value2)
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `$field1` = '$value1' AND `inShop` = '$value2'");
+    return $query;
+    disconnect();
+}
+
 
 function displayDetails($table, $field, $value)
 {

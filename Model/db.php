@@ -20,6 +20,8 @@ include("orderModel.php");
 
 include("notificationModel.php");
 
+include("shopModel.php");
+
 function disconnect()
 {
     global $conn;
