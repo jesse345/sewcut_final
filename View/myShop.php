@@ -1,6 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
+error_reporting(0);
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
@@ -63,12 +64,14 @@ if (!isset($_SESSION['id'])) {
                                     <li class="nav-item">
                                         <a href="myShop.php" class="nav-link active">My shop</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="mySubscription.php" class="nav-link">Manage Subscription</a>
+                                    </li>
                                 </ul>
                             </aside>
                             <div class="col-10">
                                 <?php $user = getShop($_SESSION['id']);
                                 $shop = mysqli_fetch_assoc($user);
-                                $address = mysqli_fetch_assoc(getrecord('address', 'id', $shop['address_id']));
                                 if ($user && mysqli_num_rows($user) == 0) { ?>
                                     <a href="#createShop-modal" data-toggle="modal" class="btn btn-dark">Create Shop</a>
                                 <?php } else { ?>
@@ -78,7 +81,7 @@ if (!isset($_SESSION['id'])) {
                                             <h1 class="page-title"
                                                 style="color:#000;font-size:5rem!important;font-weight:500;">
                                                 <?php echo strtoupper($shop['shop_name']); ?><span style="color:#26180b;">
-                                                    <?php echo $address['address']; ?>
+                                                    <?php echo $shop['address']; ?>
                                                 </span>
                                             </h1>
                                         </div>
@@ -90,7 +93,6 @@ if (!isset($_SESSION['id'])) {
                                                 <th>#</th>
                                                 <th>Product Name</th>
                                                 <th>Stock</th>
-                                                
                                                 <th>Status</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -98,7 +100,7 @@ if (!isset($_SESSION['id'])) {
                                         <tbody>
                                             <?php
                                             $count = 0;
-                                            $productData = displayDetails('products', 'user_id', $_SESSION['id']);
+                                            $productData = displayProductInShop('products', 'user_id', $_SESSION['id'],'Yes');
                                                 if(mysqli_num_rows($productData) > 0){
                                                     while($product = mysqli_fetch_assoc($productData)):
                                                     $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $product['id']));
@@ -532,7 +534,7 @@ if (!isset($_SESSION['id'])) {
                                     <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
                                         Close
                                     </button>
-                                    <button type="submit" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">ADD</button>
+                                    <button type="submit" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCTINSHOP">ADD</button>
                                 </div>
                             </div>
                         </div>

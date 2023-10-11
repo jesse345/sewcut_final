@@ -47,6 +47,9 @@ if (!isset($_SESSION['id'])) {
                                     <li class="nav-item">
                                         <a href="myShop.php" class="nav-link">My Shop</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="mySubscription.php" class="nav-link">Manage Subscription</a>
+                                    </li>
                                 </ul>
                             </aside><!-- End .col-lg-3 -->
 

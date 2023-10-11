@@ -20,3 +20,32 @@ function getShop($user_id)
     // Return the result set as is
     return $query;
 }
+
+function displayShop()
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `shops`");
+    return $query;
+}
+
+function distance($v1, $v2)
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT id,user_id,shop_name,address, (3959 * acos(cos(radians($v1))
+                        * cos(radians(latitude)) 
+                        * cos(radians(longitude) 
+                        - radians($v2)) 
+                        + sin(radians($v1)) 
+                        * sin(radians(latitude)))) 
+                        AS distance 
+                        FROM shops
+                        HAVING 
+                        distance 
+                        < 25 ORDER BY distance
+                        LIMIT 0, 10");
+    ;
+    disconnect();
+    return $query;
+}

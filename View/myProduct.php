@@ -43,6 +43,9 @@ if (!isset($_SESSION['id'])) {
                                      <li class="nav-item">
 								        <a href="myShop.php" class="nav-link">My shop</a>
 								    </li>
+                                    <li class="nav-item">
+                                        <a href="mySubscription.php" class="nav-link">Manage Subscription</a>
+                                    </li>
 								</ul>
 	                		</aside><!-- End .col-lg-3 -->
 	                		<div class="col-10">
@@ -61,7 +64,7 @@ if (!isset($_SESSION['id'])) {
                                     <tbody>
                                         <?php
                                         $count = 0;
-                                        $productData = displayDetails('products', 'user_id', $_SESSION['id']);
+                                        $productData = displayProductInShop('products', 'user_id', $_SESSION['id'],'No');
                                             if(mysqli_num_rows($productData) > 0){
                                                 while($product = mysqli_fetch_assoc($productData)):
                                                 $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $product['id']));
