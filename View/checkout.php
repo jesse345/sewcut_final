@@ -174,7 +174,7 @@ if (!isset($_SESSION['id'])) {
                                                     value="<?= $shipping_info['address'] ?>">
                                                 <td>&nbsp;</td>
                                             </tr>
-                                            <tr>
+                                            <!-- <tr>
                                                 <td>Type of Payment</td>
                                                 <td></td>
                                             </tr>
@@ -186,7 +186,7 @@ if (!isset($_SESSION['id'])) {
                                                 <td>Online Payment</td>
                                                 <td><input type="radio" name="payment-type" value="onlinepayment"
                                                         required></td>
-                                            </tr>
+                                            </tr> -->
                                             <tr class="summary-total">
                                                 <td>Number of Item(s):</td>
                                                 <td>

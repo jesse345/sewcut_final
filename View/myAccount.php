@@ -146,26 +146,6 @@ if (!isset($_SESSION['id'])) {
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <div class="form-group">
-                                                                    <label>Gcash Name</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="gcash_name"
-                                                                        value="<?php echo $user['gcash_name'] ?>">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <div class="form-group">
-                                                                    <label>Gcash Number</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="gcash_number"
-                                                                        value="<?php echo $users['gcash_number'] ?>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
                                                         <button type="submit" class="btn btn-outline-dark"
                                                             name="UPDATEUSER">Save Changes</button>
                                                     </div>

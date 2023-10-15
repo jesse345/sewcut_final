@@ -25,7 +25,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
     $productIDs = $_POST['product_id']; // Possibly multiple products
     $subTotal = $_POST['subTotal'];
     $seller_id = $_POST['seller_id'];
-    $payment_type = $_POST['payment-type'];
+    
 
     // ORDER DETAILS
     $fullname = $_POST['fullname'];
@@ -35,43 +35,54 @@ if (isset($_POST['UPDATESHIPPING'])) {
     // Loop through cart items and insert orders
     foreach ($cartIDs as $i => $cartID) {
         // Create arrays for order and order_details fields and values
-        $order_fields = array('cart_id', 'user_id', 'product_id', 'status', 'seller_id', 'total', 'isAccept', 'isPayed', 'payment_type');
-        $order_values = array($cartID, $userID, $productIDs[$i], 'Pending', $seller_id, $subTotal, 'No', 'No', $payment_type);
+        $order_fields = array('cart_id', 'user_id', 'product_id', 'status', 'seller_id', 'total', 'isAccept', 'isPayed');
+        $order_values = array($cartID, $userID, $productIDs[$i], 'Pending', $seller_id, $subTotal, 'No', 'No');
 
         $order_details_fields = array('id', 'name', 'contact_number', 'shipping_address');
         $order_details_values = array($fullname, $contact_number, $address);
 
+        // Update Cart
         updateCart(
             'carts',
             array('id', 'isOrder'),
             array($cartID, 'Yes')
         );
 
-        // Insert data into the database
-        if (addOrder('orders', $order_fields, $order_values, 'order_details', $order_details_fields, $order_details_values)) {
-            if ($payment_type != 'COD') {
-                $order_id = mysqli_insert_id($conn);
-                header("location:../View/payment.php?order_id=" . $order_id);
-                $getUser = mysqli_fetch_assoc(getrecord('user_details', 'user_id', $_SESSION['id']));
-                $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
+        $getUser = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
+        $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
+        $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " Ordered your product " . $getProduct['product_name'];
+        $notif = sendNotif('notification', array('user_id','isRead', 'redirect'), array($seller_id, 'No', 'manageOrder.php'));
+        $last_id = mysqli_insert_id($conn);
+        sendNotif(
+            'notification_details',
+            array('notification_id', 'title', 'Description'),
+            array($last_id, 'Product Order', $desc)
+        );
 
-                $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " ordered your product " . $getProduct['product_name'];
-                $notif = sendNotif('notification', array('user_id', 'date_send', 'isRead', 'redirect'), array($seller['user_id'], $date, 'No', 'manageOrder.php'));
-                $last_id = mysqli_insert_id($conn);
-                sendNotif(
-                    'notification_details',
-                    array('notification_id', 'title', 'Description'),
-                    array($last_id, 'Product Order', $desc)
-                );
-            } else {
-                header("location:../View/myPurchase.php");
-            }
+        
+        // Insert data into the database
+        // Insert in Order Table
+
+        if (addOrder('orders', $order_fields, $order_values, 'order_details', $order_details_fields, $order_details_values)) {
+            //For Notification purposes
+            $getUser = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
+            $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
+            $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " Ordered your product " . $getProduct['product_name'];
+            $notif = sendNotif('notification', array('user_id','isRead', 'redirect'), array($seller_id, 'No', 'manageOrder.php'));
+            $last_id = mysqli_insert_id($conn);
+            sendNotif(
+                'notification_details',
+                array('notification_id', 'title', 'Description'),
+                array($last_id, 'Product Order', $desc)
+            );
+            header("location:../View/myPurchase.php");
+
         } else {
             echo "Order placement failed!";
         }
     }
-
-} elseif (isset($_POST['CANCELORDER'])) {
+    
+} elseif(isset($_POST['CANCELORDER'])) {
     $order_id = $_POST['order_id'];
     $deleteOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
 
@@ -86,34 +97,35 @@ if (isset($_POST['UPDATESHIPPING'])) {
         header("Location: ../View/myPurchase.php");
         exit();
     }
-} elseif (isset($_POST['PAY'])) {
-    $order_id = $_POST['order_id'];
-    $user_id = $_POST['user_id'];
-    $total = $_POST['total'];
-    $reference_number = $_POST['reference_number'];
+} 
+// elseif (isset($_POST['PAY'])) {
+//     $order_id = $_POST['order_id'];
+//     $user_id = $_POST['user_id'];
+//     $total = $_POST['total'];
+//     $reference_number = $_POST['reference_number'];
 
-    $targetDir = "../images/";
-    $target_file = $targetDir . basename($_FILES["image"]["name"]);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["image"]["tmp_name"]);
+//     $targetDir = "../images/";
+//     $target_file = $targetDir . basename($_FILES["image"]["name"]);
+//     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+//     $check = getimagesize($_FILES["image"]["tmp_name"]);
 
-    if ($check !== false) {
-        move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
+//     if ($check !== false) {
+//         move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
 
-        // Assuming that the createUser and updateUser functions are defined elsewhere
-        createUser(
-            'order_payments',
-            array('order_id', 'user_id', 'reference_no', 'receipt_image', 'amount'),
-            array($order_id, $user_id, $reference_number, $target_file, $total)
-        );
+//         // Assuming that the createUser and updateUser functions are defined elsewhere
+//         createUser(
+//             'order_payments',
+//             array('order_id', 'user_id', 'reference_no', 'receipt_image', 'amount'),
+//             array($order_id, $user_id, $reference_number, $target_file, $total)
+//         );
 
-        updateUser('orders', array('id', 'isPayed'), array($order_id, 'Yes'));
-        flash("msg", "success", "Payment Sent");
-        header("Location: ../View/myPurchase.php");
-        exit();
-    } else {
-        flash("msg", "error", "File is not an image.");
-        header("Location: ../View/payment.php?order_id=" . $order_id);
-        exit();
-    }
-}
+//         updateUser('orders', array('id', 'isPayed'), array($order_id, 'Yes'));
+//         flash("msg", "success", "Payment Sent");
+//         header("Location: ../View/myPurchase.php");
+//         exit();
+//     } else {
+//         flash("msg", "error", "File is not an image.");
+//         header("Location: ../View/payment.php?order_id=" . $order_id);
+//         exit();
+//     }
+// }

@@ -1,6 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
+error_reporting(0);
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
@@ -75,8 +76,8 @@ if (!isset($_SESSION['id'])) {
                                         while ($buyer = mysqli_fetch_assoc($a)):
                                             $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $buyer['product_id']));
                                             $cart = mysqli_fetch_assoc(displayDetails('carts', 'id', $buyer['cart_id']));
-                                            $count++
-                                                ?>
+                                            $count++;
+                                            ?>
                                             <tr>
                                                 <td>
                                                     <?= $count ?>
@@ -90,13 +91,13 @@ if (!isset($_SESSION['id'])) {
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <?= $cart['total'] ?>
+                                                    <?= $buyer['total'] ?>
                                                 </td>
                                                 <td>
                                                     <form action="../Controller/orderController.php" method="POST">
                                                         <a href="#viewmore-Modal<?php echo $buyer['id'] ?>"
                                                             data-toggle="modal" class="btn btn-success">View More</a>
-                                                        <a href="" class="btn btn-primary">Chat Seller</a>
+                                                        <a href="chat.php?user=<?php echo $buyer['seller_id']?>" class="btn btn-primary">Chat Seller</a>
                                                         <input type="hidden" value="<?php echo $buyer['id'] ?>"
                                                             name="order_id">
                                                         <button type="submit" name="CANCELORDER"

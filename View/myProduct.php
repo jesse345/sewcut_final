@@ -474,36 +474,7 @@ if (!isset($_SESSION['id'])) {
                         <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
                             Close
                         </button>
-                        <a href="#gcashModal" data-toggle="modal" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">Add</a>
-                        <div class="modal fade" id="gcashModal" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog custom-modal add-modal" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <p>Confirm your Gcash Info</p>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true"><i class="icon-close"></i></span>
-                                        </button>
-                                    </div>
-                                    <?php $gcashuser = mysqli_fetch_assoc(getrecord('user_details','id', $_SESSION['id']))?>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>Gcash Name</label>
-                                            <input type="text" class="form-control" name="gcash_name" value="<?=$gcashuser['gcash_name']?>"  required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gcash Number</label>
-                                            <input type="text" class="form-control" name="gcash_number" value="<?=$gcashuser['gcash_name']?>"  required>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
-                                            Close
-                                        </button>
-                                        <button type="submit" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">ADD</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                       <button type="submit" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">ADD</button>
                     </div>
                        
                     </div>

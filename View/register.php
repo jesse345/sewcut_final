@@ -71,14 +71,14 @@ session_start();
                                     <label>Address</label>
                                     <input type="text" class="form-control" name="address">
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label>Gcash Name</label>
                                     <input type="text" class="form-control" name="gcash_name">
                                 </div>
                                 <div class="form-group">
                                     <label>Gcash Number</label>
                                     <input type="text" class="form-control" name="gcash_number">
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input type="email" class="form-control" name="email" required>

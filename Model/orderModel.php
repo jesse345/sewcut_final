@@ -33,7 +33,7 @@ function getOrder($table, $value)
 {
     global $conn;
     connect();
-    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `user_id` = '$value' AND `status` = 'Pending'");
+    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `user_id` = '$value'");
     disconnect();
     return $query;
 }

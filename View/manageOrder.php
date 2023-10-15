@@ -99,31 +99,14 @@ if (!isset($_SESSION['id'])) {
                                                         <?= $productDetails['product_name'] ?>
                                                     </td>
                                                     <td>
-                                                        <?= number_format($cart['total'], 2) ?>
+                                                        <?= number_format($c['total'], 2) ?>
                                                     </td>
-                                                    <?php if ($c['payment_type'] == 'onlinepayment') { ?>
-                                                        <td>
-                                                            Online Payment
-                                                        </td>
-                                                        <td>
-                                                            <a href="#viewmore-Modal<?php echo $c['id'] ?>" data-toggle="modal"
-                                                                class="btn btn-info">View More</a>
-                                                            <a href="#viewReceipt-Modal<?php echo $c['id'] ?>" data-toggle="modal"
-                                                                class="btn btn-info">View Receipt</a>
-                                                            <button class="btn btn-info">Chat Buyer</button>
-                                                            <button class="btn btn-success">Approve</button>
-                                                            <button class="btn btn-danger">Disapprove</button>
-                                                        </td>
-
-                                                    <?php } else { ?>
-                                                        <td>
-                                                            Cash On Delivery
-                                                        </td>
+                                                    <td>
                                                         <button class="btn btn-info">View More</button>
-                                                        <button class="btn btn-info">Chat Buyer</button>
+                                                        <a href="chat.php?user=<?php echo $c['user_id']?>" class="btn btn-info">Chat Buyer</a>
                                                         <button class="btn btn-success">Approve</button>
                                                         <button class="btn btn-danger">Disapprove</button>
-                                                    <?php } ?>
+                                                    </td>
                                                 </tr>
                                                 <!-- VIEW Receitp -->
                                                 <div class="modal fade" id="viewReceipt-Modal<?php echo $c['id'] ?>"

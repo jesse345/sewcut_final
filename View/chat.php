@@ -28,15 +28,11 @@ if (!isset($_SESSION['id'])) {
     # Getting User conversations
     $conversations = getConversation($user['id'], $connection);
     // echo json_encode($conversations);
-
-
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en"
 <head>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,6 +76,14 @@ if (!isset($_SESSION['id'])) {
             color: #bbb;
             font-size: 0.7rem;
             text-align: right;
+        }
+        .scrollmsg {
+            overflow: hidden;
+            overflow-y: scroll;
+            height: 65vh;
+
+            display: flex;
+            flex-direction: column-reverse;
         }
     </style>
 </head>

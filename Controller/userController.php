@@ -14,8 +14,6 @@ if (isset($_POST['register'])) {
     $email = $_POST['email'];
     $isLoggedIN = "Yes";
     $address = $_POST['address'];
-    $gcash_name = $_POST['gcash_name'];
-    $gcash_number = $_POST['gcash_number'];
     $repassword = $_POST['repassword'];
     $checkUsername = getrecord('users', 'username', $username);
     $checkEmail = getrecord('users', 'email', $email);
@@ -40,8 +38,8 @@ if (isset($_POST['register'])) {
 
         $userfield = array('username', 'email', 'password', 'isLoggedIn');
         $uservalue = array($username, $email, $password, $isLoggedIN);
-        $userdetailsfield = array('id', 'firstname', 'lastname', 'address', 'contact_number', 'gcash_name', 'gcash_number');
-        $userdetailsvalues = array($firstname, $lastname, $address, $contact, $gcash_name, $gcash_number);
+        $userdetailsfield = array('id', 'firstname', 'lastname', 'address', 'contact_number');
+        $userdetailsvalues = array($firstname, $lastname, $address, $contact);
 
         addUser('users', $userfield, $uservalue, 'user_details', $userdetailsfield, $userdetailsvalues);
         $userid = mysqli_insert_id($conn);
@@ -112,8 +110,6 @@ if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $id = $_SESSION['id'];
-    $gcash_name = $_POST['gcash_name'];
-    $gcash_number = $_POST['gcash_number'];
 
     $checkUsername = checkUser('username', $username, $id);
     $checkEmail = checkUser('email', $email, $id);
@@ -141,8 +137,6 @@ if (isset($_POST['register'])) {
             "&lastname=" . $lastname .
             "&contact=" . $contact .
             "&address=" . $address .
-            "&gcash_name=" . $gcash_name .
-            "&gcash_number=" . $gcash_number .
             "&username=" . $username);
         sendEmail($username, $email, $verification_code, $header);
     }
@@ -203,14 +197,12 @@ if (isset($_POST['register'])) {
     $timestamp = date("Y-m-d H:i:s");
     $codes = mysqli_fetch_assoc(checkCode($_SESSION['id']));
     $code = $_POST['code'];
-    $gcash_name = $_POST['gcash_name'];
-    $gcash_number = $_POST['gcash_number'];
 
     if ($codes['code'] == $code) {
         updateUser(
             'user_details',
-            array('id', 'firstname', 'lastname', 'address', 'contact_number', 'gcash_name', 'gcash_number'),
-            array($id, $firstname, $lastname, $address, $contact, $gcash_name, $gcash_number)
+            array('id', 'firstname', 'lastname', 'address', 'contact_number'),
+            array($id, $firstname, $lastname, $address, $contact)
         );
 
         updateUser(
