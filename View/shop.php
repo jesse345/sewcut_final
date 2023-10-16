@@ -6,6 +6,7 @@ if (!isset($_SESSION['id'])) {
 	header("Location: ../index.php");
 	exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@ if (!isset($_SESSION['id'])) {
 <body onload="getLocation()">
 	<?php
 	$user = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
+	$saveAddress = mysqli_fetch_assoc(getrecord('address', 'id', $user['address']))
 	?>
 	<div class="page-wrapper">
 		<?php include("../layouts/header_layout.php"); ?>
@@ -25,8 +27,8 @@ if (!isset($_SESSION['id'])) {
 			<nav aria-label="breadcrumb" class="breadcrumb-nav breadcrumb-with-filter">
 				<div class="container">
 					<form action="../Controller/shopController.php" method="POST">
-						<input type="hidden" name="lats" id="lats">
-						<input type="hidden" name="longs" id="longs">
+						<input type="hidden" name="lats" id="lats" value="<?=$saveAddress['latitude']?>">
+						<input type="hidden" name="longs" id="longs"value="<?=$saveAddress['longitude']?>">
 						<button type="submit" name="NEARESTSHOP"
 							style="border:none;background-color:transparent;font-size:16px;"><i
 								class="icon-bars"></i>Near
@@ -57,16 +59,13 @@ if (!isset($_SESSION['id'])) {
 		<br>
 		<?php include("../layouts/footer.layout1.php"); ?>
 	</div>
+
+	
 	<?php
 	include("../layouts/jsfile.layout.php");
-	include("toastr.php");
-	include('../assets/js/prod.php');
 	?>
 </body>
-
 <script>
-
-
 	function getLocation() {
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(showPosition);
@@ -79,5 +78,4 @@ if (!isset($_SESSION['id'])) {
 		document.getElementById("longs").value = + position.coords.longitude;
 	}
 </script>
-
 </html>

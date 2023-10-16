@@ -1,7 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
-
+$address = sizeOrColor('address');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,20 +65,19 @@ session_start();
                                 </div>
                                 <div class="form-group">
                                     <label>Contact Number</label>
-                                    <input type="text" class="form-control" name="contact_number">
+                                    <input type="text" class="form-control" name="contact_number" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" name="address">
+                                     <label>Address</label>
+                                    <select name="address" class="form-control" required>
+                                        <option value="" selected>Select Address</option>
+                                        <?php while($add = mysqli_fetch_assoc($address)): ?>
+                                        <option value="<?php echo $add['id']?>"><?php echo $add['address']?></option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                    <!-- <label>Address</label>
+                                    <input type="text" class="form-control" name="address"> -->
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label>Gcash Name</label>
-                                    <input type="text" class="form-control" name="gcash_name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Gcash Number</label>
-                                    <input type="text" class="form-control" name="gcash_number">
-                                </div> -->
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input type="email" class="form-control" name="email" required>

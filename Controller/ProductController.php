@@ -18,16 +18,7 @@ if (!empty($_SESSION['id'])) {
         $price = $_POST['price'];
         $quantity = $_POST['stock'];
 
-        // Gcash
-        $gcash_name = $_POST['gcash_name'];
-        $gcash_number = $_POST['gcash_number'];
-
-        updateUser(
-            'user_details',
-            array('id', 'gcash_name', 'gcash_number'),
-            array($_SESSION['id'], $gcash_name, $gcash_number)
-        );
-
+      
         $product_fields = array('id', 'category', 'product_name', 'description', 'additional_info', 'brand');
         $product_values = array($category, $product_name, $description, $add_info, $brand);
 
@@ -51,27 +42,7 @@ if (!empty($_SESSION['id'])) {
                 array($product_id, $c, $size[$i], $price[$i], $quantity[$i])
             );
         }
-        // foreach($color as $c) {
-        //     insertProduct('product_colors',
-        //                 array('product_id','product_color'),
-        //                 array($product_id,$c));
-        // }
-        // foreach($size as $s) {
-        //     insertProduct('product_sizes',
-        //                 array('product_id','product_size'),
-        //                 array($product_id,$s));
-        // }
-        // foreach($price as $p) {
-        //     insertProduct('product_prices',
-        //                 array('product_id','price'),
-        //                 array($product_id,$p));
-        // }
-        // foreach($quantity as $q) {
-        //     insertProduct('product_quantity',
-        //                 array('product_id','quantity'),
-        //                 array($product_id,$q));
-        // }
-
+      
         $targetDir = "../images/";
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'avi', 'mov'];
 
@@ -91,9 +62,9 @@ if (!empty($_SESSION['id'])) {
             }
         }
 
-        flash("msg", "success", "Successfully Added");
-        header("Location: ../View/myProduct.php");
-        exit();
+        // flash("msg", "success", "Successfully Added");
+        // header("Location: ../View/myProduct.php");
+        // exit();
 
     } elseif (isset($_POST['DELETEPRODUCT'])) {
         $id = $_POST['id'];
@@ -209,16 +180,6 @@ if (!empty($_SESSION['id'])) {
         $size = $_POST['size'];
         $price = $_POST['price'];
         $quantity = $_POST['stock'];
-
-        // Gcash
-        $gcash_name = $_POST['gcash_name'];
-        $gcash_number = $_POST['gcash_number'];
-
-        updateUser(
-            'user_details',
-            array('id', 'gcash_name', 'gcash_number'),
-            array($_SESSION['id'], $gcash_name, $gcash_number)
-        );
 
         $product_fields = array('id', 'category', 'product_name', 'description', 'additional_info', 'brand');
         $product_values = array($category, $product_name, $description, $add_info, $brand);

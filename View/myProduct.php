@@ -491,11 +491,11 @@ if (!isset($_SESSION['id'])) {
 </body>
 <script>
     $(document).ready(function () {
-     $("#UPDATE #add_product_btn").one('click', function (event) {  
-           event.preventDefault();
-           //do something
-           $(this).prop('disabled', true);
-     });
-});
+        $("#UPDATE #add_product_btn").one('click', function (event) {  
+            event.preventDefault();
+            //do something
+            $(this).prop('disabled', true);
+        });
+    });
 </script>
 </html>

@@ -48,9 +48,6 @@ session_start();
                                     <input type="hidden" name="address" value="<?php echo $_GET['address'] ?>">
                                     <input type="hidden" name="username" value="<?php echo $_GET['username'] ?>">
                                     <input type="hidden" name="email" value="<?php echo $_GET['email'] ?>">
-                                    <input type="hidden" name="gcash_name" value="<?php echo $_GET['gcash_name'] ?>">
-                                    <input type="hidden" name="gcash_number"
-                                        value="<?php echo $_GET['gcash_number'] ?>">
                                     <input type="text" class="form-control" name="code" style="border: 1px solid #000;"
                                         placeholder="Enter Verification code " required>
                                 </div>

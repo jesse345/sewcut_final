@@ -126,53 +126,53 @@
         });
     }
 
-    function previewBeforeUploadUpload(id) {
-        document.querySelector("#" + id).addEventListener("change", function (e) {
-            if (e.target.files.length == 0) {
-                return;
-            }
-            const imagePreviews = document.querySelector('.imagePreviews123');
-            const errorContainer = document.querySelector('.error-container123');
-            const submitButton = document.querySelector('#UPDATE');
-            const files = event.target.files;
+    // function previewBeforeUploadUpload(id) {
+    //      document.querySelector("#" + id).addEventListener("change", function (e) {
+    //         if (e.target.files.length == 0) {
+    //             return;
+    //         }
+    //         const imagePreviews = document.querySelector('.imagePreviews123');
+    //         const errorContainer = document.querySelector('.error-container123');
+    //         const submitButton = document.querySelector('#UPDATE');
+    //         const files = event.target.files;
 
-            imagePreviews.innerHTML = '';
-            errorContainer.innerHTML = '';
+    //         imagePreviews.innerHTML = '';
+    //         errorContainer.innerHTML = '';
 
             
           
-            if (files.length > 5){
-                submitButton.disabled = true;
-                const errorText = document.createElement('p');
-                errorText.textContent = 'Please upload between 4 and 5 images.';
-                errorContainer.appendChild(errorText);
+    //         if (files.length > 5){
+    //             submitButton.disabled = true;
+    //             const errorText = document.createElement('p');
+    //             errorText.textContent = 'Please upload between 4 and 5 images.';
+    //             errorContainer.appendChild(errorText);
 
                 
-            } else {
-                for (let i = 0; i < files.length; i++) {
-                    let file = files[i];
-                    let url = URL.createObjectURL(file);
+    //         } else {
+    //             for (let i = 0; i < files.length; i++) {
+    //                 let file = files[i];
+    //                 let url = URL.createObjectURL(file);
 
-                    let previewElement = document.createElement("div");
-                    previewElement.classList.add("preview-item");
+    //                 let previewElement = document.createElement("div");
+    //                 previewElement.classList.add("preview-item");
 
-                    if (file.type.startsWith("image/")) {
-                        // If it's an image file, display it using an <img> element
-                        previewElement.innerHTML = `<img src="${url}" alt="${file.name}" />`;
-                    } else if (file.type.startsWith("video/")) {
-                        // If it's a video file, display it using a <video> element
-                        previewElement.innerHTML = `<video width="320" height="295" controls><source src="${url}" type="${file.type}">Your browser does not support the video tag.</video>`;
-                    } else {
-                        // Handle other file types here (if needed)
-                        previewElement.innerText = file.name;
-                    }
+    //                 if (file.type.startsWith("image/")) {
+    //                     // If it's an image file, display it using an <img> element
+    //                     previewElement.innerHTML = `<img src="${url}" alt="${file.name}" />`;
+    //                 } else if (file.type.startsWith("video/")) {
+    //                     // If it's a video file, display it using a <video> element
+    //                     previewElement.innerHTML = `<video width="320" height="295" controls><source src="${url}" type="${file.type}">Your browser does not support the video tag.</video>`;
+    //                 } else {
+    //                     // Handle other file types here (if needed)
+    //                     previewElement.innerText = file.name;
+    //                 }
                     
-                    document.querySelector(".imagePreviews123").appendChild(previewElement);
-                }
-            }
-        });
-    }
-    previewBeforeUploadUpload("fileInput123");
+    //                 document.querySelector(".imagePreviews123").appendChild(previewElement);
+    //             }
+    //         }
+    //     });
+    // }
+    // previewBeforeUploadUpload("fileInput123");
 
 
 

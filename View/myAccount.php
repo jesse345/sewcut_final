@@ -1,7 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
-
+$address = sizeOrColor('address');
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
@@ -109,13 +109,17 @@ if (!isset($_SESSION['id'])) {
                                                             <input type="text" class="form-control" name="contact"
                                                                 value="<?php echo $user['contact_number'] ?>">
                                                         </div>
+                                                        <?php $saveAddress = mysqli_fetch_assoc(getrecord('address', 'id', $user['address']))?>
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <div class="form-group">
                                                                     <label>Address</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="address"
-                                                                        value="<?php echo $user['address'] ?>">
+                                                                    <select name="address" class="form-control" required>
+                                                                        <option value="<?php echo $user['address'] ?>" selected><?=$saveAddress['address']?></option>
+                                                                        <?php while($add = mysqli_fetch_assoc($address)): ?>
+                                                                        <option value="<?php echo $add['id']?>"><?php echo $add['address']?></option>
+                                                                        <?php endwhile; ?>
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">
