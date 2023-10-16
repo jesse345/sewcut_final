@@ -62,9 +62,9 @@ if (!empty($_SESSION['id'])) {
             }
         }
 
-        // flash("msg", "success", "Successfully Added");
-        // header("Location: ../View/myProduct.php");
-        // exit();
+        flash("msg", "success", "Successfully Added");
+        header("Location: ../View/myProduct.php");
+        exit();
 
     } elseif (isset($_POST['DELETEPRODUCT'])) {
         $id = $_POST['id'];
