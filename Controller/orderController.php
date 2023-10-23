@@ -2,6 +2,8 @@
 session_start();
 include("../Model/db.php");
 include '../includes/toastr.inc.php';
+date_default_timezone_set('Asia/Manila');
+$date = date('Y-m-d H:i:s');
 
 if (isset($_POST['UPDATESHIPPING'])) {
     $id = $_POST['shipping_id'];
@@ -25,7 +27,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
     $productIDs = $_POST['product_id']; // Possibly multiple products
     $subTotal = $_POST['subTotal'];
     $seller_id = $_POST['seller_id'];
-    
+
 
     // ORDER DETAILS
     $fullname = $_POST['fullname'];
@@ -48,18 +50,6 @@ if (isset($_POST['UPDATESHIPPING'])) {
             array($cartID, 'Yes')
         );
 
-        $getUser = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
-        $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
-        $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " Ordered your product " . $getProduct['product_name'];
-        $notif = sendNotif('notification', array('user_id','isRead', 'redirect'), array($seller_id, 'No', 'manageOrder.php'));
-        $last_id = mysqli_insert_id($conn);
-        sendNotif(
-            'notification_details',
-            array('notification_id', 'title', 'Description'),
-            array($last_id, 'Product Order', $desc)
-        );
-
-        
         // Insert data into the database
         // Insert in Order Table
 
@@ -68,7 +58,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
             $getUser = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
             $getProduct = mysqli_fetch_assoc(getrecord('product_details', 'id', $productIDs[$i]));
             $desc = $getUser['firstname'] . " " . $getUser['lastname'] . " Ordered your product " . $getProduct['product_name'];
-            $notif = sendNotif('notification', array('user_id','isRead', 'redirect'), array($seller_id, 'No', 'manageOrder.php'));
+            $notif = sendNotif('notification', array('user_id', 'date_send', 'isRead', 'redirect'), array($seller_id, $date, 'No', 'manageOrder.php'));
             $last_id = mysqli_insert_id($conn);
             sendNotif(
                 'notification_details',
@@ -81,8 +71,8 @@ if (isset($_POST['UPDATESHIPPING'])) {
             echo "Order placement failed!";
         }
     }
-    
-} elseif(isset($_POST['CANCELORDER'])) {
+
+} elseif (isset($_POST['CANCELORDER'])) {
     $order_id = $_POST['order_id'];
     $deleteOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
 
@@ -97,7 +87,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
         header("Location: ../View/myPurchase.php");
         exit();
     }
-} 
+}
 // elseif (isset($_POST['PAY'])) {
 //     $order_id = $_POST['order_id'];
 //     $user_id = $_POST['user_id'];
@@ -129,3 +119,4 @@ if (isset($_POST['UPDATESHIPPING'])) {
 //         exit();
 //     }
 // }
+

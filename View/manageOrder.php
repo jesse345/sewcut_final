@@ -63,128 +63,116 @@ if (!isset($_SESSION['id'])) {
                                 </ul>
                             </aside>
                             <div class="col-10">
-                                <?php $sel = getOrderEachBuyer('orders', $_SESSION['id']);
-                                while ($seller = mysqli_fetch_assoc($sel)):
-                                    ?>
-                                    <h6>Order by:</h6>
-                                    <table class="table table-hover text-center">
-                                        <thead class="thead-dark">
+                                <table class="table table-hover text-center">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Order By</th>
+                                            <th>Product Name</th>
+                                            <th>Total Price</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $b = getOrderSeller('orders', $_SESSION['id']);
+                                        while ($c = mysqli_fetch_assoc($b)):
+                                            $orderby = mysqli_fetch_assoc(getrecord('user_details', 'id', $c['user_id']));
+                                            $order_payments = mysqli_fetch_assoc(getrecord('order_payments', 'order_id', $c['id']));
+                                            $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $c['product_id']));
+                                            $cart = mysqli_fetch_assoc(displayDetails('carts', 'id', $c['cart_id']));
+                                            $shippingInfo = mysqli_fetch_assoc(getrecord('shipping_info', 'user_id', $c['user_id']));
+                                            $count++;
+                                            ?>
                                             <tr>
-                                                <th>Order ID</th>
-                                                <th>Order By</th>
-                                                <th>Product Name</th>
-                                                <th>Total Price</th>
-                                                <th>Payment Type</th>
-                                                <th>Actions</th>
+                                                <td>
+                                                    <?= $c['id'] ?>
+                                                </td>
+                                                <td>
+                                                    <?= ucfirst($orderby['firstname']) . ' ' . ucfirst($orderby['lastname']) ?>
+                                                </td>
+                                                <td>
+                                                    <?= $productDetails['product_name'] ?>
+                                                </td>
+                                                <td>
+                                                    <?= number_format($c['total'], 2) ?>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-info" href="#viewmore-Modal<?php echo $c['id'] ?>"
+                                                        data-toggle="modal">View
+                                                        More</a>
+                                                    <a href="chat.php?user=<?php echo $c['user_id'] ?>"
+                                                        class="btn btn-info">Chat Buyer</a>
+                                                    <button class="btn btn-success">Approve</button>
+                                                    <button class="btn btn-danger">Disapprove</button>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $b = getOrderSeller('orders', $_SESSION['id']);
-                                            while ($c = mysqli_fetch_assoc($b)):
-                                                $orderby = mysqli_fetch_assoc(getrecord('user_details', 'id', $c['user_id']));
-                                                $order_payments = mysqli_fetch_assoc(getrecord('order_payments', 'order_id', $c['id']));
-                                                $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $c['product_id']));
-                                                $cart = mysqli_fetch_assoc(displayDetails('carts', 'id', $c['cart_id']));
-                                                $count++;
-                                                ?>
-                                                <tr>
-                                                    <td>
-                                                        <?= $c['id'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= ucfirst($orderby['firstname']) . ' ' . ucfirst($orderby['lastname']) ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $productDetails['product_name'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= number_format($c['total'], 2) ?>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-info">View More</button>
-                                                        <a href="chat.php?user=<?php echo $c['user_id']?>" class="btn btn-info">Chat Buyer</a>
-                                                        <button class="btn btn-success">Approve</button>
-                                                        <button class="btn btn-danger">Disapprove</button>
-                                                    </td>
-                                                </tr>
-                                                <!-- VIEW Receitp -->
-                                                <div class="modal fade" id="viewReceipt-Modal<?php echo $c['id'] ?>"
-                                                    tabindex="-1" role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog custom-modal add-modal" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <p>View Receipt</p>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                    <span aria-hidden="true"><i class="icon-close"></i></span>
-                                                                </button>
+                                            <!-- VIEW MORE MODAL -->
+                                            <div class="modal fade" id="viewmore-Modal<?php echo $c['id'] ?>" tabindex="-1"
+                                                role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog custom-modal add-modal" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <p>View More Details</p>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true"><i class="icon-close"></i></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body" style="padding:30px;">
+                                                            <div class="form-group">
+                                                                <label>Product Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $productDetails['product_name'] ?>" readonly>
                                                             </div>
-                                                            <div class="modal-body" style="padding:30px;">
-                                                                <p>This receipt is for 3 and 4 Order ID only</p>
-                                                                <div class="form-group">
-                                                                    <label>Reference Number</label>
-                                                                    <input type="text" class="form-control" value="" readonly>
-                                                                </div>
-                                                                <img src="" alt="">
+                                                            <div class="form-group">
+                                                                <label>Quantity</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $cart['quantity'] ?>" readonly>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Product Size</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $cart['size'] ?>" readonly>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Product Color</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $cart['color'] ?>" readonly>
+                                                            </div>
+                                                            <hr>
+                                                            <center>
+                                                                <b>Shipping Information</b>
+                                                            </center>
+                                                            <div class="form-group">
+                                                                <label>Name</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $shippingInfo['name'] ?>" readonly>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Contact Number</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $shippingInfo['contact'] ?>" readonly>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Address</label>
+                                                                <input type="text" class="form-control"
+                                                                    value="<?= $shippingInfo['address'] ?>" readonly>
+                                                            </div>
 
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger products"
-                                                                    data-dismiss="modal" aria-label="Close">
-                                                                    Close
-                                                                </button>
-                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger products"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                Close
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- VIEW MORE MODAL -->
-                                                <div class="modal fade" id="viewmore-Modal<?php echo $c['id'] ?>" tabindex="-1"
-                                                    role="dialog" aria-hidden="true">
-                                                    <div class="modal-dialog custom-modal add-modal" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <p>View More Details</p>
-                                                                <button type="button" class="close" data-dismiss="modal"
-                                                                    aria-label="Close">
-                                                                    <span aria-hidden="true"><i class="icon-close"></i></span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body" style="padding:30px;">
-                                                                <div class="form-group">
-                                                                    <label>Product Name</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $productDetails['product_name'] ?>" readonly>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Quantity</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $cart['quantity'] ?>" readonly>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Product Size</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $cart['size'] ?>" readonly>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Product Color</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $cart['color'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger products"
-                                                                    data-dismiss="modal" aria-label="Close">
-                                                                    Close
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endwhile; ?>
-                                        </tbody>
-                                    </table>
-                                <?php endwhile; ?>
+                                            </div>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

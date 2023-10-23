@@ -2,6 +2,9 @@
 include('../../Model/db.php');
 include("../Includes/head.includes.php");
 session_start();
+$user = getallrecord('users');
+
+
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
@@ -44,7 +47,7 @@ if (!isset($_SESSION['admin_id'])) {
                     </div>
                 </div>
                 <div class="shadow-bottom"></div>
-                <ul class="list-unstyled menu-categories" id="accordionExample">
+                <ul class="list-unstyled menu-categories" id="accordionViewMore">
                     <li class="menu">
                         <a href="dashboard.php" class="dropdown-toggle">
                             <div class="">
@@ -139,99 +142,245 @@ if (!isset($_SESSION['admin_id'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="widget-content widget-content-area">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Contact Info</th>
+                                            <th class="text-center" scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        while ($user1 = mysqli_fetch_assoc($user)):
+                                            $users = mysqli_fetch_assoc(getrecord('user_details', 'id', $user1['id']));
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <div class="media">
+                                                        <div class="avatar me-2">
+                                                            <img alt="avatar" src="../<?= $users['user_img'] ?>"
+                                                                class="rounded-circle" style="background:white">
+                                                        </div>
+                                                        <div class="media-body align-self-center">
+                                                            <h6 class="mb-0">
+                                                                <?= ucfirst($users['firstname']) . ' ' . ucfirst($users['lastname']) ?>
+                                                            </h6>
+                                                            <span>
+                                                                <?= $user1['email'] ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="mb-0">
+                                                        Address:
+                                                        <?= $users['address'] ?>
+                                                    </p>
+                                                    <p class="text-success">
+                                                        Contact Number:
+                                                        <?= $users['contact_number'] ?>
+                                                    </p>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="action-btns">
+                                                        <a data-bs-toggle="modal"
+                                                            data-bs-target="#ViewMoreModal<?= $user1['id'] ?>"
+                                                            class="action-btn btn-view bs-tooltip me-2" data-placement="top"
+                                                            title="View More" data-bs-original-title="View">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round" class="feather feather-eye">
+                                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
+                                                                </path>
+                                                                <circle cx="12" cy="12" r="3"></circle>
+                                                            </svg>
+                                                        </a>
+                                                        <a data-bs-toggle="modal"
+                                                            data-bs-target="#EditModal<?= $user1['id'] ?>"
+                                                            class="action-btn btn-edit bs-tooltip me-2" title="Edit">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round" class="feather feather-edit-2">
+                                                                <path
+                                                                    d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                                                </path>
+                                                            </svg>
+                                                        </a>
+                                                        <a data-bs-toggle="modal"
+                                                            data-bs-target="#DeleteModal<?= $user1['id'] ?>"
+                                                            class="action-btn btn-delete bs-tooltip" data-placement="top"
+                                                            title="Delete">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round" class="feather feather-trash-2">
+                                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                                <path
+                                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                </path>
+                                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                            </svg>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- View More -->
+                                            <div class="modal fade" id="ViewMoreModal<?= $user1['id'] ?>" tabindex="-1"
+                                                role="dialog" aria-labelledby="ViewMoreModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="ViewMoreModalLabel">View More</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <svg> ... </svg>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="modal-text">
+                                                            <div class="row mb-4">
+                                                                <div class="col">
+                                                                    <label for="">Username</label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="<?= $user1['username'] ?>" readonly>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label for="">Password</label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="<?= $user1['password'] ?>" readonly>
+                                                                </div>
+                                                            </div>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn btn-light-dark"
+                                                                data-bs-dismiss="modal"><i class="flaticon-cancel-12"></i>
+                                                                Close</button>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Date</th>
-                                                <th class="text-center" scope="col">Sales</th>
-                                                <th class="text-center" scope="col">Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Shaun Park</td>
-                                                <td>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-calendar">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                                                    </svg>
-                                                    <span class="table-inner-text">25 Apr</span>
-                                                </td>
-                                                <td class="text-center">320</td>
-                                                <td class="text-center">
-                                                    <span class="badge badge-light-success">Approved</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Alma Clarke</td>
-                                                <td>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-calendar">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                                                    </svg>
-                                                    <span class="table-inner-text">26 Apr</span>
-                                                </td>
-                                                <td class="text-center">110</td>
-                                                <td class="text-center">
-                                                    <span class="badge badge-light-secondary">Pending</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vincent Carpenter</td>
-                                                <td>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-calendar">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                                                    </svg>
-                                                    <span class="table-inner-text">05 May</span>
-                                                </td>
-                                                <td class="text-center">210</td>
-                                                <td class="text-center">
-                                                    <span class="badge badge-light-danger">Rejected</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Xavier</td>
-                                                <td>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-calendar">
-                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                                                    </svg>
-                                                    <span class="table-inner-text">18 May</span>
-                                                </td>
-                                                <td class="text-center">784</td>
-                                                <td class="text-center">
-                                                    <span class="badge badge-light-info">In Progress</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Edit -->
+                                            <div class="modal fade" id="EditModal<?= $user1['id'] ?>" tabindex="-1"
+                                                role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="EditModalLabel">View More</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <svg> ... </svg>
+                                                            </button>
+                                                        </div>
+                                                        <form action="../Controller/userController.php" method="POST">
+                                                            <div class="modal-body">
+                                                                <div class="row mb-4">
+                                                                    <input type="hidden" name="user_id"
+                                                                        value="<?= $user1['id'] ?>">
+                                                                    <div class="col">
+                                                                        <label for="">Firstname</label>
+                                                                        <input type="text" name="firstname"
+                                                                            class="form-control"
+                                                                            value="<?= $users['firstname'] ?>">
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <label for="">Lastname</label>
+                                                                        <input type="text" name="lastname"
+                                                                            class="form-control"
+                                                                            value="<?= $users['lastname'] ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-4">
+                                                                    <div class="col">
+                                                                        <label for="">Address</label>
+                                                                        <input type="text" name="address"
+                                                                            class="form-control"
+                                                                            value="<?= $users['address'] ?>">
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <label for="">Contact Number</label>
+                                                                        <input type="text" name="contact"
+                                                                            class="form-control"
+                                                                            value="<?= $users['contact_number'] ?>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-4">
+                                                                    <div class="col">
+                                                                        <label for="">Email</label>
+                                                                        <input type="text" name="email" class="form-control"
+                                                                            value="<?= $user1['email'] ?>">
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <label for="">Username</label>
+                                                                        <input type="text" name="username"
+                                                                            class="form-control"
+                                                                            value="<?= $user1['username'] ?>">
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <label for="">Password</label>
+                                                                        <input type="text" name="password"
+                                                                            class="form-control"
+                                                                            value="<?= $user1['password'] ?>">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn btn-light-dark"
+                                                                    data-bs-dismiss="modal"><i
+                                                                        class="flaticon-cancel-12"></i>
+                                                                    Close</button>
+                                                                <button class="btn btn btn-primary"
+                                                                    name="UPDATE">Update</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Delete -->
+                                            <div class="modal fade" id="DeleteModal<?= $user1['id'] ?>" tabindex="-1"
+                                                role="dialog" aria-labelledby="DeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="DeleteLabel">Delete Record
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <svg> ... </svg>
+                                                            </button>
+                                                        </div>
+                                                        <form action="../Controller/userController.php" method="POST">
+                                                            <div class="modal-body">
+                                                                <p class="modal-text">
+                                                                    <center>
+                                                                        <input type="hidden" name="user_id"
+                                                                            value="<?= $user1['id'] ?>">
+                                                                        <h4>Are you sure you want to delete this record?
+                                                                        </h4>
+                                                                    </center>
+                                                                </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn btn-light-dark"
+                                                                    data-bs-dismiss="modal"><i
+                                                                        class="flaticon-cancel-12"></i>
+                                                                    Discard</button>
+                                                                <button class="btn btn btn-primary"
+                                                                    name="DELETE">Delete</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -257,7 +406,6 @@ if (!isset($_SESSION['admin_id'])) {
     <script src="../src/plugins/src/apex/apexcharts.min.js"></script>
     <script src="../src/assets/js/dashboard/dash_2.js"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
 </body>
 
 </html>

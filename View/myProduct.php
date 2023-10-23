@@ -150,28 +150,43 @@ if (!isset($_SESSION['id'])) {
                                                                 <div class="card-body">
                                                                     <label>Images</label>
                                                                     <div style="display:flex">
-                                                                        <?php
-                                                                        while ($pi = mysqli_fetch_assoc($productImages)):
+                                                                        <?php while ($pi = mysqli_fetch_assoc($productImages)): ?>
+                                                                            <?php
                                                                             $imagePath = $pi['image'];
-                                                                            
-                                                                            // Check if the file extension is .mp4
                                                                             $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
-                                                                            if (strtolower($fileExtension) == 'mp4'):
-                                                                                ?>
+
+                                                                            if (in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png', 'gif'])):
+                                                                                // Display images
+                                                                            ?>
                                                                             <div class="preview-item">
-                                                                                <video width="320" height="240" controls>
+                                                                                <img src="<?php echo $imagePath; ?>">
+                                                                            </div>
+                                                                            <?php endif; ?>
+                                                                        <?php endwhile; ?>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <label>Videos</label>
+                                                                    <div style="display:block">
+                                                                        <?php mysqli_data_seek($productImages, 0); // Reset the pointer to the beginning of the result set ?>
+                                                                        <?php while ($pi = mysqli_fetch_assoc($productImages)): ?>
+                                                                            <?php
+                                                                            $imagePath = $pi['image'];
+                                                                            $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+
+                                                                            if (strtolower($fileExtension) == 'mp4'):
+                                                                                // Display videos
+                                                                            ?>
+                                                                            <div class="preview-item1">
+                                                                                <video width="100%" height="100%" controls>
                                                                                     <source src="<?php echo $imagePath; ?>" type="video/mp4">
                                                                                 </video>
                                                                             </div>
-                                                                                
-                                                                            <?php else: ?>
-                                                                                <div class="preview-item">
-                                                                                    <img src="<?php echo $imagePath; ?>">
-                                                                                </div>
-                                                                            <?php endif;
-                                                                        endwhile; ?>
+                                                                            <?php endif; ?>
+                                                                        <?php endwhile; ?>
                                                                     </div>
                                                                 </div>
+
                                                                  <div class="form-group">
                                                                     <label for="comment">Additional Info</label>
                                                                     <textarea class="form-control" rows="5" readonly><?php echo $productDetails['additional_info'] ?></textarea>
@@ -297,45 +312,58 @@ if (!isset($_SESSION['id'])) {
                                                                         <input type="text" class="form-control" name="brand" value="<?php echo $productDetails['brand'] ?>" >
                                                                     </div>
                                                                     <div class="card-body">
-                                                                    <label>Image and video</label><br>
-                                                                    <div style="display:flex">
-                                                                        <?php
-                                                                        mysqli_data_seek($productImages, 0);
-                                                                        while ($pi = mysqli_fetch_assoc($productImages)):
-                                                                            
-                                                                            $imagePath = $pi['image'];
-                                                                            
-                                                                            // Check if the file extension is .mp4
-                                                                            $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
-                                                                            if (strtolower($fileExtension) == 'mp4'):
+                                                                        <label>Images</label>
+                                                                        <div style="display:flex">
+                                                                            <?php mysqli_data_seek($productImages, 0); // Reset the pointer to the beginning of the result set
+                                                                            $count = 0 ; ?>
+                                                                            <?php while ($pi = mysqli_fetch_assoc($productImages)): ?>
+                                                                                <?php
+                                                                                $imagePath = $pi['image'];
+                                                                                $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+                                                                                $count++;
+                                                                                if (in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png', 'gif'])):
+                                                                                    // Display images
                                                                                 ?>
-                                                                            
-                                                                            <div class="preview-item">
-                                                                                <video width="320" height="240" controls>
-                                                                                    <source src="<?php echo $imagePath; ?>" type="video/mp4">
-                                                                                </video>
-                                                                            </div>
-                                                                                
-                                                                            <?php else: ?>
-                                                                                <div class="preview-item">
-                                                                                    <img src="<?php echo $imagePath; ?>">
+                                                                                <div class="form-element">
+                                                                                    <input type="hidden" name="image_id[]" value="<?=$pi['id']?>">
+                                                                                    <input type="file" id="file-<?php echo $count?>" name="image[]" accept="image/*"
+                                                                                        >
+                                                                                    <label for="file-<?php echo $count?>" id="file-<?php echo $count?>-preview">
+                                                                                        <img src="<?php echo $imagePath; ?>"
+                                                                                            class="img-responsive">
+                                                                                        <div>
+                                                                                            <span>+</span>
+                                                                                        </div>
+                                                                                    </label>
                                                                                 </div>
-                                                                            <?php endif;
-                                                                            
-                                                                        endwhile; ?>
+                                                                                <?php endif; ?>
+                                                                            <?php endwhile; ?>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="card-body">
-                                                                        <label>Update Images and videos(Optional)</label><br>
-                                                                        <?php
-                                                                        mysqli_data_seek($productImages, 0);
-                                                                        while ($pi = mysqli_fetch_assoc($productImages)):
-                                                                            ?>
-                                                                            <input type="hidden" name="image_id[]" value="<?=$pi['id']?>">
-                                                                        <?php endwhile; ?>  
-                                                                        <input type="file" name="image[]" id="fileInput123" multiple>
-                                                                        <div class="imagePreviews123" style="display:flex">
+                                                                        <label>Videos</label>
+                                                                        <div style="display:block">
+                                                                            <?php mysqli_data_seek($productImages, 0); // Reset the pointer to the beginning of the result set ?>
+                                                                            <?php 
+                                                                            $videocount = 20 ;
+                                                                            while ($pi = mysqli_fetch_assoc($productImages)): ?>
+                                                                                <?php
+                                                                               
+                                                                                $imagePath = $pi['image'];
+                                                                                $fileExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
+
+                                                                                if (strtolower($fileExtension) == 'mp4'):
+                                                                                    // Display videos
+                                                                                    $videocount++;
+                                                                                ?>
+                                                                                <video width="100%" height="100%" controls>
+                                                                                    <source src="<?php echo $imagePath; ?>" type="video/mp4">
+                                                                                </video>
+                                                                                        
+                                                                                
+                                                                                <?php endif; ?>
+                                                                            <?php endwhile; ?>
                                                                         </div>
-                                                                        <div class="error-container123"></div>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="comment">Additonal Info</label>
@@ -458,11 +486,18 @@ if (!isset($_SESSION['id'])) {
                         </select>
                        
                         <div class="card-body">
-                            <label>Upload Images and Videos (up to 4 only) <span style="color:red">*</span></label><br>
+                            <label>Upload Image<span style="color:red">*</span></label><br>
                             <input type="file" name="image[]" id="fileInput" multiple required>
                             <div class="imagePreviews" style="display:flex">
                             </div>
                             <div class="error-container"></div>
+                        </div>
+                        <div class="card-body">
+                            <label>Upload Video (Optional)</label><br>
+                            <input type="file" name="image[]" id="fileInputVideo" multiple>
+                            <div class="videoPreviews" style="display:block">
+                            </div>
+                            <div class="video-container"></div>
                         </div>
                         
                         <div class="form-group">
@@ -497,5 +532,6 @@ if (!isset($_SESSION['id'])) {
             $(this).prop('disabled', true);
         });
     });
+    
 </script>
 </html>

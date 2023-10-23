@@ -148,6 +148,110 @@ $users = countAllUser();
         <div id="content" class="main-content" style="margin-top:5px;">
             <div class="layout-px-spacing">
                 <div class="middle-content container-xxl p-0">
+                    <div class="row mt-5">
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-title">Total Users</h5>
+                                            <p class="mb-0">
+                                                <?php echo $users['users'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-user">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-title">Product Sold</h5>
+                                            <p class="mb-0">
+                                                <?php echo $users['users'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-command">
+                                                    <path
+                                                        d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-title">Total Revenue</h5>
+                                            <p class="mb-0">
+                                                <?php echo $users['users'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-dollar-sign">
+                                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h5 class="card-title">Subscribed</h5>
+                                            <p class="mb-0">
+                                                <?php echo $users['users'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="col-4">
+                                            <div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-user">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row layout-top-spacing">
                         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-chart-two">
@@ -301,148 +405,6 @@ $users = countAllUser();
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                            <div class="widget widget-table-one">
-                                <div class="widget-heading">
-                                    <h5 class="">Summary</h5>
-                                    <div class="task-action">
-                                        <div class="dropdown">
-                                            <a class="dropdown-toggle" href="#" role="button" id="pendingTask"
-                                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-more-horizontal">
-                                                    <circle cx="12" cy="12" r="1"></circle>
-                                                    <circle cx="19" cy="12" r="1"></circle>
-                                                    <circle cx="5" cy="12" r="1"></circle>
-                                                </svg>
-                                            </a>
-
-                                            <div class="dropdown-menu left" aria-labelledby="pendingTask"
-                                                style="will-change: transform;">
-                                                <a class="dropdown-item" href="javascript:void(0);">View Report</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Edit Report</a>
-                                                <a class="dropdown-item" href="javascript:void(0);">Mark as Done</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="widget-content">
-                                    <div class="transactions-list t-info">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">TR</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Total Revenue</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>P36.11</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="transactions-list t-info">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">U</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Users</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>
-                                                        <?php echo $users['users'] ?>
-                                                    </span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="transactions-list">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">S</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Subscribers</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>66.44</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="transactions-list t-info">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">SO</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Successful Order</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>10.08</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="transactions-list t-info">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">V</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Verified</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>
-                                                        <?php echo $verify['verify'] ?>
-                                                    </span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="transactions-list t-info">
-                                        <div class="t-item">
-                                            <div class="t-company-name">
-                                                <div class="t-icon">
-                                                    <div class="avatar">
-                                                        <span class="avatar-title">NV</span>
-                                                    </div>
-                                                </div>
-                                                <div class="t-name">
-                                                    <h4>Not Verified</h4>
-                                                </div>
-                                            </div>
-                                            <div class="t-rate rate-inc">
-                                                <p><span>
-                                                        <?php echo $notVerify['verify'] ?>
-                                                    </span></p>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

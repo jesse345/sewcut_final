@@ -1,41 +1,4 @@
 <script>
-// document.getElementById('fileInput').addEventListener('change', function (event) {
-//     const files = event.target.files;
-//     const imagePreviews = document.querySelector('.imagePreviews');
-//     const errorContainer = document.querySelector('.error-container');
-//     const submitButton = document.querySelector('#add_product_btn');
-
-//   imagePreviews.innerHTML = '';
-//   errorContainer.innerHTML = '';
-
-//     if (files.length > 5){
-//         submitButton.disabled = true;
-//         const errorText = document.createElement('p');
-//         errorText.textContent = 'Please upload between 4 and 5 images.';
-//         errorContainer.appendChild(errorText);
-
-        
-//     } else {
-//         for (let i = 0; i < files.length; i++) {
-//             const file = files[i];
-
-//             if (file) {
-//                 const reader = new FileReader();
-
-//                 reader.onload = function (e) {
-//                     const img = document.createElement('img');
-//                     img.src = e.target.result;
-//                     img.alt = 'Image Preview';
-//                     img.className = 'img-responsive';
-//                     imagePreviews.appendChild(img);
-//                 };
-
-//                 reader.readAsDataURL(file);
-//             }
-//         }
-//         submitButton.disabled = false;
-//     }
-// });
     const formContainer = $("#level-container");
     formContainer.on("click", ".add", function () {
         const newRow = $("<div>").addClass("row").html(`
@@ -81,7 +44,7 @@
         }
     });
 
-     function previewBeforeUpload(id) {
+    function previewBeforeUpload(id) {
         document.querySelector("#" + id).addEventListener("change", function (e) {
             if (e.target.files.length == 0) {
                 return;
@@ -89,100 +52,139 @@
             const imagePreviews = document.querySelector('.imagePreviews');
             const errorContainer = document.querySelector('.error-container');
             const submitButton = document.querySelector('#add_product_btn');
-            const files = event.target.files;
+            const files = e.target.files; // Corrected
 
             imagePreviews.innerHTML = '';
             errorContainer.innerHTML = '';
 
-            if (files.length > 5){
-                submitButton.disabled = true;
-                const errorText = document.createElement('p');
-                errorText.textContent = 'Please upload between 4 and 5 images.';
-                errorContainer.appendChild(errorText);
 
-                
-            } else {
-                for (let i = 0; i < files.length; i++) {
-                    let file = files[i];
-                    let url = URL.createObjectURL(file);
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let url = URL.createObjectURL(file);
 
-                    let previewElement = document.createElement("div");
-                    previewElement.classList.add("preview-item");
+                let previewElement = document.createElement("div");
+                previewElement.classList.add("preview-item");
 
-                    if (file.type.startsWith("image/")) {
-                        // If it's an image file, display it using an <img> element
-                        previewElement.innerHTML = `<img src="${url}" alt="${file.name}" />`;
-                    } else if (file.type.startsWith("video/")) {
-                        // If it's a video file, display it using a <video> element
-                        previewElement.innerHTML = `<video width="320" height="295" controls><source src="${url}" type="${file.type}">Your browser does not support the video tag.</video>`;
-                    } else {
-                        // Handle other file types here (if needed)
-                        previewElement.innerText = file.name;
-                    }
-                    
-                    document.querySelector(".imagePreviews").appendChild(previewElement);
+                if (file.type.startsWith("image/")) {
+                    previewElement.innerHTML = `<img src="${url}" alt="${file.name}" />`;
+                } else if (file.type.startsWith("video/")) {
+                    submitButton.disabled = true;
+                    const errorText = document.createElement('p');
+                    errorText.textContent = 'Please upload image only';
+                    errorContainer.appendChild(errorText);
+                    exit();
+                } else {
+                    previewElement.innerText = file.name;
+                }
+
+                imagePreviews.appendChild(previewElement); // Corrected
+            }
+
+        });
+    }
+    previewBeforeUpload("fileInput");
+
+    function previewBeforeUploadVideo(id) {
+        document.querySelector("#" + id).addEventListener("change", function (e) {
+            if (e.target.files.length == 0) {
+                return;
+            }
+            const videoPreviews = document.querySelector('.videoPreviews'); // Corrected
+            const errorContainer = document.querySelector('.video-container');
+            const submitButton = document.querySelector('#add_product_btn');
+            const files = e.target.files; // Corrected
+
+            videoPreviews.innerHTML = ''; // Corrected
+            errorContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let url = URL.createObjectURL(file);
+
+                let previewElement = document.createElement("div");
+                previewElement.classList.add("preview-item1");
+
+                if (file.type.startsWith("video/")) {
+                    previewElement.innerHTML = `<video width="100%" height="100%" controls><source src="${url}" type="${file.type}">Your browser does not support the video tag.</video>`;
+                    videoPreviews.appendChild(previewElement);
+                } else {
+                    // Handle other file types here (if needed)
+                    previewElement.innerText = file.name;
                 }
             }
+
+        });
+    }
+    previewBeforeUploadVideo("fileInputVideo");
+
+
+
+
+
+
+
+
+
+
+
+    function previewBeforeUploadUpdate(id) {
+        document.querySelector("#" + id).addEventListener("change", function (e) {
+            if (e.target.files.length == 0) {
+                return;
+            }
+            let file = e.target.files[0];
+            let url = URL.createObjectURL(file);
+            document.querySelector("#" + id + "-preview img").src = url;
         });
     }
 
-    // function previewBeforeUploadUpload(id) {
-    //      document.querySelector("#" + id).addEventListener("change", function (e) {
-    //         if (e.target.files.length == 0) {
+    previewBeforeUploadUpdate("file-1");
+    previewBeforeUploadUpdate("file-2");
+    previewBeforeUploadUpdate("file-3");
+    previewBeforeUploadUpdate("file-4");
+    previewBeforeUploadUpdate("file-5");
+    previewBeforeUploadUpdate("file-6");
+    previewBeforeUploadUpdate("file-7");
+    previewBeforeUploadUpdate("file-8");
+    previewBeforeUploadUpdate("file-9");
+    previewBeforeUploadUpdate("file-10");
+
+
+
+
+
+
+
+
+    // function previewBeforeUploadVideoUpdate(id) {
+    //     const fileInput = document.getElementById(id);
+
+    //     fileInput.addEventListener("change", function (e) {
+    //         const previewElement = document.getElementById(`${id}-preview`);
+
+    //         if (e.target.files.length === 0) {
+    //             // No file selected
     //             return;
     //         }
-    //         const imagePreviews = document.querySelector('.imagePreviews123');
-    //         const errorContainer = document.querySelector('.error-container123');
-    //         const submitButton = document.querySelector('#UPDATE');
-    //         const files = event.target.files;
 
-    //         imagePreviews.innerHTML = '';
-    //         errorContainer.innerHTML = '';
+    //         const file = e.target.files[0];
+    //         const url = URL.createObjectURL(file);
 
-            
-          
-    //         if (files.length > 5){
-    //             submitButton.disabled = true;
-    //             const errorText = document.createElement('p');
-    //             errorText.textContent = 'Please upload between 4 and 5 images.';
-    //             errorContainer.appendChild(errorText);
-
-                
-    //         } else {
-    //             for (let i = 0; i < files.length; i++) {
-    //                 let file = files[i];
-    //                 let url = URL.createObjectURL(file);
-
-    //                 let previewElement = document.createElement("div");
-    //                 previewElement.classList.add("preview-item");
-
-    //                 if (file.type.startsWith("image/")) {
-    //                     // If it's an image file, display it using an <img> element
-    //                     previewElement.innerHTML = `<img src="${url}" alt="${file.name}" />`;
-    //                 } else if (file.type.startsWith("video/")) {
-    //                     // If it's a video file, display it using a <video> element
-    //                     previewElement.innerHTML = `<video width="320" height="295" controls><source src="${url}" type="${file.type}">Your browser does not support the video tag.</video>`;
-    //                 } else {
-    //                     // Handle other file types here (if needed)
-    //                     previewElement.innerText = file.name;
-    //                 }
-                    
-    //                 document.querySelector(".imagePreviews123").appendChild(previewElement);
-    //             }
-    //         }
+    //         // Display the video preview
+    //         previewElement.innerHTML = `
+    //             <video width="100%" height="100%" controls>
+    //                 <source src="${url}" type="video/mp4">
+    //             </video>
+    //         `;
     //     });
     // }
-    // previewBeforeUploadUpload("fileInput123");
+    // previewBeforeUploadVideoUpdate("file-21");
+    // previewBeforeUploadVideoUpdate("file-22");
+    // previewBeforeUploadVideoUpdate("file-23");
+    // previewBeforeUploadVideoUpdate("file-24");
+    // previewBeforeUploadVideoUpdate("file-25");
 
 
 
-    previewBeforeUpload("fileInput");
-
-
-//   previewBeforeUpload("file-1");
-//   previewBeforeUpload("file-2");
-//   previewBeforeUpload("file-3");
-//   previewBeforeUpload("file-4");
-//   previewBeforeUpload("file-5");
 
 </script>

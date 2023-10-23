@@ -139,6 +139,16 @@ function countAllUser()
     return $row;
 }
 
+function deleteUser($table, $field, $value)
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "DELETE FROM `$table` WHERE `$field` = '$value'");
+    disconnect();
+    return $query;
+}
+
+
 
 ?>
 
