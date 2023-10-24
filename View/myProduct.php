@@ -49,14 +49,18 @@ if (!isset($_SESSION['id'])) {
 								</ul>
 	                		</aside><!-- End .col-lg-3 -->
 	                		<div class="col-10">
-                                <a href="#addProduct-modal" data-toggle="modal" class="btn btn-dark float-right" >Add Product</a>
+                                <?php $users = mysqli_fetch_assoc(getrecord('users','id', $_SESSION['id'])); 
+                                if($users['isSubscribe'] == 'Yes') {?>
+                                    <a href="#addProduct-modal" data-toggle="modal" class="btn btn-dark float-right" >Add Product</a>
+                                <?php } else { ?>
+                                    <a href="subscription.php" class="btn btn-dark float-right" >Add product</a>
+                                <?php } ?>
                                 <table class="table table-hover text-center mt-5">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>#</th>
                                             <th>Product Name</th>
                                             <th>Stock</th>
-                                            
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>

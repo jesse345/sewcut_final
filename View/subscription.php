@@ -6,6 +6,7 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
+$admin = mysqli_fetch_assoc(getallrecord('admin'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,7 +61,7 @@ if (!isset($_SESSION['id'])) {
                 <div class="col-md-4 col-sm-6">
                     <div class="pricingTable yellow">
                         <div class="pricingTable-header">
-                            <h3>Advanced</h3>
+                            <h3>Advance</h3>
 
                         </div>
                         <div class="pricing-plans">
@@ -129,32 +130,33 @@ if (!isset($_SESSION['id'])) {
                             <div class="form-group">
                                 <label for="exampleFormControlInput1">Account Name</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    value="Sewcut Sewcut" readonly>
+                                    value="<?= $admin['gcash_name'] ?>" readonly>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Account Number</label>
-                                <input type="text" class="form-control" value="0955 6346 3151" readonly>
+                                <input type="text" class="form-control" value="<?= $admin['gcash_number'] ?>" readonly>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Amount</label>
                                 <input type="text" class="form-control" name="amount" id="amount" value="" readonly>
-                                <input type="hidden" class="form-control" name="type" id="type" value="">
-                                <input type="hidden" class="form-control" name="type_of_payment" value="GCash">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Upload Receipt</label><br>
-                                <input type="file" name="receipt_img" id="receipt_img" required>
+                                <input type="file" name="image" id="image" required>
                             </div>
+                            <img id="image-preview" src="" alt="Image Preview"
+                                style="max-width: 100%; max-height: 200px;display:none;">
+
                             <div class="form-group">
                                 <label class="form-label">Reference No</label>
                                 <input type="text" class="form-control" name="ref" id="reference-no"
-                                    placeholder="Enter Reference No">
+                                    placeholder="Enter Reference No" required>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" name="subscribe" id="subscribe">Pay</button>
+                        <button type="submit" class="btn btn-primary" name="subscribe" id="subscribe">Subscribe</button>
                     </div>
                 </form>
             </div>
@@ -172,6 +174,36 @@ if (!isset($_SESSION['id'])) {
             $("#modal-payment").modal("show");
         });
     });
+
+    // Get a reference to the file input element
+    const fileInput = $("#image");
+
+    // Get a reference to the image preview element
+    const imagePreview = $("#image-preview");
+
+    // Add an event listener to the file input
+    fileInput.change(function () {
+        // Check if a file is selected
+        if (fileInput[0].files.length > 0) {
+            const file = fileInput[0].files[0];
+            const reader = new FileReader();
+
+            // Set up a FileReader to read the selected file
+            reader.onload = function (e) {
+                // Set the source of the image preview to the selected file
+                imagePreview.attr("src", e.target.result);
+                imagePreview.show(); // Display the image preview
+            };
+
+            // Read the file as a data URL, triggering the onload event
+            reader.readAsDataURL(file);
+        } else {
+            // If no file is selected, clear the image preview and hide it
+            imagePreview.attr("src", "");
+            imagePreview.hide();
+        }
+    });
+
 </script>
 
 </html>

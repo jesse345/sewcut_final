@@ -45,4 +45,18 @@ if (isset($_POST['UPDATE'])) {
                 alert('Deleted Successfully');
                 window.location.href = '../View/user.php';
               </script>";
+} elseif (isset($_POST['PAYMENT'])) {
+    $user_id = $_SESSION['admin_id'];
+    $gcash_name = $_POST['gcash_name'];
+    $gcash_number = $_POST['gcash_number'];
+
+    updateUser(
+        'admin',
+        array('id', 'gcash_name', 'gcash_number'),
+        array($user_id, $gcash_name, $gcash_number)
+    );
+    echo "<script>
+                alert('Updated Successfully');
+                window.location.href = '../View/managePayment.php';
+              </script>";
 }
