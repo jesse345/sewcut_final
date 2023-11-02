@@ -49,7 +49,9 @@ if (!isset($_SESSION['id'])) {
                                         </p>
                                         <?php
                                         $time = strtotime($notification['date_send']);
-                                        $minutes_ago = floor((time() - $time) / 60) + 360;
+                                        $currentTimestamp = time();
+                                        $minutes_ago = floor(($currentTimestamp - $time) / 60);
+                                        // $minutes_ago = floor((time() - $time) / 60) + 360;
                                         $hours_ago = floor($minutes_ago / 60);
                                         $days_ago = floor($hours_ago / 24);
 

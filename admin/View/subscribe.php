@@ -48,14 +48,15 @@ if (!isset($_SESSION['admin_id'])) {
                                 </div>
                             </div>
                             <div class="widget-content widget-content-area">
-
                                 <div class="table-responsive">
+                                    <h2>Pending</h2>
                                     <table class="table table-bordered text-center">
                                         <thead>
                                             <tr>
                                                 <th></th>
                                                 <th scope="col">User ID</th>
                                                 <th scope="col">Type</th>
+                                                <th>Status</th>
                                                 <th scope="col">Date Created</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
@@ -85,12 +86,19 @@ if (!isset($_SESSION['admin_id'])) {
                                                         <?= $subscription_record['type'] ?>
                                                     </td>
                                                     <td>
-                                                        <?= $subscription_record['created_at'] ?>
+                                                         <span class="badge badge-light-success"><?= $subscription_record['status'] ?></span>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-light-danger">Rejected</span>
-                                                        <span class="badge badge-light-success">Accept</span>
+                                                        <?= $subscription_record['created_at'] ?>
                                                     </td>
+                                                    <form action="../Controller/subscriptionController.php" method="POST">
+                                                        <input type="hidden" name="type" value="<?= $subscription_record['type'] ?>">
+                                                        <input type="hidden" name="subscription_id" value=" <?= $subscription_record['id'] ?>">
+                                                        <td>
+                                                            <button type="submit" name="REJECT" style="background-color:transparent;border:none;"><span class="badge badge-light-danger">Rejected</span></button>
+                                                            <button type="submit" name="ACCEPT" style="background-color:transparent;border:none;"><span class="badge badge-light-success">Accept</span></button>
+                                                        </td>
+                                                    </form>
                                                 </tr>
                                             <?php endwhile; ?>
                                             <!-- View More -->
@@ -137,6 +145,77 @@ if (!isset($_SESSION['admin_id'])) {
                                     </table>
                                 </div>
                             </div>
+                            <div class="widget-content widget-content-area mt-5">
+                                <div class="table-responsive">
+                                    <h2>Approve</h2>
+                                    <table class="table table-bordered text-center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">User ID</th>
+                                                <th scope="col">Type</th>
+                                                <th>Status</th>
+                                                <th scope="col">Date Created</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $record = getrecord('subscription', 'status', 'Approve');
+                                            while ($subscription_record = mysqli_fetch_assoc($record)): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?= $subscription_record['user_id'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $subscription_record['type'] ?>
+                                                    </td>
+                                                    <td>
+                                                         <span class="badge badge-light-success"><?= $subscription_record['status'] ?></span>
+                                                    </td>
+                                                    <td>
+                                                        <?= $subscription_record['created_at'] ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="widget-content widget-content-area mt-5">
+                                <div class="table-responsive">
+                                    <h2>Reject</h2>
+                                    <table class="table table-bordered text-center">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">User ID</th>
+                                                <th scope="col">Type</th>
+                                                <th>Status</th>
+                                                <th scope="col">Date Created</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $record = getrecord('subscription', 'status', 'Reject');
+                                            while ($subscription_record = mysqli_fetch_assoc($record)): ?>
+                                                <tr>
+                                                   
+                                                    <td>
+                                                        <?= $subscription_record['user_id'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $subscription_record['type'] ?>
+                                                    </td>
+                                                    <td>
+                                                         <span class="badge badge-light-danger"><?= $subscription_record['status'] ?>ed</span>
+                                                    </td>
+                                                    <td>
+                                                        <?= $subscription_record['created_at'] ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>   
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -161,7 +240,5 @@ if (!isset($_SESSION['admin_id'])) {
     <script src="../src/plugins/src/apex/apexcharts.min.js"></script>
     <script src="../src/assets/js/dashboard/dash_2.js"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
 </body>
-
 </html>

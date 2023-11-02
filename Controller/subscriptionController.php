@@ -37,6 +37,14 @@ if (isset($_POST['subscribe'])) {
         );
     }
     flash("msg", "success", "Wait for the admin to verify your payment. Thank you!");
-    header("Location: ../View/subscription.php");
+    header("Location: ../View/mySubscription.php");
+    exit();
+} elseif(isset($_POST['FREETRIAL'])){
+    createUser('subscription', 
+                array('user_id','type'),
+                array($_SESSION['id'],'Free'));
+    flash("msg", "success", "Wait for the admin to verify your subscribtion. Thank you!");
+    header("Location: ../View/mySubscription.php");
     exit();
 }
+

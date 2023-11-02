@@ -148,7 +148,13 @@ function deleteUser($table, $field, $value)
     return $query;
 }
 
-
+function subscriptionForFree($user_id){
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `subscription` WHERE `user_id` = '$user_id' && `type` = 'Free'");
+    disconnect();
+    return $query;
+}
 
 ?>
 

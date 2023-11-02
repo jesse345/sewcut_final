@@ -106,6 +106,9 @@
                         <li>
                             <a href="../View/shop.php" class="sf-with-u1l">Shop</a>
                         </li>
+                        <li>
+                            <a href="../View/guide.php" class="sf-with-u1l">Guide</a>
+                        </li>
                     </ul><!-- End .menu -->
                 </nav><!-- End .main-nav -->
                 <button class="mobile-menu-toggler">

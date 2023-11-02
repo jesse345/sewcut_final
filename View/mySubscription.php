@@ -69,22 +69,34 @@ if (!isset($_SESSION['id'])) {
                                     </li>
                                 </ul>
                             </aside>
-                            <div class="col-10">
-                                <table class="table table-hover text-center">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>TYPE</th>
-                                            <th>Amount</th>
-                                            <th>Reference Number</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            <?php $subscrption = getrecord('subscription','user_id',$_SESSION['id']);
+                            if(mysqli_num_rows($subscrption) == 1){?>
+                                <div class="col-10">
+                                    <table class="table table-hover text-center">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>TYPE</th>
+                                                <th>Amount</th>
+                                                <th>Reference Number</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php 
+                                            while($sub = mysqli_fetch_assoc($subscrption)):?>
+                                            <tr>
+                                                <td><?=$sub['id']?></td>
+                                                <td><?=$sub['type']?></td>
+                                                <td><?=$sub['amount']?></td>
+                                                <td><?=$sub['reference_number']?></td>
+                                                <td><button class="btn btn-success"><?=$sub['status']?></button></td>
+                                            </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

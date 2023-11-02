@@ -34,7 +34,33 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
         </nav><!-- End .breadcrumb-nav -->
         <div class="container mb-15">
             <div class="row">
-                <div class="col-md-4 col-sm-6">
+                <?php
+                $user = subscriptionForFree($_SESSION['id']);
+                if (mysqli_num_rows($user) < 1) { ?>
+                <div class="col-md-3 col-sm-6">
+                    <div class="pricingTable green">
+                        <div class="pricingTable-header">
+                            <h3>Free Trial</h3>
+
+                        </div>
+                        <div class="pricing-plans">
+                            <span class="price-value"><i class="fa fa-usd"></i><span>Free</span></span>
+
+                        </div>
+                        <div class="pricingContent">
+                            <ul>
+                                <li><b>1 week Duration</b> </li>
+                            </ul>
+                        </div>
+                        <!-- CONTENT BOX-->
+                        <div class="pricingTable-sign-up">
+                            <button type="button" href="#FreeSubscribe" data-toggle="modal"
+                                class="btn btn-success">Use</button>
+                        </div>
+                        <!-- BUTTON BOX-->
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
                     <div class="pricingTable purple">
                         <div class="pricingTable-header">
                             <h3>Standard</h3>
@@ -49,16 +75,15 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                                 <li><b>3 months Duration </b> </li>
                             </ul>
                         </div>
-                        <!-- CONTENT BOX-->
+                        
                         <div class="pricingTable-sign-up">
                             <button type="button" id="btn_Subscribe" data-value="199" data-type="1"
                                 class="btn btn-success">Subscribe</button>
                         </div>
-                        <!-- BUTTON BOX-->
+                        
                     </div>
                 </div>
-
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-3 col-sm-6">
                     <div class="pricingTable yellow">
                         <div class="pricingTable-header">
                             <h3>Advance</h3>
@@ -72,16 +97,16 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                                 <li><b>6 months Duration </b> </li>
                             </ul>
                         </div>
-                        <!-- CONTENT BOX-->
+                        
                         <div class="pricingTable-sign-up">
                             <button type="button" id="btn_Subscribe2" data-value="399" data-type="2"
                                 class="btn btn-success">Subscribe</button>
                         </div>
-                        <!-- BUTTON BOX-->
+                        
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6">
-                    <div class="pricingTable green">
+                <div class="col-md-3 col-sm-6"> 
+                    <div class="pricingTable purple">
                         <div class="pricingTable-header">
                             <h3>Premium</h3>
                         </div>
@@ -102,6 +127,75 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                         <!-- BUTTON BOX-->
                     </div>
                 </div>
+                <?php } else{?>
+                <div class="col-md-4 col-sm-6">
+                    <div class="pricingTable purple">
+                        <div class="pricingTable-header">
+                            <h3>Standard</h3>
+
+                        </div>
+                        <div class="pricing-plans">
+                            <span class="price-value"><i class="fa fa-usd"></i><span>₱199.00</span></span>
+
+                        </div>
+                        <div class="pricingContent">
+                            <ul>
+                                <li><b>3 months Duration </b> </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="pricingTable-sign-up">
+                            <button type="button" id="btn_Subscribe" data-value="199" data-type="1"
+                                class="btn btn-success">Subscribe</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="pricingTable yellow">
+                        <div class="pricingTable-header">
+                            <h3>Advance</h3>
+
+                        </div>
+                        <div class="pricing-plans">
+                            <span class="price-value"><i class="fa fa-usd"></i><span>₱399.00</span></span>
+                        </div>
+                        <div class="pricingContent">
+                            <ul>
+                                <li><b>6 months Duration </b> </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="pricingTable-sign-up">
+                            <button type="button" id="btn_Subscribe2" data-value="399" data-type="2"
+                                class="btn btn-success">Subscribe</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6"> 
+                    <div class="pricingTable purple">
+                        <div class="pricingTable-header">
+                            <h3>Premium</h3>
+                        </div>
+                        <div class="pricing-plans">
+                            <span class="price-value"><i class="fa fa-usd"></i><span>₱699.00</span></span>
+
+                        </div>
+                        <div class="pricingContent">
+                            <ul>
+                                <li><b>1 year Duration </b> </li>
+                            </ul>
+                        </div>
+                        <!-- CONTENT BOX-->
+                        <div class="pricingTable-sign-up">
+                            <button type="button" id="btn_Subscribe3" data-value="699" data-type="3"
+                                class="btn btn-success">Subscribe</a>
+                        </div>
+                        <!-- BUTTON BOX-->
+                    </div>
+                </div>
+                <?php } ?>
             </div>
         </div>
         <br>
@@ -157,6 +251,27 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" name="subscribe" id="subscribe">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+     <!-- DELETE MODAL -->
+    <div class="modal fade" id="FreeSubscribe" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form action="../Controller/subscriptionController.php" method="POST">
+                    <div class="modal-body">
+                        <center>
+                            <p style="font-size: 15px; font-weight: 500;margin-top:50px;">Are you sure you want to use your free trial ?</p>
+                        </center>
+                    </div>
+                    <div class="modal-footer footer1 mt-5">
+                        <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
+                            No
+                        </button>
+                        <button type="submit" class="btn btn-dark products" name="FREETRIAL">Yes</button>
                     </div>
                 </form>
             </div>

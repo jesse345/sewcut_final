@@ -187,11 +187,9 @@ $users = countAllUser();
                         </div>
                         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                             <div class="widget widget-table-two" style="height: 447px;max-height: 447px;">
-
                                 <div class="widget-heading">
                                     <h5 class="">Recent Orders</h5>
                                 </div>
-
                                 <div class="widget-content">
                                     <div class="table-responsive">
                                         <table class="table">
@@ -204,7 +202,7 @@ $users = countAllUser();
                                                         <div class="th-content">Product</div>
                                                     </th>
                                                     <th>
-                                                        <div class="th-content">Invoice</div>
+                                                        <div class="th-content">Quantity</div>
                                                     </th>
                                                     <th>
                                                         <div class="th-content th-heading">Price</div>
