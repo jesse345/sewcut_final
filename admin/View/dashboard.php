@@ -1,6 +1,7 @@
 <?php
 include('../../Model/db.php');
 session_start();
+error_reporting(0);
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
@@ -13,6 +14,8 @@ $users = countAllUser();
 $product_sold = countAllProductSold();
 $subscribers = countAllSubscribers();
 $total_revenue = countAlllTotalRevenue();
+$orders = getOrderlimit5();
+$categoryCounts = getCountByCategory();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -196,6 +199,7 @@ $total_revenue = countAlllTotalRevenue();
                                     <h5 class="">Recent Orders</h5>
                                 </div>
                                 <div class="widget-content">
+                                    
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -218,116 +222,40 @@ $total_revenue = countAlllTotalRevenue();
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php while($order = mysqli_fetch_assoc($orders)):
+                                                $user = mysqli_fetch_assoc(getrecord('user_details', 'id', $order['user_id']));
+                                                $product = mysqli_fetch_assoc(getrecord('product_details', 'id', $order['product_id']));
+                                                $cart = mysqli_fetch_assoc(getrecord('carts', 'id', $order['cart_id']));
+                                                $product_etc = mysqli_fetch_assoc(getrecord('product_details_etc', 'product_id', $order['product_id']));
+                                                ?>
                                                 <tr>
                                                     <td>
                                                         <div class="td-content customer-name"><img
-                                                                src="../src/assets/img/profile-13.jpeg"
-                                                                alt="avatar"><span>Luke Ivory</span></div>
+                                                                src="../../<?=$user['user_img']?>"
+                                                                alt="avatar"><span><?=ucfirst($user['firstname']). ' ' . ucfirst($user['lastname'])?></span></div>
                                                     </td>
                                                     <td>
-                                                        <div class="td-content product-brand text-primary">Headphone
+                                                        <div class="td-content product-brand text-warning"><?=$product['product_name']?>
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="td-content product-invoice">#46894</div>
+                                                        <div class="td-content product-invoice"><?=$cart['quantity']?></div>
                                                     </td>
                                                     <td>
-                                                        <div class="td-content pricing"><span class="">$56.07</span>
+                                                        <div class="td-content pricing"><span class=""><?=$product_etc['price']?></span>
                                                         </div>
                                                     </td>
                                                     <td>
+                                                        <?php if($order['status'] == 'Approve'){ ?>
                                                         <div class="td-content"><span
-                                                                class="badge badge-success">Paid</span></div>
+                                                                class="badge badge-info"><?=$order['status']?></span></div>
+                                                        <?php }else{?>
+                                                        <div class="td-content"><span
+                                                                class="badge badge-primary"><?=$order['status']?></span></div>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td>
-                                                        <div class="td-content customer-name"><img
-                                                                src="../src/assets/img/profile-7.jpeg"
-                                                                alt="avatar"><span>Andy King</span></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-brand text-warning">Nike Sport
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-invoice">#76894</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content pricing"><span class="">$88.00</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content"><span
-                                                                class="badge badge-primary">Shipped</span></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="td-content customer-name"><img
-                                                                src="../src/assets/img/profile-10.jpeg"
-                                                                alt="avatar"><span>Laurie Fox</span></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-brand text-danger">Sunglasses
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-invoice">#66894</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content pricing"><span class="">$126.04</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content"><span
-                                                                class="badge badge-success">Paid</span></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="td-content customer-name"><img
-                                                                src="../src/assets/img/profile-5.jpeg"
-                                                                alt="avatar"><span>Ryan Collins</span></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-brand text-warning">Sport</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-invoice">#89891</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content pricing"><span class="">$108.09</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content"><span
-                                                                class="badge badge-primary">Shipped</span></div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="td-content customer-name"><img
-                                                                src="../src/assets/img/profile-4.jpeg"
-                                                                alt="avatar"><span>Irene Collins</span></div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-brand text-primary">Speakers
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content product-invoice">#75844</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content pricing"><span class="">$84.00</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="td-content"><span
-                                                                class="badge badge-danger">Pending</span></div>
-                                                    </td>
-                                                </tr>
+                                                <?php endwhile; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -341,10 +269,35 @@ $total_revenue = countAlllTotalRevenue();
             <!--  END CONTENT AREA  -->
         </div>
         <!--  END CONTENT AREA  -->
-
+        
+        <?php /*while($countQuery = mysqli_fetch_assoc($categoryCounts)):
+            if($countQuery['category'] == 'T-Shirts'){?>
+                <input type="hidden" id="TshirtTotalCategory" value="<?=$countQuery['category_count']?>">
+            <?php }elseif($countQuery['category'] == 'Bags'){?>
+                <input type="hidden" id="BagsTotalCategory" value="<?=$countQuery['category_count']?>">
+            <?php }elseif($countQuery['category'] == 'Dresses'){?>
+                <input type="hidden" id="DressTotalCategory" value="<?=$countQuery['category_count']?>">
+            <?php }elseif($countQuery['category'] == 'Jeans'){?>
+                <input type="hidden" id="JeansTotalCategory" value="<?=$countQuery['category_count']?>">
+            <?php } ?>
+        <?php endwhile; */?> 
+    
     </div>
     <!-- END MAIN CONTAINER -->
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- <script>
+        if($("#BagsTotalCategory").val() == 'undenfined'){
+            var bag = 0;
+        }else{
+             var bag = $("#BagsTotalCategory").val();
+        }
+        var tshirt = $("#TshirtTotalCategory").val();
+        var dress = $("#DressTotalCategory").val();
+        var jeans = $("#JeansTotalCategory").val();
+        
+    </script> -->
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="../src/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -356,7 +309,9 @@ $total_revenue = countAlllTotalRevenue();
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     <script src="../src/plugins/src/apex/apexcharts.min.js"></script>
     <script src="../src/assets/js/dashboard/dash_2.js"></script>
+   
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    
 
 </body>
 

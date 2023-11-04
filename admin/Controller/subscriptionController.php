@@ -46,7 +46,56 @@ if (isset($_POST['REJECT'])) {
                 alert('Accepted Successfully');
                 window.location.href = '../View/subscribe.php';
               </script>";
+    }elseif($subscription['type'] == "Standard"){
+        $currentDate = time();
+        $threeMonths = 3 * 30 * 24 * 60 * 60;
+        $dateexpire = $currentDate + $threeMonths;
+        $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
+        updateUser('subscription',
+                    array('id','status','date_start','date_expire'),
+                    array($id,'Approve',$date,$expirationDateFormatted));
+
+            updateUser('users',
+                    array('id','isSubscribe'),
+                    array($subscription['user_id'],'Yes'));
+            echo "<script>
+                    alert('Accepted Successfully');
+                    window.location.href = '../View/subscribe.php';
+                </script>";
+    }elseif($subscription['type'] == "Advance"){
+        $currentDate = time();
+        $sixMonths = (3 * 30 * 24 * 60 * 60) * 2; 
+        $dateexpire = $currentDate + $sixMonths; 
+        $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
+        updateUser('subscription',
+                    array('id','status','date_start','date_expire'),
+                    array($id,'Approve',$date,$expirationDateFormatted));
+
+            updateUser('users',
+                    array('id','isSubscribe'),
+                    array($subscription['user_id'],'Yes'));
+            echo "<script>
+                    alert('Accepted Successfully');
+                    window.location.href = '../View/subscribe.php';
+                </script>";
+    }elseif($subscription['type'] == "Premium"){
+       $currentDate = time();
+        $oneYear = 365 * 24 * 60 * 60;
+        $dateexpire = $currentDate + $oneYear;
+        $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
+        updateUser('subscription',
+                    array('id','status','date_start','date_expire'),
+                    array($id,'Approve',$date,$expirationDateFormatted));
+
+            updateUser('users',
+                    array('id','isSubscribe'),
+                    array($subscription['user_id'],'Yes'));
+            echo "<script>
+                    alert('Accepted Successfully');
+                    window.location.href = '../View/subscribe.php';
+                </script>";
     }
+    
 }
 
 

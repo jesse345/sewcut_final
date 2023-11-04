@@ -421,9 +421,9 @@ window.addEventListener("load", function () {
                     show: true,
                     width: 15,
                     colors: '#0e1726'
-                },
+                },  
                 series: [1, 1, 1, 1],
-                labels: ['T-Shirt', 'Bags', 'Dress', 'Others'],
+                labels: ['T-Shirt', 'Bags', 'Dress', 'Jeans'],
 
                 responsive: [
                     {
@@ -437,6 +437,13 @@ window.addEventListener("load", function () {
                         breakpoint: 1199, options: {
                             chart: {
                                 width: 380
+                            },
+                        }
+                    },
+                    {
+                        breakpoint: 575, options: {
+                            chart: {
+                                width: 320
                             },
                         }
                     },

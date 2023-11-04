@@ -53,10 +53,11 @@ if (!isset($_SESSION['admin_id'])) {
                                     <table class="table table-bordered text-center">
                                         <thead>
                                             <tr>
-                                                <th></th>
                                                 <th scope="col">User ID</th>
                                                 <th scope="col">Type</th>
                                                 <th>Status</th>
+                                                <th>Amount</th>
+                                                <th>Receipt</th>
                                                 <th scope="col">Date Created</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
@@ -65,28 +66,20 @@ if (!isset($_SESSION['admin_id'])) {
                                             <?php $record = getrecord('subscription', 'status', 'Pending');
                                             while ($subscription_record = mysqli_fetch_assoc($record)): ?>
                                                 <tr>
-                                                    <td><a data-bs-toggle="modal"
-                                                            data-bs-target="#ViewMoreModal<?= $subscription_record['id'] ?>"
-                                                            class="action-btn btn-view bs-tooltip me-2" data-placement="top"
-                                                            title="View More" data-bs-original-title="View">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round" class="feather feather-eye">
-                                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
-                                                                </path>
-                                                                <circle cx="12" cy="12" r="3"></circle>
-                                                            </svg>
-                                                        </a>
-                                                    </td>
                                                     <td>
                                                         <?= $subscription_record['user_id'] ?>
                                                     </td>
                                                     <td>
-                                                        <?= $subscription_record['type'] ?>
+                                                        <button class="btn btn-info"><?= $subscription_record['type'] ?></button>
                                                     </td>
                                                     <td>
                                                          <span class="badge badge-light-success"><?= $subscription_record['status'] ?></span>
+                                                    </td>
+                                                    <td>
+                                                             <?= $subscription_record['amount'] ?>
+                                                    </td>
+                                                    <td>
+                                                        <img src="../../<?= $subscription_record['receipt_img'] ?>" class="img-responsive" style="height:150px;width:200px;" alt="">
                                                     </td>
                                                     <td>
                                                         <?= $subscription_record['created_at'] ?>
@@ -101,50 +94,11 @@ if (!isset($_SESSION['admin_id'])) {
                                                     </form>
                                                 </tr>
                                             <?php endwhile; ?>
-                                            <!-- View More -->
-                                            <div class="modal fade" id="ViewMoreModal<?= $subscription_record['id'] ?>"
-                                                tabindex="-1" role="dialog" aria-labelledby="ViewMoreModalLabel"
-                                                aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="ViewMoreModalLabel">View More
-                                                            </h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                <svg> ... </svg>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p class="modal-text">
-                                                            <div class="row mb-4">
-                                                                <div class="col">
-                                                                    <label for="">Username</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $user1['username'] ?>" readonly>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <label for="">Password</label>
-                                                                    <input type="text" class="form-control"
-                                                                        value="<?= $user1['password'] ?>" readonly>
-                                                                </div>
-                                                            </div>
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button class="btn btn btn-light-dark"
-                                                                data-bs-dismiss="modal"><i
-                                                                    class="flaticon-cancel-12"></i>
-                                                                Close</button>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
                             <div class="widget-content widget-content-area mt-5">
                                 <div class="table-responsive">
                                     <h2>Approve</h2>
@@ -224,7 +178,6 @@ if (!isset($_SESSION['admin_id'])) {
             <!--  END CONTENT AREA  -->
         </div>
         <!--  END CONTENT AREA  -->
-
     </div>
     <!-- END MAIN CONTAINER -->
 

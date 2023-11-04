@@ -70,8 +70,8 @@ if (!isset($_SESSION['id'])) {
                                 </ul>
                             </aside>
                             <?php $subscrption = getrecord('subscription','user_id',$_SESSION['id']);
-                            if(mysqli_num_rows($subscrption) == 1){?>
-                                <div class="col-10">
+                            if(mysqli_num_rows($subscrption) > 0){?>
+                                <div class="col-10">                                  
                                     <table class="table table-hover text-center">
                                         <thead class="thead-dark">
                                             <tr>

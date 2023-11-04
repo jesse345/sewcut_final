@@ -75,5 +75,32 @@ function getOrderSeller($table, $value)
     return $query;
 }
 
+function getOrderlimit5() 
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `orders` LIMIT 5");
+    disconnect();
+    return $query;
+}
 
-SELECT * FROM `orders` LIMIT 5;
+function getCountByCategory() {
+    global $conn;
+    connect();
+    
+    $query = mysqli_query($conn, "SELECT pd.category, COUNT(o.id) AS category_count
+                                   FROM orders o
+                                   JOIN product_details pd ON o.product_id = pd.id
+                                   WHERE o.status = 'Approve'
+                                   GROUP BY pd.category");
+    
+    disconnect();
+    
+    return $query;
+}
+
+
+
+
+
+
