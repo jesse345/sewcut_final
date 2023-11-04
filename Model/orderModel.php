@@ -74,3 +74,6 @@ function getOrderSeller($table, $value)
     disconnect();
     return $query;
 }
+
+
+SELECT * FROM `orders` LIMIT 5;

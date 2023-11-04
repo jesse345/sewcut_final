@@ -10,6 +10,9 @@ if (!isset($_SESSION['admin_id'])) {
 $verify = countVerify();
 $notVerify = countNotVerify();
 $users = countAllUser();
+$product_sold = countAllProductSold();
+$subscribers = countAllSubscribers();
+$total_revenue = countAlllTotalRevenue();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +107,8 @@ $users = countAllUser();
                                         <div class="col-8">
                                             <h5 class="card-title">Product Sold</h5>
                                             <p class="mb-0">
-                                                <?php echo $users['users'] ?>
+                                                <?php echo 
+                                                $product_sold['product_sold']; ?>
                                             </p>
                                         </div>
                                         <div class="col-4">
@@ -130,7 +134,7 @@ $users = countAllUser();
                                         <div class="col-8">
                                             <h5 class="card-title">Total Revenue</h5>
                                             <p class="mb-0">
-                                                <?php echo $users['users'] ?>
+                                                <?php echo $total_revenue['total_revenue']; ?>
                                             </p>
                                         </div>
                                         <div class="col-4">
@@ -155,7 +159,8 @@ $users = countAllUser();
                                         <div class="col-8">
                                             <h5 class="card-title">Subscribed</h5>
                                             <p class="mb-0">
-                                                <?php echo $users['users'] ?>
+                                                <?php echo 
+                                                $subscribers['subscribers']; ?>
                                             </p>
                                         </div>
                                         <div class="col-4">

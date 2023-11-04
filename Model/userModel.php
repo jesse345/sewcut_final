@@ -139,6 +139,36 @@ function countAllUser()
     return $row;
 }
 
+function countAllProductSold()
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT COUNT(*) AS product_sold FROM `orders` WHERE STATUS = 'Approve'");
+    $row = mysqli_fetch_assoc($query);
+    disconnect();
+    return $row;
+}
+
+function countAllSubscribers()
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT COUNT(*) AS subscribers FROM `subscription`");
+    $row = mysqli_fetch_assoc($query);
+    disconnect();
+    return $row;
+}
+
+function countAlllTotalRevenue()
+{
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT SUM(amount) AS total_revenue FROM `subscription` WHERE STATUS = 'Approve'");
+    $row = mysqli_fetch_assoc($query);
+    disconnect();
+    return $row;
+}
+
 function deleteUser($table, $field, $value)
 {
     global $conn;
