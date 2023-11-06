@@ -6,6 +6,14 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
+$dress = countCategory("Dresses");
+$tshirt = countCategory("T-Shirts");
+$jeans = countCategory("Jeans");
+$jacket = countCategory("Jackets");
+$bag = countCategory("Bag");
+$sportswear = countCategory("Sportswears");
+$shoes = countCategory("Shoes");
+$jumper = countCategory("Jumpers");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +30,7 @@ if (!isset($_SESSION['id'])) {
         <main class="main">
             <nav aria-label="breadcrumb" class="breadcrumb-nav breadcrumb-with-filter">
                 <div class="container">
-                	<a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+                	
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Categories</li>
@@ -35,26 +43,26 @@ if (!isset($_SESSION['id'])) {
 	                	<div class="row">
 	                		<div class="col-md-6">
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="ShopDress.php">
+		                			<a href="category.php?category=Dresses">
 		                				<img src="../assets/images/category/boxed/banner-1.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="ShopDress.php">
+		                			<a class="banner-link"  href="category.php?category=Dresses">
 		                				<h3 class="banner-title">Dresses</h3><!-- End .banner-title -->
                                         
-		                				<h4 class="banner-subtitle"><?php echo countCategory("dress") ?> Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $dress['category_count']; ?> Products</h4>
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
 
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="ShopJacket.php">
+		                			<a href="category.php?category=Jackets">
 		                				<img src="../assets/images/category/boxed/banner-2.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="">
+		                			<a class="banner-link" href="category.php?category=Jackets">
 		                				<h3 class="banner-title">Jackets</h3><!-- End .banner-title -->
-		                				<h4 class="banner-subtitle">2 Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $jacket['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
@@ -64,13 +72,13 @@ if (!isset($_SESSION['id'])) {
 	                			<div class="row">
 	                				<div class="col-sm-6">
 	                					<div class="banner banner-cat banner-badge">
-				                			<a href="ShopTshirt.php">
+				                			<a href="category.php?category=T-Shirts">
 				                				<img src="../assets/images/category/boxed/banner-3.jpg" alt="Banner">
 				                			</a>
 
-				                			<a class="banner-link" href="#">
+				                			<a class="banner-link" href="category.php?category=T-Shirts">
 				                				<h3 class="banner-title">T-shirts</h3><!-- End .banner-title -->
-				                				<h4 class="banner-subtitle"><?php echo countCategory("tshirt") ?> Products</h4><!-- End .banner-subtitle -->
+				                				<h4 class="banner-subtitle"><?php echo $tshirt['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 				                				<span class="banner-link-text">Shop Now</span>
 				                			</a><!-- End .banner-link -->
 			                			</div><!-- End .banner -->
@@ -78,13 +86,13 @@ if (!isset($_SESSION['id'])) {
 
 	                				<div class="col-sm-6">
 	                					<div class="banner banner-cat banner-badge">
-				                			<a href="ShopJeans.php">
+				                			<a href="category.php?category=Jeans">
 				                				<img src="../assets/images/category/boxed/banner-4.jpg" alt="Banner">
 				                			</a>
 
-				                			<a class="banner-link" href="#">
+				                			<a class="banner-link" href="category.php?category=Jeans">
 				                				<h3 class="banner-title">Jeans</h3><!-- End .banner-title -->
-				                				<h4 class="banner-subtitle"><?php echo countCategory("jeans") ?> Products</h4><!-- End .banner-subtitle -->
+				                				<h4 class="banner-subtitle"><?php echo $jeans['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 				                				<span class="banner-link-text">Shop Now</span>
 				                			</a><!-- End .banner-link -->
 			                			</div><!-- End .banner -->
@@ -92,13 +100,13 @@ if (!isset($_SESSION['id'])) {
 	                			</div><!-- End .row -->
 
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="ShopBag.php">
+		                			<a href="category.php?category=Bag">
 		                				<img src="..//assets/images/category/boxed/banner-5.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="#">
+		                			<a class="banner-link" href="category.php?category=Bag">
 		                				<h3 class="banner-title">Bags</h3><!-- End .banner-title -->
-		                				<h4 class="banner-subtitle"><?php echo countCategory("bag") ?> Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $bag['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
@@ -106,13 +114,13 @@ if (!isset($_SESSION['id'])) {
 
 	                		<div class="col-sm-6 col-md-3">
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="ShopSportwear.php">
+		                			<a href="category.php?category=Sportswears">
 		                				<img src="../assets/images/category/boxed/banner-6.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="#">
+		                			<a class="banner-link" href="category.php?category=Sportswears">
 		                				<h3 class="banner-title">Sportwear</h3><!-- End .banner-title -->
-		                				<h4 class="banner-subtitle"><?php echo countCategory("sportwear") ?> Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $sportswear['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
@@ -120,13 +128,13 @@ if (!isset($_SESSION['id'])) {
 
 	                		<div class="col-sm-6 col-md-3 order-md-last">
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="#">
+		                			<a href="category.php?category=Jumpers">
 		                				<img src="../assets/images/category/boxed/banner-8.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="#">
+		                			<a class="banner-link" href="category.php?category=Jumpers">
 		                				<h3 class="banner-title">Jumpers</h3><!-- End .banner-title -->
-		                				<h4 class="banner-subtitle"><?php echo countCategory("jumper") ?> Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $jumper['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
@@ -134,13 +142,13 @@ if (!isset($_SESSION['id'])) {
 
 	                		<div class="col-md-6">
 	                			<div class="banner banner-cat banner-badge">
-		                			<a href="ShopShoes.php">
+		                			<a href="category.php?category=Shoes">
 		                				<img src="../assets/images/category/boxed/banner-7.jpg" alt="Banner">
 		                			</a>
 
-		                			<a class="banner-link" href="#">
+		                			<a class="banner-link" href="category.php?category=Shoes">
 		                				<h3 class="banner-title">Shoes</h3><!-- End .banner-title -->
-		                				<h4 class="banner-subtitle"><?php echo countCategory("shoes") ?> Products</h4><!-- End .banner-subtitle -->
+		                				<h4 class="banner-subtitle"><?php echo $shoes['category_count']; ?> Products</h4><!-- End .banner-subtitle -->
 		                				<span class="banner-link-text">Shop Now</span>
 		                			</a><!-- End .banner-link -->
 	                			</div><!-- End .banner -->
@@ -148,168 +156,11 @@ if (!isset($_SESSION['id'])) {
 	                	</div><!-- End .row -->
 	                </div><!-- End .container -->
                 </div><!-- End .categories-page -->
-				
-				<div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
-                <aside class="sidebar-shop sidebar-filter sidebar-filter-banner">
-                	<div class="sidebar-filter-wrapper">
-                		<div class="widget widget-clean">
-        					<label><i class="icon-close"></i>Filters</label>
-        					<a href="#" class="sidebar-filter-clear">Clean All</a>
-        				</div>
-	                	<div class="widget">
-							<h3 class="widget-title">
-						        Browse Category
-							</h3><!-- End .widget-title -->
-
-							<div class="widget-body">
-								<div class="filter-items filter-items-count">
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-1">
-											<label class="custom-control-label" for="cat-1">Dress</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("dress") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-2">
-											<label class="custom-control-label" for="cat-2">T-Shirts</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("tshirt") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-3">
-											<label class="custom-control-label" for="cat-3">Jeans</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("jeans") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-4">
-											<label class="custom-control-label" for="cat-4">Jackets</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("jacket") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-5">
-											<label class="custom-control-label" for="cat-5">Bags</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("bag") ?></span>
-									</div><!-- End .filter-item -->
-                                    <div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-3">
-											<label class="custom-control-label" for="cat-3">Sports Wear</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("sportwear") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-4">
-											<label class="custom-control-label" for="cat-4">Shoes</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("shoes") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-5">
-											<label class="custom-control-label" for="cat-5">Jumper</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count"><?php echo countCategory("jumper") ?></span>
-									</div><!-- End .filter-item -->
-
-									<div class="filter-item">
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="cat-6" checked="checked">
-											<label class="custom-control-label" for="cat-6">Grid Categories Fullwidth</label>
-										</div><!-- End .custom-checkbox -->
-										<span class="item-count">13</span>
-									</div><!-- End .filter-item -->
-
-									<div class="sub-filter-items">
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-7">
-												<label class="custom-control-label" for="cat-7">Dresses</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">3</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-8">
-												<label class="custom-control-label" for="cat-8">T-shirts</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">0</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-9">
-												<label class="custom-control-label" for="cat-9">Bags</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">4</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-10">
-												<label class="custom-control-label" for="cat-10">Jackets</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">2</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-11">
-												<label class="custom-control-label" for="cat-11">Shoes</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">2</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-12">
-												<label class="custom-control-label" for="cat-12">Jumpers</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">1</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-13">
-												<label class="custom-control-label" for="cat-13">Jeans</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">1</span>
-										</div><!-- End .filter-item -->
-
-										<div class="filter-item">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input" id="cat-14">
-												<label class="custom-control-label" for="cat-14">Sportwear</label>
-											</div><!-- End .custom-checkbox -->
-											<span class="item-count">0</span>
-										</div><!-- End .filter-item -->
-									</div><!-- End .sub-filter-items -->
-								</div><!-- End .filter-items -->
-							</div><!-- End .widget-body -->
-						</div><!-- End .widget -->
-					</div><!-- End .sidebar-filter-wrapper -->
-                </aside><!-- End .sidebar-filter -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
         <br>
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
     <?php include("../layouts/jsfile.layout.php"); ?>
-    jsfile.layout.php
 </body>
 </html>

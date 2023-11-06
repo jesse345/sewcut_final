@@ -9,7 +9,7 @@ function CreateShop($table1, $fields1, $values1)
     $vals1 = implode("','", $values1);
 
     $query1 = mysqli_query($conn, "INSERT INTO `$table1` (`$flds1`) VALUES ('$vals1')");
-    disconnect();
+    return $query1;
 }
 
 function getShop($user_id)

@@ -119,6 +119,7 @@ function countVerify()
     disconnect();
     return $row;
 }
+
 function countNotVerify()
 {
     global $conn;

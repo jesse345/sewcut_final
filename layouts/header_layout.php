@@ -107,6 +107,9 @@
                             <a href="../View/shop.php" class="sf-with-u1l">Shop</a>
                         </li>
                         <li>
+                            <a href="../View/custom.php" class="sf-with-u1l">Custom</a>
+                        </li>
+                        <li>
                             <a href="../View/guide.php" class="sf-with-u1l">Guide</a>
                         </li>
                     </ul><!-- End .menu -->

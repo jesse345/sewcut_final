@@ -80,11 +80,10 @@ function countCategory($category)
 {
     global $conn;
     connect();
-    $query = mysqli_query($conn, "SELECT COUNT(`category`) as category_count FROM product_details WHERE `category` = '$category'");
+    $query = mysqli_query($conn, "SELECT COUNT(*) as category_count FROM `product_details` WHERE `category` = '$category'");
     $row = mysqli_fetch_assoc($query);
-    $count = $row['category_count'];
     disconnect();
-    return $count;
+    return $row;
 }
 
 function deleteProduct($id)

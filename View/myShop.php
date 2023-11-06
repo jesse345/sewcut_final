@@ -571,6 +571,41 @@ if (!isset($_SESSION['id'])) {
                                     <?php endwhile; ?>
                                 </select>
                             </div>
+                                <label for="">Shop Can:</label>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" id="customize" name="can_customize"> Customize
+                                </div>
+                               <div class="form-group">
+                                    <input type="checkbox" name="can_alter"> Alter
+                                </div>
+                            
+                             <div class="form-group" id="show_customize">
+                                <label for="">Shop Can Customize:</label>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Dresses"> Dresses
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="T-Shirts"> T-Shirts
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Jeans"> Jeans
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Jackets"> Jackets
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Bag"> Bag
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Sportswears"> Sportswears
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Shoes"> Shoes
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="checkbox" name="can_customize[]" value="Jumpers"> Jumpers
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -593,11 +628,19 @@ if (!isset($_SESSION['id'])) {
 </body>
 <script>
     $(document).ready(function () {
-     $("#UPDATE #add_product_btn").one('click', function (event) {  
-           event.preventDefault();
-           //do something
-           $(this).prop('disabled', true);
-     });
+        $("#UPDATE #add_product_btn").one('click', function (event) {  
+            event.preventDefault();
+            //do something
+            $(this).prop('disabled', true);
+        });
+        $("#show_customize").hide()
+        $("#customize").change(function () {
+            if ($(this).is(":checked")) {
+                $("#show_customize").show();
+            } else {
+                $("#show_customize").hide();
+            }
+        });
 });
 </script>
 </html>

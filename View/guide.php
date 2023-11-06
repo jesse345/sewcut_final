@@ -182,6 +182,18 @@ if (!isset($_SESSION['id'])) {
                         <p>Wrap the measuring tape around the base of your neck, going around your Adam’s apple. Ensure that the tape is consistently level and that you’re not wrapping the tape too tightly around your neck. This measurement is your true neck measurement. For your dress shirt neck measurement, add a half inch to a round number (i.e. 14 inches should be rounded up to 14.5 inches) or round up to the nearest half inch (i.e. 14.25 should be rounded up to 14.5).</p>
                     </div>
                 </div>
+                <div class="text-center mt-10">
+                    <h2 class="title">Women Measurements Guide</h2>
+                    <video src="../images/women.mp4" controls width="1000" height="500">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="text-center mt-5">
+                    <h2 class="title">Men Measurements Guide</h2>
+                    <video src="../images/men.mp4" controls width="1000" height="500">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
         </main><!-- End .main -->
         <br>

@@ -22,6 +22,7 @@ if (!isset($_SESSION['id'])) {
     <div class="page-wrapper">
         <?php
         include("../layouts/header_layout.php");
+        $products = mysqli_fetch_assoc(displayDetails('products', 'id', $_GET['product_id']));
         $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $_GET['product_id']));
         $productImages = displayDetails('product_images', 'product_id', $_GET['product_id']);
         $product_details_etc = displayDetails('product_details_etc', 'product_id', $_GET['product_id']);
@@ -34,18 +35,6 @@ if (!isset($_SESSION['id'])) {
                         <li class="breadcrumb-item"><a href="#">Products</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Product Info</li>
                     </ol>
-
-                    <nav class="product-pager ml-auto" aria-label="Product">
-                        <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
-                            <i class="icon-angle-left"></i>
-                            <span>Prev</span>
-                        </a>
-
-                        <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
-                            <span>Next</span>
-                            <i class="icon-angle-right"></i>
-                        </a>
-                    </nav><!-- End .pager-nav -->
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
@@ -282,7 +271,7 @@ if (!isset($_SESSION['id'])) {
                                                         title="Wishlist"><span>Add to Wishlist</span></button></a>
                                             <?php } ?>
 
-                                            <a href="#" class="btn-product btn-compare" style="margin-left:30px;"
+                                            <a href="chat.php?user=<?php echo $products['user_id']?>" class="btn-product btn-compare" style="margin-left:30px;"
                                                 title="Chat Seller"><span>Chat Seller</span></a>
                                         </div><!-- End .details-action-wrapper -->
                                     </form>
