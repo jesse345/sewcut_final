@@ -41,7 +41,6 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                     <div class="pricingTable green">
                         <div class="pricingTable-header">
                             <h3>Free Trial</h3>
-
                         </div>
                         <div class="pricing-plans">
                             <span class="price-value"><i class="fa fa-usd"></i><span>Free</span></span>

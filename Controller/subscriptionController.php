@@ -2,6 +2,8 @@
 include("../Model/db.php");
 session_start();
 include '../includes/toastr.inc.php';
+date_default_timezone_set('Asia/Manila');
+$date = date('Y-m-d H:i:s');
 
 if (isset($_POST['subscribe'])) {
     $user_id = $_SESSION['id'];
@@ -41,9 +43,17 @@ if (isset($_POST['subscribe'])) {
     exit();
 } elseif(isset($_POST['FREETRIAL'])){
     createUser('subscription', 
-                array('user_id','type'),
-                array($_SESSION['id'],'Free'));
-    flash("msg", "success", "Wait for the admin to verify your subscribtion. Thank you!");
+                array('user_id','type','status','date_start','date_expire'),
+                array($_SESSION['id'],'Free','Approve',$date,$expirationDateFormatted));
+    $currentDate = time();
+    $oneWeek = 7 * 24 * 60 * 60;
+    $dateexpire = $currentDate + $oneWeek; 
+    $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
+    
+    updateUser('users',
+            array('id','isSubscribe'),
+            array($_SESSION['id'],'Yes'));
+    flash("msg", "success", "Successfully used free trial.");
     header("Location: ../View/mySubscription.php");
     exit();
 }elseif(isset($_POST['FREETRIAL'])){
