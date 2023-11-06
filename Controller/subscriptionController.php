@@ -42,14 +42,14 @@ if (isset($_POST['subscribe'])) {
     header("Location: ../View/mySubscription.php");
     exit();
 } elseif(isset($_POST['FREETRIAL'])){
-    createUser('subscription', 
-                array('user_id','type','status','date_start','date_expire'),
-                array($_SESSION['id'],'Free','Approve',$date,$expirationDateFormatted));
     $currentDate = time();
     $oneWeek = 7 * 24 * 60 * 60;
     $dateexpire = $currentDate + $oneWeek; 
     $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
-    
+    createUser('subscription', 
+                array('user_id','type','status','date_start','date_expire'),
+                array($_SESSION['id'],'Free','Approve',$date,$expirationDateFormatted));
+
     updateUser('users',
             array('id','isSubscribe'),
             array($_SESSION['id'],'Yes'));
