@@ -61,6 +61,16 @@ if (!empty($_SESSION['id'])) {
                 echo "Invalid file type: $name<br>";
             }
         }
+        
+        $id = $_SESSION['id'];
+        $gName = $_POST['gcash_name'];
+        $gNumber = $_POST['gcash_number'];
+        
+        updateUser(
+                'user_details',
+                array('id', 'gcash_name','gcash_number'),
+                array($id, $gName,$gNumber)
+            );
 
         flash("msg", "success", "Successfully Added");
         header("Location: ../View/myProduct.php");

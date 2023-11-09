@@ -221,12 +221,12 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                         </div>
                         <div style="margin-left:40px;margin-right:40px;">
                             <div class="form-group">
-                                <label for="exampleFormControlInput1">Account Name</label>
+                                <label for="exampleFormControlInput1">Gcash Name</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
                                     value="<?= $admin['gcash_name'] ?>" readonly>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Account Number</label>
+                                <label class="form-label">Gcash Number</label>
                                 <input type="text" class="form-control" value="<?= $admin['gcash_number'] ?>" readonly>
                             </div>
                             <div class="form-group">

@@ -41,6 +41,9 @@ if (!isset($_SESSION['id'])) {
                                     <li class="nav-item">
                                         <a href="myAccount.php" class="nav-link">My Account</a>
                                     </li>
+                                     <li class="nav-item">
+                                        <a href="gcash_info.php" class="nav-link">Gcash Info</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="myProduct.php" class="nav-link">My Product</a>
                                     </li>

@@ -2,7 +2,7 @@
 include('../../Model/db.php');
 include("../Includes/head.includes.php");
 session_start();
-$user = getallrecord('users');
+$user = getallrecord('categories');
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
@@ -48,62 +48,33 @@ if (!isset($_SESSION['admin_id'])) {
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                               <button class="btn btn-info float-end mt-3 mb-3" data-bs-toggle="modal"
+                                                            data-bs-target="#add_modal">Add Category</button>
+                                <table class="table table-bordered mt-5 text-center">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Contact Info</th>
+                                            <th scope="col" style="width:10%">#</th>
+                                            <th scope="col">Category</th>
                                             <th class="text-center" scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
+                                        $count = 0;
                                         while ($user1 = mysqli_fetch_assoc($user)):
-                                            $users = mysqli_fetch_assoc(getrecord('user_details', 'id', $user1['id']));
+                                            $count++;
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <div class="media">
-                                                        <div class="avatar me-2">
-                                                            <img alt="avatar" src="../<?= $users['user_img'] ?>"
-                                                                class="rounded-circle" style="background:white">
-                                                        </div>
-                                                        <div class="media-body align-self-center">
-                                                            <h6 class="mb-0">
-                                                                <?= ucfirst($users['firstname']) . ' ' . ucfirst($users['lastname']) ?>
-                                                            </h6>
-                                                            <span>
-                                                                <?= $user1['email'] ?>
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                    <?=$count?>
                                                 </td>
                                                 <td>
-                                                    <p class="mb-0">
-                                                        Address:
-                                                        <?= $users['address'] ?>
-                                                    </p>
-                                                    <p class="text-success">
-                                                        Contact Number:
-                                                        <?= $users['contact_number'] ?>
-                                                    </p>
+                                                    <?=$user1['category']?>
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="action-btns">
-                                                        <a data-bs-toggle="modal"
-                                                            data-bs-target="#ViewMoreModal<?= $user1['id'] ?>"
-                                                            class="action-btn btn-view bs-tooltip me-2" data-placement="top"
-                                                            title="View More" data-bs-original-title="View">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round" class="feather feather-eye">
-                                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z">
-                                                                </path>
-                                                                <circle cx="12" cy="12" r="3"></circle>
-                                                            </svg>
-                                                        </a>
                                                         <a data-bs-toggle="modal"
                                                             data-bs-target="#EditModal<?= $user1['id'] ?>"
                                                             class="action-btn btn-edit bs-tooltip me-2" title="Edit">
@@ -178,62 +149,23 @@ if (!isset($_SESSION['admin_id'])) {
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="EditModalLabel">View More</h5>
+                                                            <h5 class="modal-title" id="EditModalLabel">Edit Recorrd</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <svg> ... </svg>
                                                             </button>
                                                         </div>
-                                                        <form action="../Controller/userController.php" method="POST">
+                                                        <form action="../Controller/categoryController.php" method="POST">
                                                             <div class="modal-body">
                                                                 <div class="row mb-4">
-                                                                    <input type="hidden" name="user_id"
-                                                                        value="<?= $user1['id'] ?>">
                                                                     <div class="col">
-                                                                        <label for="">Firstname</label>
-                                                                        <input type="text" name="firstname"
+                                                                        <input type="hidden" name="id" value="<?= $user1['id'] ?>">
+                                                                        <label >Category</label>
+                                                                        <input type="text" name="category"
                                                                             class="form-control"
-                                                                            value="<?= $users['firstname'] ?>">
+                                                                            value="<?= $user1['category'] ?>">
                                                                     </div>
-                                                                    <div class="col">
-                                                                        <label for="">Lastname</label>
-                                                                        <input type="text" name="lastname"
-                                                                            class="form-control"
-                                                                            value="<?= $users['lastname'] ?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col">
-                                                                        <label for="">Address</label>
-                                                                        <input type="text" name="address"
-                                                                            class="form-control"
-                                                                            value="<?= $users['address'] ?>">
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <label for="">Contact Number</label>
-                                                                        <input type="text" name="contact"
-                                                                            class="form-control"
-                                                                            value="<?= $users['contact_number'] ?>">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col">
-                                                                        <label for="">Email</label>
-                                                                        <input type="text" name="email" class="form-control"
-                                                                            value="<?= $user1['email'] ?>">
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <label for="">Username</label>
-                                                                        <input type="text" name="username"
-                                                                            class="form-control"
-                                                                            value="<?= $user1['username'] ?>">
-                                                                    </div>
-                                                                    <div class="col">
-                                                                        <label for="">Password</label>
-                                                                        <input type="text" name="password"
-                                                                            class="form-control"
-                                                                            value="<?= $user1['password'] ?>">
-                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -261,11 +193,11 @@ if (!isset($_SESSION['admin_id'])) {
                                                                 <svg> ... </svg>
                                                             </button>
                                                         </div>
-                                                        <form action="../Controller/userController.php" method="POST">
+                                                        <form action="../Controller/categoryController.php" method="POST">
                                                             <div class="modal-body">
                                                                 <p class="modal-text">
                                                                     <center>
-                                                                        <input type="hidden" name="user_id"
+                                                                        <input type="hidden" name="id"
                                                                             value="<?= $user1['id'] ?>">
                                                                         <h4>Are you sure you want to delete this record?
                                                                         </h4>
@@ -296,6 +228,41 @@ if (!isset($_SESSION['admin_id'])) {
             <!--  END CONTENT AREA  -->
         </div>
         <!--  END CONTENT AREA  -->
+         <div class="modal fade" id="add_modal" tabindex="-1"
+            role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="EditModalLabel">Add Record</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <svg> ... </svg>
+                        </button>
+                    </div>
+                    <form action="../Controller/categoryController.php" method="POST">
+                        <div class="modal-body">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label for="">Category</label>
+                                    <input type="text" name="category"
+                                        class="form-control"
+                                        >
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn btn-light-dark"
+                                data-bs-dismiss="modal"><i
+                                    class="flaticon-cancel-12"></i>
+                                Close</button>
+                            <button type="submit" class="btn btn btn-primary"
+                                name="ADD">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- END MAIN CONTAINER -->

@@ -31,6 +31,9 @@ if (!isset($_SESSION['id'])) {
 								    <li class="nav-item">
 								        <a href="myAccount.php" class="nav-link">My Account</a>
 								    </li>
+                                     <li class="nav-item">
+                                        <a href="gcash_info.php" class="nav-link">Gcash Info</a>
+                                    </li>
 								    <li class="nav-item">
 								        <a href="myProduct.php" class="nav-link active">My Product</a>
 								    </li>
@@ -404,123 +407,156 @@ if (!isset($_SESSION['id'])) {
     </div>
 
      <!-- ADD PRODUCT MODAL -->
-    <div class="modal fade" id="addProduct-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog custom-modal add-modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <p>Add Product</p>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true"><i class="icon-close"></i></span>
-                    </button>
-                </div>
-                <form action="../Controller/ProductController.php" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Product Name <span style="color:red">*</span></label>
-                            <input type="text" class="form-control" name="product_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="comment">Descriptions <span style="color:red">*</span></label>
-                            <textarea class="form-control" rows="5" name="description" required></textarea>
-                        </div>
-                        <?php 
-                        $color = sizeOrColor('colors'); 
-                        $size  = sizeOrColor('sizes'); 
-                        $brand = sizeOrColor('brands'); 
-                        $category = sizeOrColor('categories');
-                            ?>
-                            <div class="card-body">
-                                <div id="level-container">
-                                    <div class="row">
-                                        <div class="col-sm-3 col-lg-3">
-                                            <label>Color <span style="color:red">*</span></label>
-                                            <select class="form-control" name="color[]" required>
-                                                <option value="" selected>Select Color</option>
-                                                 
-                                                <?php 
-                                                mysqli_data_seek($color, 0);
-                                                while($c = mysqli_fetch_assoc($color)):?>
-                                                    <option value="<?php echo $c['color_name']?>"><?php echo $c['color_name']?></option>
-                                               <?php endwhile; ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3 col-lg-3">
-                                            <label>Size <span style="color:red">*</span></label>
-                                            <select class="form-control" name="size[]" required>
-                                                <option value="" selected>Select Size</option>
-                                                <?php while($s = mysqli_fetch_assoc($size)):?>
-                                                    <option value="<?php echo $s['size']?>"><?php echo $s['size']?></option>
-                                               <?php endwhile; ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3 col-lg-2">
-                                            <label>Price <span style="color:red">*</span></label>
-                                            <input type="number" class="form-control" name="price[]" required>
-                                        </div>
-                                        <div class="col-sm-3 col-lg-2">
-                                            <label>Stock <span style="color:red">*</span></label>
-                                            <input type="number" class="form-control" name="stock[]" required>
-                                        </div>
+     <form action="../Controller/ProductController.php" method="POST" enctype="multipart/form-data">
+        <div class="modal fade" id="addProduct-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog custom-modal add-modal" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p>Add Product</p>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="icon-close"></i></span>
+                        </button>
+                    </div>
+                    
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Product Name <span style="color:red">*</span></label>
+                                <input type="text" class="form-control" name="product_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Descriptions <span style="color:red">*</span></label>
+                                <textarea class="form-control" rows="5" name="description" required></textarea>
+                            </div>
+                            <?php 
+                            $color = sizeOrColor('colors'); 
+                            $size  = sizeOrColor('sizes'); 
+                            $brand = sizeOrColor('brands'); 
+                            $category = sizeOrColor('categories');
+                                ?>
+                                <div class="card-body">
+                                    <div id="level-container">
+                                        <div class="row">
+                                            <div class="col-sm-3 col-lg-3">
+                                                <label>Color <span style="color:red">*</span></label>
+                                                <select class="form-control" name="color[]" required>
+                                                    <option value="" selected>Select Color</option>
+                                                    
+                                                    <?php 
+                                                    mysqli_data_seek($color, 0);
+                                                    while($c = mysqli_fetch_assoc($color)):?>
+                                                        <option value="<?php echo $c['color_name']?>"><?php echo $c['color_name']?></option>
+                                                <?php endwhile; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 col-lg-3">
+                                                <label>Size <span style="color:red">*</span></label>
+                                                <select class="form-control" name="size[]" required>
+                                                    <option value="" selected>Select Size</option>
+                                                    <?php while($s = mysqli_fetch_assoc($size)):?>
+                                                        <option value="<?php echo $s['size']?>"><?php echo $s['size']?></option>
+                                                <?php endwhile; ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 col-lg-2">
+                                                <label>Price <span style="color:red">*</span></label>
+                                                <input type="number" class="form-control" name="price[]" required>
+                                            </div>
+                                            <div class="col-sm-3 col-lg-2">
+                                                <label>Stock <span style="color:red">*</span></label>
+                                                <input type="number" class="form-control" name="stock[]" required>
+                                            </div>
 
-                                        <div class="col-sm-3 col-lg-2" style="position: relative;top: 33px;left: 57px;">
-                                            <button type="button" class="add" style="background-color: transparent;border: none;"> 
-                                                <i class="fa fa-plus-circle" style="font-size: 31px; color: green;"></i>
-                                            </button>
+                                            <div class="col-sm-3 col-lg-2" style="position: relative;top: 33px;left: 57px;">
+                                                <button type="button" class="add" style="background-color: transparent;border: none;"> 
+                                                    <i class="fa fa-plus-circle" style="font-size: 31px; color: green;"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            <label for="">Category<span style="color:red">*</span></label>
+                            <select class="form-control" name="category" require>
+                                <option value="" selected>Select Category</option>
+                                <?php
+                                mysqli_data_seek($category, 0);
+                                while($c = mysqli_fetch_assoc($category)):?>
+                                    <option value="<?php echo $c['category']?>"><?php echo $c['category']?></option>
+                                <?php endwhile; ?>
+                            </select>
+                            <label>Brand <span style="color:red">*</span></label>
+                        <select class="form-control" name="brand" required>
+                                <option value="" selected>Select Brand</option>
+                                <?php 
+                                mysqli_data_seek($brand, 0);
+                                while($b = mysqli_fetch_assoc($brand)):?>
+                                    <option value="<?php echo $b['brand_name']?>"><?php echo $b['brand_name']?></option>
+                                <?php endwhile; ?>
+                            </select>
+                        
+                            <div class="card-body">
+                                <label>Upload Image<span style="color:red">*</span></label><br>
+                                <input type="file" name="image[]" id="fileInput" multiple required>
+                                <div class="imagePreviews" style="display:flex">
+                                </div>
+                                <div class="error-container"></div>
                             </div>
-                        <label for="">Category<span style="color:red">*</span></label>
-                         <select class="form-control" name="category" require>
-                            <option value="" selected>Select Category</option>
-                            <?php
-                            mysqli_data_seek($category, 0);
-                            while($c = mysqli_fetch_assoc($category)):?>
-                                <option value="<?php echo $c['category']?>"><?php echo $c['category']?></option>
-                            <?php endwhile; ?>
-                        </select>
-                        <label>Brand <span style="color:red">*</span></label>
-                       <select class="form-control" name="brand" required>
-                            <option value="" selected>Select Brand</option>
-                            <?php 
-                            mysqli_data_seek($brand, 0);
-                            while($b = mysqli_fetch_assoc($brand)):?>
-                                <option value="<?php echo $b['brand_name']?>"><?php echo $b['brand_name']?></option>
-                            <?php endwhile; ?>
-                        </select>
-                       
-                        <div class="card-body">
-                            <label>Upload Image<span style="color:red">*</span></label><br>
-                            <input type="file" name="image[]" id="fileInput" multiple required>
-                            <div class="imagePreviews" style="display:flex">
+                            <div class="card-body">
+                                <label>Upload Video (Optional)</label><br>
+                                <input type="file" name="image[]" id="fileInputVideo" multiple>
+                                <div class="videoPreviews" style="display:block">
+                                </div>
+                                <div class="video-container"></div>
                             </div>
-                            <div class="error-container"></div>
+                            
+                            <div class="form-group">
+                                <label for="comment">Additional Information</label>
+                                <textarea class="form-control" rows="5" name="add_info"></textarea>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <label>Upload Video (Optional)</label><br>
-                            <input type="file" name="image[]" id="fileInputVideo" multiple>
-                            <div class="videoPreviews" style="display:block">
-                            </div>
-                            <div class="video-container"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
+                                Close
+                            </button>
+                        <button href="#gcash_info" type="button" data-toggle="modal" class="btn btn-dark products" id="add_product_btn" >ADD</button>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="comment">Additional Information</label>
-                            <textarea class="form-control" rows="5" name="add_info"></textarea>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
-                            Close
-                        </button>
-                       <button type="submit" class="btn btn-dark products" id="add_product_btn"  name="ADDPRODUCT">ADD</button>
-                    </div>
-                       
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="modal fade" id="gcash_info" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header header1">
+                        <h3>Confirm Your Gcash Info</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="icon-close"></i></span>
+                        </button>
+                    </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Gcash Name</label>
+                                <input type="hidden" name="id" value="<?php echo $user['id'] ?>">
+                                <input type="text" class="form-control" name="gcash_name"
+                                    value="<?php echo $user['gcash_name'] ?>">
+                            </div>
+                            <div class="form-group">
+                                <label>Gcash Number</label>
+                                <input type="text" class="form-control" name="gcash_number"
+                                    value="<?php echo $user['gcash_number'] ?>">
+                            </div>
+                        <div class="modal-footer footer1">
+                            <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
+                                No
+                            </button>
+                            <button type="submit" class="btn btn-dark products" name="ADDPRODUCT">Yes</button>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </form>
+
     <?php 
         include("../layouts/jsfile.layout.php");
         include("toastr.php");

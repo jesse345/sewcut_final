@@ -234,7 +234,32 @@ if (isset($_POST['register'])) {
     flash("msg", "success", "Logged out successfully");
     header("Location: ../View/index.php");
     exit();
-}
+} elseif (isset($_POST['UPDATEGCASH'])) {
+    $id = $_POST['id'];
+    $gName = $_POST['gcash_name'];
+    $gNumber = $_POST['gcash_number'];
+    if($gName != '' || $gNumber!= ''){
+        $row = updateUser(
+                'user_details',
+                array('id', 'gcash_name','gcash_number'),
+                array($id, $gName,$gNumber)
+            );
 
+        if($row){
+            flash("msg", "success", "Updated Successfully");
+            header("Location: ../View/gcash_info.php");
+            exit();
+        }else{
+            flash("msg", "error", "Error");
+            header("Location: ../View/gcash_info.php");
+            exit();
+        }
+    }else{
+        flash("msg", "info", "Input Something");
+        header("Location: ../View/gcash_info.php");
+        exit();
+    }
+
+}
 ?>
 
