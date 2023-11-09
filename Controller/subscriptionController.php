@@ -43,19 +43,37 @@ if (isset($_POST['subscribe'])) {
     exit();
 } elseif(isset($_POST['FREETRIAL'])){
     $currentDate = time();
-    $oneWeek = 7 * 24 * 60 * 60;
-    $dateexpire = $currentDate + $oneWeek; 
+    $oneMonth = 1 * 30 * 24 * 60 * 60;
+    $dateexpire = $currentDate + $oneMonth; 
     $expirationDateFormatted = date("Y-m-d H:i:s", $dateexpire);
-    createUser('subscription', 
-                array('user_id','type','status','date_start','date_expire'),
-                array($_SESSION['id'],'Free','Approve',$date,$expirationDateFormatted));
+    $user = mysqli_fetch_assoc(getrecord('users','id',$_SESSION['id']));
+    if($user['isSubscribe'] == 'Yes'){
+        $userExtend = mysqli_fetch_assoc(ExtendSubscription($_SESSION['id']));
+        $newExpireDate = $userExtend['date_expire'] + $expirationDateFormatte;
 
-    updateUser('users',
-            array('id','isSubscribe'),
-            array($_SESSION['id'],'Yes'));
+        updateUser('subscription',
+                array('id','date_expire'),
+                array($userExtend['id'], $newExpireDate));
+
+        createUser('subscription', 
+            array('user_id','type','status','date_start'),
+            array($_SESSION['id'],'Free','Approve',$date));
+        flash("msg", "success", "Successfully used free trial.");
+        header("Location: ../View/mySubscription.php");
+        exit();
+    }else{
+        createUser('subscription', 
+                    array('user_id','type','status','date_start','date_expire'),
+                    array($_SESSION['id'],'Free','Approve',$date,$expirationDateFormatted));
+
+        updateUser('users',
+                array('id','isSubscribe'),
+                array($_SESSION['id'],'Yes'));
+    }
     flash("msg", "success", "Successfully used free trial.");
     header("Location: ../View/mySubscription.php");
     exit();
+
 }elseif(isset($_POST['FREETRIAL'])){
     createUser('subscription', 
                 array('user_id','type'),

@@ -187,5 +187,21 @@ function subscriptionForFree($user_id){
     return $query;
 }
 
+function isUserSubscribe($user_id){
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `users` WHERE `id` = '$user_id' && `isSubscribe` = 'Yes'");
+    disconnect();
+    return $query;
+}
+
+function ExtendSubscription($user_id){
+    global $conn;
+    connect();
+    $query = mysqli_query($conn, "SELECT * FROM `subscription` WHERE `user_id` = '$user_id' GROUP BY id ASC LIMIT 1;");
+    disconnect();
+    return $query;
+}
+
 ?>
 

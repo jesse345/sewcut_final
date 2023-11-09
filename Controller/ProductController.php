@@ -122,26 +122,6 @@ if (!empty($_SESSION['id'])) {
                     array($pde_id[$i], $c, $size[$i], $price[$i], $quantity[$i])
                 );
             }
-            // foreach($color as $i => $c) {
-            //     updateProduct('product_colors',
-            //                 array('id','product_color'),
-            //                 array($color_id[$i],$c));
-            // }
-            // foreach($size as $i => $s) {
-            //     updateProduct('product_sizes',
-            //                 array('id','product_size'),
-            //                 array($size_id[$i],$s));
-            // }
-            // foreach($price as $i => $p) {
-            //     updateProduct('product_prices',
-            //                 array('id','price'),
-            //                 array($price_id[$i],$p));
-            // }
-            // foreach($quantity as $i => $q) {
-            //     updateProduct('product_quantity',
-            //                 array('id','quantity'),
-            //                 array($quanity_id[$i],$q));
-            // }
             $targetDir = "../images/";
             $allowedTypes = ['jpg', 'jpeg', 'png', 'gif', 'mp4', 'avi', 'mov'];
             $img_id = $_POST['image_id'];

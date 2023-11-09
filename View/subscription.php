@@ -48,7 +48,7 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
                         </div>
                         <div class="pricingContent">
                             <ul>
-                                <li><b>1 week Duration</b> </li>
+                                <li><b>1 month Duration</b> </li>
                             </ul>
                         </div>
                         <!-- CONTENT BOX-->
@@ -255,8 +255,7 @@ $admin = mysqli_fetch_assoc(getallrecord('admin'));
             </div>
         </div>
     </div>
-    
-     <!-- DELETE MODAL -->
+
     <div class="modal fade" id="FreeSubscribe" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
