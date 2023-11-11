@@ -67,6 +67,7 @@ if (!isset($_SESSION['id'])) {
                                         <tr>
                                             <th>#</th>
                                             <th>Product Name</th>
+                                            <th>Reference Order</th>
                                             <th>Status</th>
                                             <th>Total Price</th>
                                             <th>Actions</th>
@@ -87,6 +88,9 @@ if (!isset($_SESSION['id'])) {
                                                 </td>
                                                 <td>
                                                     <?= $productDetails['product_name'] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $buyer['reference_order'] ?>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-info">

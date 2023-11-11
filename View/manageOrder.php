@@ -71,6 +71,7 @@ if (!isset($_SESSION['id'])) {
                                         <tr>
                                             <th>Order ID</th>
                                             <th>Order By</th>
+                                            <th>Reference Order</th>
                                             <th>Product Name</th>
                                             <th>Total Price</th>
                                             <th>Actions</th>
@@ -93,6 +94,9 @@ if (!isset($_SESSION['id'])) {
                                                 </td>
                                                 <td>
                                                     <?= ucfirst($orderby['firstname']) . ' ' . ucfirst($orderby['lastname']) ?>
+                                                </td>
+                                                <td>
+                                                    <?= $c['reference_order'] ?>
                                                 </td>
                                                 <td>
                                                     <?= $productDetails['product_name'] ?>

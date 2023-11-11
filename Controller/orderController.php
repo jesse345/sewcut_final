@@ -37,11 +37,13 @@ if (isset($_POST['UPDATESHIPPING'])) {
     // PAYMENT OPTION 
     $payment_type = $_POST['payment-type'];
     echo $payment_type;
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    $reference_number = substr(str_shuffle($characters . time() * rand()), 0, 10);
     // Loop through cart items and insert orders
     foreach ($cartIDs as $i => $cartID) {
         // Create arrays for order and order_details fields and values
-        $order_fields = array('cart_id', 'user_id', 'product_id', 'status', 'seller_id', 'total', 'isAccept', 'isPayed');
-        $order_values = array($cartID, $userID, $productIDs[$i], 'Pending', $seller_id, $subTotal, 'No', 'No');
+        $order_fields = array('cart_id','reference_order','user_id', 'product_id', 'status', 'seller_id', 'total', 'isAccept', 'isPayed');
+        $order_values = array($cartID,$reference_number ,$userID, $productIDs[$i], 'Pending', $seller_id, $subTotal, 'No', 'No');
 
         $order_details_fields = array('id', 'name', 'contact_number', 'shipping_address');
         $order_details_values = array($fullname, $contact_number, $address);
@@ -83,6 +85,27 @@ if (isset($_POST['UPDATESHIPPING'])) {
     $deleteOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
 
     if ($deleteOrder['status'] == 'Pending') {
+        updateUser(
+            'orders',
+            array('id','status'),
+            array($id, 'Disapprove')
+        );
+        // $getOrder = mysqli_fetch_assoc(getrecord('order', 'id', $order_id));
+
+        // $desc = 'Your Order with reference Order of ' . $getOrder['refence_orderr'] . ' was Disapproved';
+
+        // $notif = sendNotif('notification', array('user_id', 'date_send', 'isRead', 'redirect'), array($getOrder['user_id'], $date, 'No', 'myPurchase.php'));
+        // $last_id = mysqli_insert_id($conn);
+        // sendNotif(
+        //     'notification_details',
+        //     array('notification_id', 'title', 'Description'),
+        //     array($last_id, 'Product Order', $desc)
+        // );
+
+
+
+
+
         removeOrder($order_id);
         flash("msg", "success", "Success");
         header("Location: ../View/myPurchase.php");
