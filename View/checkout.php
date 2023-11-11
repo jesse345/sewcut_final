@@ -204,57 +204,57 @@ if (!isset($_SESSION['id'])) {
                                     </table>
                                     <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block PLACE_ORDER"
                                         name="PLACEORDER">PLACE ORDER</button>
-                                    <button type="button" class="btn btn-outline-primary-2 btn-order btn-block PLACE_ORDER_MODAL" style="display:none;"
-                                    name="PLACEORDER">PLACE ORDER</button>
+                                        <button type="button" class="btn btn-outline-primary-2 btn-order btn-block PLACE_ORDER_MODAL" style="display:none;"
+                                        name="PLACEORDER1">PLACE ORDER</button>
 
-                                     <div class="modal fade" id="modal-payment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Gcash Payment</h5>
+                                        <!-- <div class="modal fade" id="modal-payment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Gcash Payment</h5>
+                                                    </div>
+                                                    
+                                                        <div class="modal-body">
+                                                            <div>
+                                                                <img src="https://mcdn.pybydl.com/lco/assets/payment/logo/gcash-353da48c3e4788d6e671a2aa05f783ea08cb6f8547713212ca7d6daf636e959c.svg"
+                                                                    class="mx-auto d-block" style="width:50%;height:150px;" alt="">
+                                                            </div>
+                                                            <div style="margin-left:40px;margin-right:40px;">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlInput1">Gcash Name</label>
+                                                                    <input type="text" class="form-control" id="exampleFormControlInput1"
+                                                                        value="<?=$seller['gcash_name'] ?>" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Gcash Number</label>
+                                                                    <input type="text" class="form-control" value="<?= $seller['gcash_number'] ?>" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Amount</label>
+                                                                    <input type="text" class="form-control" name="amount"  value="<?= $subTotal ?>" readonly>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Upload Receipt</label><br>
+                                                                    <input type="file" name="image" id="image" required>
+                                                                </div>
+                                                                <img id="image-preview" src="" alt="Image Preview"
+                                                                    style="max-width: 100%; max-height: 200px;display:none;">
+
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Reference No</label>
+                                                                    <input type="text" class="form-control" name="ref" id="reference-no"
+                                                                        placeholder="Enter Reference No" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary" >Pay Anad Place Order</button>
+                                                        </div>
+                                                    
                                                 </div>
-                                                <form method="post" action="../Controller/subscriptionController.php" enctype="multipart/form-data">
-                                                    <div class="modal-body">
-                                                        <div>
-                                                            <img src="https://mcdn.pybydl.com/lco/assets/payment/logo/gcash-353da48c3e4788d6e671a2aa05f783ea08cb6f8547713212ca7d6daf636e959c.svg"
-                                                                class="mx-auto d-block" style="width:50%;height:150px;" alt="">
-                                                        </div>
-                                                        <div style="margin-left:40px;margin-right:40px;">
-                                                            <div class="form-group">
-                                                                <label for="exampleFormControlInput1">Gcash Name</label>
-                                                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                                                    value="<?=$seller['gcash_name'] ?>" readonly>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Gcash Number</label>
-                                                                <input type="text" class="form-control" value="<?= $seller['gcash_number'] ?>" readonly>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Amount</label>
-                                                                <input type="text" class="form-control" name="amount"  value="<?= $subTotal ?>" readonly>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Upload Receipt</label><br>
-                                                                <input type="file" name="image" id="image" required>
-                                                            </div>
-                                                            <img id="image-preview" src="" alt="Image Preview"
-                                                                style="max-width: 100%; max-height: 200px;display:none;">
-
-                                                            <div class="form-group">
-                                                                <label class="form-label">Reference No</label>
-                                                                <input type="text" class="form-control" name="ref" id="reference-no"
-                                                                    placeholder="Enter Reference No" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary" name="subscribe" id="subscribe">Subscribe</button>
-                                                    </div>
-                                                </form>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </div> -->
                                     </form>
                                 </div><!-- End .summary -->
                             </aside><!-- End .col-lg-3 -->
@@ -313,46 +313,92 @@ if (!isset($_SESSION['id'])) {
     include("toastr.php");
     ?>
   <script>
-       $('.payment_type').on('click', function(){
-            var value = $(this).val();
-            if(value == 'COD'){
-                $('.PLACE_ORDER').show();
-                $('.PLACE_ORDER_MODAL').hide();
-            } else {
-                $('.PLACE_ORDER').hide();
-                $('.PLACE_ORDER_MODAL').show();
-            }
-        });
-        $(".PLACE_ORDER_MODAL").on("click", function () {
-             $("#modal-payment").modal("show");
-        });
+    //    $('.payment_type').on('click', function(){
+    //         var value = $(this).val();
+    //         if(value == 'COD'){
+    //             $('.PLACE_ORDER').show();
+    //             $('.PLACE_ORDER_MODAL').hide();
+    //         } else {
+    //             $('.PLACE_ORDER').hide();
+    //             $('.PLACE_ORDER_MODAL').show();
+    //         }
+    //     });
+        // $(".PLACE_ORDER_MODAL").on("click", function () {
+        //      $("#modal-payment").modal("show");
+        // });
+        
+        // $(".PLACE_ORDER").on("click", function () {
+        //     var cart_id = $("#cart_id\\[\\]").val();
+        //     alert(cart_id);
+        //     var product_id
+        //     var subTotal
+        //     var seller_id
+        //     var fullname
+        //     var contact_number
+        //     var address
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "../Controller/orderController.php",
+        //         data: {
+                    
+        //         },
+        //         success: function (response) {
+        //             if (response === "change") {
+        //             alert("Password Change Succesfully!");
+        //             window.location.reload();
+        //             }
+        //             if (response == "Incorrect") {
+        //             alert("Incorrect Password");
+        //             }
+
+        //             if (response == "Not Match") {
+        //             alert("Password Didn't Match");
+        //             }
+
+        //             console.log(response);
+        //         },
+        //         error: function () {
+        //             alert("Error logging in");
+        //         },
+        //         });
+        // });
+
+
+
+
+
+
+
+
+
+
         const fileInput = $("#image");
 
-    // Get a reference to the image preview element
-    const imagePreview = $("#image-preview");
+        // Get a reference to the image preview element
+        const imagePreview = $("#image-preview");
 
-    // Add an event listener to the file input
-    fileInput.change(function () {
-        // Check if a file is selected
-        if (fileInput[0].files.length > 0) {
-            const file = fileInput[0].files[0];
-            const reader = new FileReader();
+        // Add an event listener to the file input
+        fileInput.change(function () {
+            // Check if a file is selected
+            if (fileInput[0].files.length > 0) {
+                const file = fileInput[0].files[0];
+                const reader = new FileReader();
 
-            // Set up a FileReader to read the selected file
-            reader.onload = function (e) {
-                // Set the source of the image preview to the selected file
-                imagePreview.attr("src", e.target.result);
-                imagePreview.show(); // Display the image preview
-            };
+                // Set up a FileReader to read the selected file
+                reader.onload = function (e) {
+                    // Set the source of the image preview to the selected file
+                    imagePreview.attr("src", e.target.result);
+                    imagePreview.show(); // Display the image preview
+                };
 
-            // Read the file as a data URL, triggering the onload event
-            reader.readAsDataURL(file);
-        } else {
-            // If no file is selected, clear the image preview and hide it
-            imagePreview.attr("src", "");
-            imagePreview.hide();
-        }
-    });
+                // Read the file as a data URL, triggering the onload event
+                reader.readAsDataURL(file);
+            } else {
+                // If no file is selected, clear the image preview and hide it
+                imagePreview.attr("src", "");
+                imagePreview.hide();
+            }
+        });
     </script>
 </body>
 

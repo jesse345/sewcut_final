@@ -34,6 +34,9 @@ if (isset($_POST['UPDATESHIPPING'])) {
     $contact_number = $_POST['contact_number'];
     $address = $_POST['address'];
 
+    // PAYMENT OPTION 
+    $payment_type = $_POST['payment-type'];
+    echo $payment_type;
     // Loop through cart items and insert orders
     foreach ($cartIDs as $i => $cartID) {
         // Create arrays for order and order_details fields and values
@@ -65,8 +68,11 @@ if (isset($_POST['UPDATESHIPPING'])) {
                 array('notification_id', 'title', 'Description'),
                 array($last_id, 'Product Order', $desc)
             );
-            header("location:../View/myPurchase.php");
-
+            if($payment_type == 'COD'){
+                header("location:../View/myPurchase.php");
+            }else{
+                header("location:../View/payment.php");
+            }
         } else {
             echo "Order placement failed!";
         }
