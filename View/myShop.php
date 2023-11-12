@@ -73,10 +73,10 @@ if (!isset($_SESSION['id'])) {
                                 </ul>
                             </aside>
                             <div class="col-10">
-                                <?php $user = getShop($_SESSION['id']);
-                                $shop = mysqli_fetch_assoc($user);
-                                if ($user && mysqli_num_rows($user) == 0) { ?>
-                                    <a href="#createShop-modal" data-toggle="modal" class="btn btn-dark">Create Shop</a>
+                                <?php $user1 = getShop($_SESSION['id']);
+                                $shop = mysqli_fetch_assoc($user1);
+                                if ($user && mysqli_num_rows($user1) == 0) { ?>
+                                    <a href="#create_shop" data-toggle="modal" class="btn btn-dark">Create Shop</a>
                                 <?php } else { ?>
                                     <div class="page-header text-center"
                                         style="background-image: url('../assets/images/backgrounds/login-bg.jpg')">
@@ -89,7 +89,14 @@ if (!isset($_SESSION['id'])) {
                                             </h1>
                                         </div>
                                     </div>
-                                    <a href="#addProduct-modal" data-toggle="modal" class="btn btn-dark float-right" style="margin-top: 5px;">Add Product</a>
+                                    <?php 
+                                    if($user['gcash_name'] == '' || $user['gcash_number'] == ''){?>
+                                        <form action="../Controller/shopController.php" method="POST">
+                                            <button name="BINDGCASH" class="btn btn-dark float-right" style="margin-top: 5px;">Add Product</button>
+                                        </form>
+                                    <?php }else{ ?>
+                                        <a href="#addProduct-modal" data-toggle="modal" class="btn btn-dark float-right" style="margin-top: 5px;">Add Product</a>
+                                    <?php } ?>
                                      <table class="table table-hover text-center mt-5">
                                     <thead class="thead-dark">
                                         <tr>
@@ -437,6 +444,36 @@ if (!isset($_SESSION['id'])) {
         </main>
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
+    <div class="modal fade" id="create_shop" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Create Shop</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger products" data-dismiss="modal" aria-label="Close">
+                        No
+                    </button>
+                    <button type="submit" class="btn btn-dark products" name="ADDPRODUCT">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
      <!-- ADD PRODUCT MODAL -->
      <form action="../Controller/ProductController.php" method="POST" enctype="multipart/form-data">
         <div class="modal fade" id="addProduct-modal" tabindex="-1" role="dialog" aria-hidden="true">

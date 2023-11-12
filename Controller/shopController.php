@@ -35,4 +35,8 @@ if (isset($_POST['CREATESHOP'])) {
     $v1 = $_POST['lats'];
     $v2 = $_POST['longs'];
     header("location: ../View/nearestShop.php?lat=$v1&long=$v2");
+} elseif (isset($_POST['BINDGCASH'])) {
+    flash("msg", "success", "Set Up Gcash Details First");
+    header("Location: ../View/gcash_info.php");
+    exit();
 }

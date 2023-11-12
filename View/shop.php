@@ -14,6 +14,7 @@ if (!isset($_SESSION['id'])) {
 <head>
 	<?php include("../layouts/head.layout.php") ?>
 	<title>My Product</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="getLocation()">
@@ -42,18 +43,16 @@ if (!isset($_SESSION['id'])) {
 			</nav>
 			<?php $shop = displayShop();
 			while ($row = mysqli_fetch_array($shop)): ?>
-				<a href="storeShop.php?shop_id=<?= $row['id'] ?>">
-					<div class="page-header text-center mb-5"
-						style="margin-left:250px;margin-right:250px;background-image: url('../assets/images/backgrounds/login-bg.jpg')">
-						<div class="container">
-							<h1 class="page-title" style="color:#000;font-size:5rem!important;font-weight:500;">
+					<div class="container">
+						<div class="page-header text-center mb-5" style="background-image: url('../assets/images/backgrounds/login-bg.jpg')">
+							<h1 class="page-title mb-5" style="color:#000; font-size:5rem!important; font-weight:500;">
 								<?= $row['shop_name'] ?><span style="color:#26180b;">
 									<?= $row['address'] ?>
 								</span>
 							</h1>
+							<button class="btn btn-info"><a href="storeShop.php?shop_id=<?= $row['id'] ?>" class="text-white"> Visit Shop </a></button>
 						</div>
 					</div>
-				</a>
 			<?php endwhile; ?>
 		</main>
 		<br>
