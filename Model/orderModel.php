@@ -44,6 +44,7 @@ function removeOrder($order_id)
     connect();
     mysqli_query($conn, "DELETE FROM `orders` WHERE `id`= '$order_id' ");
     mysqli_query($conn, "DELETE FROM `order_details` WHERE `id`= '$order_id' ");
+    mysqli_query($conn, "DELETE FROM `order_payments` WHERE `order_id`= '$order_id' ");
     disconnect();
 }
 
@@ -70,7 +71,7 @@ function getOrderSeller($table, $value)
 {
     global $conn;
     connect();
-    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `seller_id` = '$value'");
+    $query = mysqli_query($conn, "SELECT * FROM `$table` WHERE `seller_id` = '$value' AND `status` != 'DisApprove'");
     disconnect();
     return $query;
 }

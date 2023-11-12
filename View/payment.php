@@ -1,6 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
+error_reporting(0);
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
@@ -23,9 +24,9 @@ if (!isset($_SESSION['id'])) {
 
 <body>
     <?php
+    $totalPayment = 0;
     $user = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
-    $o = getOrderbyID('orders', $_GET['order_id']);
-    $order = mysqli_fetch_assoc($o);
+    $order = mysqli_fetch_assoc(getrecord('orders', 'reference_order', $_GET['reference_order']));
     $seller = mysqli_fetch_assoc(getrecord('user_details', 'id', $order['seller_id']));
     ?>
     <div class="page-wrapper">
@@ -59,9 +60,16 @@ if (!isset($_SESSION['id'])) {
                     </div>
                     <div class="form-group">
                         <label for="email">Total Amount</label>
-                        <input type="hidden" name="order_id" value="<?= $_GET['order_id'] ?>">
-                        <input type="hidden" name="user_id" value="<?= $_SESSION['id'] ?>">
-                        <input type="text" class="form-control" name="total" value="<?= $order['total'] ?>" readonly>
+                        <?php 
+                        mysqli_data_seek($order, 0);
+                        while($t = mysqli_fetch_assoc($order)):
+                            $cart = mysqli_fetch_assoc(getrecord('carts', 'id', $t['cart_id']));
+                            $totalPayment += $cart['total'];
+                            ?>
+                            <input type="hidden" name="reference_order[]" value="<?= $_GET['reference_order'] ?>">
+                            <input type="hidden" name="total[]" value="<?= $cart['total'] ?>">
+                        <?php endwhile; ?>
+                            <input type="text" class="form-control" name="sub-total" value="<?=$totalPayment?>" readonly>
                     </div>
                     <div class="form-group">
                         <input type="file" name="image" id="imageInput" accept="image/*" required>

@@ -74,6 +74,7 @@ if (!isset($_SESSION['id'])) {
                                             <th>Reference Order</th>
                                             <th>Product Name</th>
                                             <th>Total Price</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -102,16 +103,36 @@ if (!isset($_SESSION['id'])) {
                                                     <?= $productDetails['product_name'] ?>
                                                 </td>
                                                 <td>
-                                                    <?= number_format($c['total'], 2) ?>
+                                                    <?= number_format($cart['total'], 2) ?>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-info" href="#viewmore-Modal<?php echo $c['id'] ?>"
-                                                        data-toggle="modal">View
-                                                        More</a>
-                                                    <a href="chat.php?user=<?php echo $c['user_id'] ?>"
-                                                        class="btn btn-info">Chat Buyer</a>
-                                                    <button class="btn btn-success">Approve</button>
-                                                    <button class="btn btn-danger">Disapprove</button>
+                                                    <button class="btn btn-warning"><?= $c['status'] ?></button>
+                                                </td>
+                                                <td>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        More Actions
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="btn btn-info dropdown-item" href="#viewmore-Modal<?php echo $c['id'] ?>"
+                                                        data-toggle="modal">View More
+                                                        </a>
+                                                        <form action="../Controller/orderController.php" method="POST">
+                                                            <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
+                                                            <button class="btn btn-success dropdown-item" id="btn_Approve" name="APPROVE">Approve</button>
+                                                        </form>
+                                                        <form action="../Controller/orderController.php" method="POST">
+                                                            <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
+                                                            <button type="submit" name="DISAPPROVED" class="btn btn-danger btn_Disapprove dropdown-item" data-id="<?php echo $c['id'] ?>" name="DISAPPROVE">Disapprove</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <?php if($c['status'] == 'Approve'){?>
+                                                    <form action="../Controller/orderController.php" method="POST">
+                                                        <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
+                                                        <button class="btn btn-success mt-1" name="SHIP_PRODUCT">Ship Product</button>
+                                                    </form>  
+                                                <?php } ?>
                                                 </td>
                                             </tr>
                                             <!-- VIEW MORE MODAL -->
@@ -166,6 +187,13 @@ if (!isset($_SESSION['id'])) {
                                                                 <input type="text" class="form-control"
                                                                     value="<?= $shippingInfo['address'] ?>" readonly>
                                                             </div>
+                                                            <hr>
+                                                            <center>
+                                                                <b>PROOF OF PAYMENT</b>
+                                                            </center>
+                                                            <?php if($order_payments['receipt_image'] != ''){?>
+                                                                <img src="<?=$order_payments['receipt_image']?>" alt="" style="width:80%;height:250px;">
+                                                            <?php } ?>
 
                                                         </div>
                                                         <div class="modal-footer">
@@ -188,10 +216,33 @@ if (!isset($_SESSION['id'])) {
         </main>
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
-    <?php
-    include("../layouts/jsfile.layout.php");
-    include("toastr.php");
+    <?php 
+        include("../layouts/jsfile.layout.php");
+        include("toastr.php");
     ?>
+    <!-- <script>
+        $(".btn_Disapprove").click(function () {
+            var order_id = $(this).data("id");
+            
+            $.ajax({
+                type: "POST",
+                url: "../Controller/orderController.php",
+                data: {
+                    DISAPPROVED: true,
+                    order_id: order_id
+                },
+                success: function (response) {
+                    console.log(response);
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Handle any AJAX errors here
+                    console.error("AJAX error:", error);
+                }
+            });
+			
+		});
+    </script> -->
 </body>
 
 </html>

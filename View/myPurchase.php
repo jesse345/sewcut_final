@@ -80,6 +80,7 @@ if (!isset($_SESSION['id'])) {
                                         while ($buyer = mysqli_fetch_assoc($a)):
                                             $productDetails = mysqli_fetch_assoc(displayDetails('product_details', 'id', $buyer['product_id']));
                                             $cart = mysqli_fetch_assoc(displayDetails('carts', 'id', $buyer['cart_id']));
+                                            $order_payment = mysqli_fetch_assoc(getrecord('order_payments','order_id',$buyer['id']));
                                             $count++;
                                             ?>
                                             <tr>
@@ -98,7 +99,7 @@ if (!isset($_SESSION['id'])) {
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <?= $buyer['total'] ?>
+                                                    <?= $cart['total'] ?>
                                                 </td>
                                                 <td>
                                                     <form action="../Controller/orderController.php" method="POST">
@@ -107,8 +108,13 @@ if (!isset($_SESSION['id'])) {
                                                         <a href="chat.php?user=<?php echo $buyer['seller_id']?>" class="btn btn-primary">Chat Seller</a>
                                                         <input type="hidden" value="<?php echo $buyer['id'] ?>"
                                                             name="order_id">
-                                                        <button type="submit" name="CANCELORDER"
-                                                            class="btn btn-danger">Cancel Order</button>
+                                                        <?php if ($buyer['status'] == 'Pending') { ?>
+                                                            <button type="submit" name="CANCELORDER" class="btn btn-danger">Cancel Order</button>
+                                                        <?php } elseif ($buyer['status'] == 'DisApprove') { ?>
+                                                            <button type="submit" name="DELETEORDER" class="btn btn-danger">Delete Order</button>
+                                                        <?php } elseif ($buyer['status'] == 'Shipped') { ?>
+                                                            <button type="submit" name="CANCELORDER" class="btn btn-danger">Received</button>
+                                                        <?php } ?>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -145,6 +151,11 @@ if (!isset($_SESSION['id'])) {
                                                                 <input type="text" class="form-control"
                                                                     value="<?= $cart['color'] ?>" readonly>
                                                             </div>
+                                                            <hr>
+                                                            <?php if($order_payment['receipt_image'] != ''){?>
+                                                                <label>PROOF OF PAYMENT</label>
+                                                                <img src="<?=$order_payment['receipt_image']?>" alt="" style="width:80%;height:250px;">
+                                                            <?php } ?>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-danger products"
@@ -166,7 +177,7 @@ if (!isset($_SESSION['id'])) {
         </main>
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
-    <?php
+     <?php
     include("../layouts/jsfile.layout.php");
     include("toastr.php");
     ?>
