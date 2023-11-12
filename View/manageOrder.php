@@ -1,6 +1,7 @@
 <?php
 include("../Model/db.php");
 session_start();
+error_reporting(0);
 
 if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
@@ -81,6 +82,7 @@ if (!isset($_SESSION['id'])) {
                                     <tbody>
                                         <?php
                                         $b = getOrderSeller('orders', $_SESSION['id']);
+                                        $totalIncome = 0;
                                         while ($c = mysqli_fetch_assoc($b)):
                                             $orderby = mysqli_fetch_assoc(getrecord('user_details', 'id', $c['user_id']));
                                             $order_payments = mysqli_fetch_assoc(getrecord('order_payments', 'order_id', $c['id']));
@@ -88,6 +90,9 @@ if (!isset($_SESSION['id'])) {
                                             $cart = mysqli_fetch_assoc(displayDetails('carts', 'id', $c['cart_id']));
                                             $shippingInfo = mysqli_fetch_assoc(getrecord('shipping_info', 'user_id', $c['user_id']));
                                             $count++;
+                                            if($c['status'] == 'Received'){
+                                                $totalIncome += $cart['total'];
+                                            }
                                             ?>
                                             <tr>
                                                 <td>
@@ -117,14 +122,17 @@ if (!isset($_SESSION['id'])) {
                                                         <a class="btn btn-info dropdown-item" href="#viewmore-Modal<?php echo $c['id'] ?>"
                                                         data-toggle="modal">View More
                                                         </a>
-                                                        <form action="../Controller/orderController.php" method="POST">
-                                                            <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
-                                                            <button class="btn btn-success dropdown-item" id="btn_Approve" name="APPROVE">Approve</button>
-                                                        </form>
-                                                        <form action="../Controller/orderController.php" method="POST">
-                                                            <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
-                                                            <button type="submit" name="DISAPPROVED" class="btn btn-danger btn_Disapprove dropdown-item" data-id="<?php echo $c['id'] ?>" name="DISAPPROVE">Disapprove</button>
-                                                        </form>
+                                                            <a href="chat.php?user=<?php echo $c['user_id']?>" class="btn dropdown-item">Chat Seller</a>
+                                                        <?php if($c['status'] != 'Approve' && $c['status'] != 'Shipped' && $c['status'] != 'Received'){?>
+                                                            <form action="../Controller/orderController.php" method="POST">
+                                                                <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
+                                                                <button class="btn btn-success dropdown-item" id="btn_Approve" name="APPROVE">Approve</button>
+                                                            </form>
+                                                            <form action="../Controller/orderController.php" method="POST">
+                                                                <input type="hidden" name="order_id" value="<?php echo $c['id'] ?>">
+                                                                <button type="submit" name="DISAPPROVED" class="btn btn-danger btn_Disapprove dropdown-item" data-id="<?php echo $c['id'] ?>" name="DISAPPROVE">Disapprove</button>
+                                                            </form>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                                 <?php if($c['status'] == 'Approve'){?>
@@ -206,6 +214,13 @@ if (!isset($_SESSION['id'])) {
                                                 </div>
                                             </div>
                                         <?php endwhile; ?>
+                                        <tr>
+                                            <td colspan="5"></td>
+                                            <td>Total Income:</td>
+                                            <td>
+                                                <b>P <?=$totalIncome?></b>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

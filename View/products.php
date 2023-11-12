@@ -90,12 +90,7 @@ if (!isset($_SESSION['id'])) {
                                                 P<?php echo minPrice($products['id'])['price']?> - P<?php echo maxPrice($products['id'])['price']?>
                                                 
                                             </div><!-- End .product-price -->
-                                            <div class="ratings-container">
-                                                <div class="ratings">
-                                                    <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                                </div><!-- End .ratings -->
-                                                <span class="ratings-text">( 11 Reviews )</span>
-                                            </div><!-- End .rating-container -->
+                                            
                                         </div><!-- End .product-body -->
                                     </div><!-- End .product -->
                                 </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->

@@ -5,14 +5,7 @@
                 <div class="col-sm-6 col-lg-3">
                     <div class="widget widget-about">
                         <h4 class="widget-title">about sewcut</h4><!-- End .widget-title -->
-                        <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
-
-                        <div class="social-icons">
-                            <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
-                            <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
-                            <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
-                            <a href="#" class="social-icon" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
-                        </div><!-- End .soial-icons -->
+                        <a>A web platform for tailors/<br> dressmakers and clothing needs.</a>
                     </div><!-- End .widget about-widget -->
                 </div><!-- End .col-sm-6 col-lg-3 -->
 
@@ -22,7 +15,7 @@
 
                         <ul class="widget-list">
                             <li><a href="about.html">About Sewcut</a></li>
-                            <li><a href="#">How to shop on Sewcuta</a></li>
+                            <li><a href="#">How to shop on Sewcut</a></li>
                             <li><a href="#">FAQ</a></li>
                             <li><a href="contact.html">Contact us</a></li>
                             <li><a href="login.html">Log in</a></li>
@@ -51,7 +44,7 @@
 
                         <ul class="widget-list">
                             <li><a href="#">Sign In</a></li>
-                            <li><a href="cart.html">View Cart</a></li>
+                            <li><a href="#">View Cart</a></li>
                             <li><a href="#">My Wishlist</a></li>
                             <li><a href="#">Track My Order</a></li>
                             <li><a href="#">Help</a></li>

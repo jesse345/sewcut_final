@@ -22,6 +22,8 @@ include("notificationModel.php");
 
 include("shopModel.php");
 
+include("FeedbackModel.php");
+
 function disconnect()
 {
     global $conn;

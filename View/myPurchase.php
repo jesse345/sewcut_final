@@ -14,8 +14,62 @@ if (!isset($_SESSION['id'])) {
 <head>
     <?php include("../layouts/head.layout.php") ?>
     <title>My Account</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
 
+    .rating > input {
+        display: none;
+    }
+
+    .rating > label {
+        position: relative;
+        width: 1em;
+        font-size: 3rem;
+        color: #007bff;
+        cursor: pointer;
+    }
+
+    .rating > label::before {
+        content: "\2605";
+        position: absolute;
+        opacity: 0;
+    }
+
+    .rating > label:hover:before,
+    .rating > label:hover ~ label:before {
+        opacity: 1 !important;
+    }
+
+    .rating > input:checked ~ label:before {
+        opacity: 1;
+    }
+
+    .rating:hover > input:checked ~ label:before {
+        opacity: 0.4;
+    }
+    .ui-w-40 {
+        width: 40px !important;
+        height: auto;
+    }
+
+    .ui-product-color {
+        display: inline-block;
+        overflow: hidden;
+        margin: 0.144em;
+        width: 0.875rem;
+        height: 0.875rem;
+        border-radius: 10rem;
+        -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset;
+        vertical-align: middle;
+    }
+</style>
 <body>
     <?php
     $user = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
@@ -94,9 +148,15 @@ if (!isset($_SESSION['id'])) {
                                                     <?= $buyer['reference_order'] ?>
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-info">
+                                                    <?php if($buyer['status'] == 'DisApprove'){ ?>
+                                                    <button class="btn btn-danger">
                                                         <?= $buyer['status'] ?>
                                                     </button>
+                                                    <?php }else{ ?>
+                                                        <button class="btn btn-info">
+                                                            <?= $buyer['status'] ?>
+                                                        </button>
+                                                    <?php } ?>
                                                 </td>
                                                 <td>
                                                     <?= $cart['total'] ?>
@@ -113,7 +173,17 @@ if (!isset($_SESSION['id'])) {
                                                         <?php } elseif ($buyer['status'] == 'DisApprove') { ?>
                                                             <button type="submit" name="DELETEORDER" class="btn btn-danger">Delete Order</button>
                                                         <?php } elseif ($buyer['status'] == 'Shipped') { ?>
-                                                            <button type="submit" name="CANCELORDER" class="btn btn-danger">Received</button>
+                                                            <button type="submit" name="RECEIVED" class="btn btn-warning">Receive Product</button>
+                                                        <?php } elseif ($buyer['status'] == 'Received') { ?>
+                                                            <button type="button" href="#rate-Modal<?php echo $buyer['id'] ?>"
+                                                            data-toggle="modal" class="btn btn-warning">
+                                                                    <?php
+                                                                        $check = mysqli_fetch_assoc(userProductReviews($_SESSION['id'], $buyer['product_id'],$buyer['id']));
+
+                                                                        echo $check > 0 ? "View your review" : " Leave Review";
+                                                                    ?>
+                                                                
+                                                            </button>
                                                         <?php } ?>
                                                     </form>
                                                 </td>
@@ -166,6 +236,73 @@ if (!isset($_SESSION['id'])) {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal fade" id="rate-Modal<?php echo $buyer['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel"><?php echo $productDetails['product_name'] . " Product Review" ?></h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="../Controller/FeedbackController.php?product_id=<?php echo $buyer['product_id'] ?>" method="POST">
+                                                                <input type="hidden" name="order_id" value="<?=$buyer['id']?>">
+                                                                <div class="form-group">
+                                                                    <label for="rating">Rate the product *</label>
+                                                                    <div class="d-flex">
+                                                                        <div class="text-primary rating">
+
+                                                                            
+                                                                            <?php
+                                                                            
+                                                                            if ($check > 0) {
+                                                                                for ($j = 0; $j < $check['rate']; $j++) {
+                                                                                ?>
+                                                                                    <i class="fa fa-star-o" style="font-size:24px"></i>
+                                                                                <?php }
+                                                                                
+                                                                            } else {
+                                                                                ?>
+                                                                                <input type="radio" name="rating" value="5" id="5" required>
+                                                                                <label for="5">☆</label>
+                                                                                <input type="radio" name="rating" value="4" id="4" required>
+                                                                                <label for="4">☆</label>
+                                                                                <input type="radio" name="rating" value="3" id="3" required>
+                                                                                <label for="3">☆</label>
+                                                                                <input type="radio" name="rating" value="2" id="2" required>
+                                                                                <label for="2">☆</label>
+                                                                                <input type="radio" name="rating" value="1" id="1" required>
+                                                                                <label for="1">☆</label>
+                                                                            <?php } ?>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="message">Your Review *</label>
+                                                                    <?php
+                                                                    if ($check > 0) {
+                                                                    ?>
+                                                                        <textarea id="message" cols="30" rows="5" class="form-control" name="feedback" required disabled><?php echo $check['description'] ?></textarea>
+                                                                    <?php } else { ?>
+                                                                        <textarea id="message" cols="30" rows="5" class="form-control" name="feedback" required></textarea>
+
+                                                                    <?php } ?>
+                                                                </div>
+                                                                <div class="form-group mb-0">
+                                                                    <?php
+                                                                    if ($check <= 0) {
+                                                                    ?>
+                                                                        <input type="submit" name="REVIEW" value="Leave Your Review" class="btn btn-info px-3 float-right">
+                                                                    <?php } ?>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         <?php endwhile; ?>
                                     </tbody>
                                 </table>
@@ -177,7 +314,7 @@ if (!isset($_SESSION['id'])) {
         </main>
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
-     <?php
+    <?php
     include("../layouts/jsfile.layout.php");
     include("toastr.php");
     ?>

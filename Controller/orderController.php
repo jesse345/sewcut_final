@@ -36,7 +36,6 @@ if (isset($_POST['UPDATESHIPPING'])) {
 
     // PAYMENT OPTION 
     $payment_type = $_POST['payment-type'];
-    echo $payment_type;
     $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     $reference_number = substr(str_shuffle($characters . time() * rand()), 0, 20);
     // Loop through cart items and insert orders
@@ -109,6 +108,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
     $reference_order = $_POST['reference_order'];
     $total = $_POST['total'];
     $reference_number = $_POST['reference_number'];
+    $order_id = $_POST['order_id'];
 
     $targetDir = "../images/";
     $target_file = $targetDir . basename($_FILES["image"]["name"]);
@@ -117,20 +117,17 @@ if (isset($_POST['UPDATESHIPPING'])) {
 
     if ($check !== false) {
         move_uploaded_file($_FILES['image']['tmp_name'], $target_file);
-        
-        $order_ids = array();
-        $a = getrecord('orders', 'reference_order', $reference_order[0]);
-        while ($order = mysqli_fetch_assoc($a)) {
-             $order_ids[] = $order['id']; 
-        }
 
+       
         foreach ($reference_order as $r => $reference) {
             createUser(
                 'order_payments',
                 array('order_id', 'user_id', 'reference_no', 'receipt_image', 'amount'),
-                array($order_ids[$r], $_SESSION['id'], $reference, $target_file, $total[$r])
+                array($order_id[$r], $_SESSION['id'], $reference_number, $target_file, $total[$r])
             );
-            updateUser('orders', array('id', 'isPayed'), array($order_ids[$r], 'Yes'));
+
+            // Update the order to mark it as paid
+            updateUser('orders', array('id', 'isPayed'), array($order_id[$r], 'Yes'));
         }
 
         flash("msg", "success", "Successfully Paid");
@@ -141,7 +138,7 @@ if (isset($_POST['UPDATESHIPPING'])) {
         header("Location: ../View/payment.php");
         exit();
     }
-} elseif (isset($_POST['DISAPPROVED'])){
+} elseif (isset($_POST['DISAPPROVED'])) {
     $order_id = $_POST['order_id'];
     $getOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
     if($getOrder){
@@ -165,12 +162,12 @@ if (isset($_POST['UPDATESHIPPING'])) {
         header("Location: ../View/manageOrder.php");
         exit();
     }
-} elseif (isset($_POST['APPROVE'])){
+} elseif (isset($_POST['APPROVE'])) {
     $order_id = $_POST['order_id'];
     $getOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
 
     if($getOrder){
-        updateUser('orders', array('id', 'status','isAccept'), array($order_id, 'Approve','Yes'));
+        updateUser('orders', array('id', 'status','isAccept'), array($order_id, 'Approve','No'));
 
         $desc = 'Your Order with reference Order of ' . $getOrder['reference_order'] . ' was Approved';
         $notif = sendNotif('notification', 
@@ -190,12 +187,16 @@ if (isset($_POST['UPDATESHIPPING'])) {
         header("Location: ../View/manageOrder.php");
         exit();
     }
-} elseif (isset($_POST['SHIP_PRODUCT'])){
+} elseif (isset($_POST['SHIP_PRODUCT'])) {
     $order_id = $_POST['order_id'];
     $getOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
+    $cart = mysqli_fetch_assoc(getrecord('carts', 'id', $getOrder['cart_id']));
+    $product_details_etc = mysqli_fetch_assoc(getrecord('product_details_etc', 'product_id', $getOrder['product_id']));
+    $newQuantity =  $product_details_etc['quantity'] - $cart['quantity'];
 
     if($getOrder){
         updateUser('orders', array('id', 'status'), array($order_id, 'Shipped'));
+        updateUser('product_details_etc', array('product_id', 'quantity'), array($getOrder['product_id'],$newQuantity));
 
         $desc = 'Your Order with reference Order of ' . $getOrder['reference_order'] . ' was Shipped';
         $notif = sendNotif('notification', 
@@ -227,6 +228,31 @@ if (isset($_POST['UPDATESHIPPING'])) {
         exit();
     } else {
         flash("msg", "error", "Can't Delete");
+        header("Location: ../View/myPurchase.php");
+        exit();
+    }
+} elseif (isset($_POST['RECEIVED'])) {
+    $order_id = $_POST['order_id'];
+    $getOrder = mysqli_fetch_assoc(getrecord('orders', 'id', $order_id));
+
+    if($getOrder){
+        updateUser('orders', array('id', 'status','isAccept'), array($order_id, 'Received','Yes'));
+
+        $desc = 'Your Order with reference Order of ' . $getOrder['reference_order'] . ' was Received';
+        $notif = sendNotif('notification', 
+                            array('user_id', 'date_send', 'isRead', 'redirect'), 
+                            array($getOrder['seller_id'], $date, 'No', 'myPurchase.php'));
+        $last_id = mysqli_insert_id($conn);
+        sendNotif(
+            'notification_details',
+            array('notification_id', 'title', 'Description'),
+            array($last_id, 'Product Order', $desc)
+        );
+        flash("msg", "success", "Product Shipped");
+        header("Location: ../View/myPurchase.php");
+        exit();
+    }else{
+        flash("msg", "error", "Error");
         header("Location: ../View/myPurchase.php");
         exit();
     }

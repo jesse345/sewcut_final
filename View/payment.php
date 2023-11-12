@@ -26,7 +26,8 @@ if (!isset($_SESSION['id'])) {
     <?php
     $totalPayment = 0;
     $user = mysqli_fetch_assoc(getrecord('user_details', 'id', $_SESSION['id']));
-    $order = mysqli_fetch_assoc(getrecord('orders', 'reference_order', $_GET['reference_order']));
+    $data = getrecord('orders', 'reference_order', $_GET['reference_order']);
+    $order = mysqli_fetch_assoc($data);
     $seller = mysqli_fetch_assoc(getrecord('user_details', 'id', $order['seller_id']));
     ?>
     <div class="page-wrapper">
@@ -61,11 +62,12 @@ if (!isset($_SESSION['id'])) {
                     <div class="form-group">
                         <label for="email">Total Amount</label>
                         <?php 
-                        mysqli_data_seek($order, 0);
-                        while($t = mysqli_fetch_assoc($order)):
+                        mysqli_data_seek($data, 0);
+                        while($t = mysqli_fetch_assoc($data)):
                             $cart = mysqli_fetch_assoc(getrecord('carts', 'id', $t['cart_id']));
                             $totalPayment += $cart['total'];
                             ?>
+                            <input type="hidden" name="order_id[]" value="<?= $t['id'] ?>">
                             <input type="hidden" name="reference_order[]" value="<?= $_GET['reference_order'] ?>">
                             <input type="hidden" name="total[]" value="<?= $cart['total'] ?>">
                         <?php endwhile; ?>
@@ -90,7 +92,6 @@ if (!isset($_SESSION['id'])) {
         <?php include("../layouts/footer.layout1.php"); ?>
     </div>
     <?php include("../layouts/jsfile.layout.php"); ?>
-    jsfile.layout.php
 </body>
 <script>
     const imageInput = document.getElementById('imageInput');

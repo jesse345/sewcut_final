@@ -329,7 +329,11 @@ if (!isset($_SESSION['id'])) {
                                                 <a class="collapsed" role="button" data-toggle="collapse"
                                                     href="#product-accordion-review" aria-expanded="false"
                                                     aria-controls="product-accordion-review">
-                                                    Reviews (2)
+                                                    <?php 
+                                                    $countReview = countReview($_GET['product_id']);
+                                                    $f = getrecord('feedbacks','product_id',$_GET['product_id']);
+                                                    ?>
+                                                    Reviews (<?=$countReview['count_review']?>)
                                                 </a>
                                             </h2>
                                         </div><!-- End .card-header -->
@@ -337,74 +341,43 @@ if (!isset($_SESSION['id'])) {
                                             aria-labelledby="product-review-heading" data-parent="#product-accordion">
                                             <div class="card-body">
                                                 <div class="reviews">
-                                                    <div class="review">
-                                                        <div class="row no-gutters">
-                                                            <div class="col-auto">
-                                                                <h4><a href="#">Samanta J.</a></h4>
-                                                                <div class="ratings-container">
-                                                                    <div class="ratings">
-                                                                        <div class="ratings-val" style="width: 80%;">
-                                                                        </div><!-- End .ratings-val -->
-                                                                    </div><!-- End .ratings -->
-                                                                </div><!-- End .rating-container -->
-                                                                <span class="review-date">6 days ago</span>
-                                                            </div><!-- End .col -->
-                                                            <div class="col">
-                                                                <h4>Good, perfect size</h4>
-
-                                                                <div class="review-content">
-                                                                    <p>Lorem ipsum dolor sit amet, consectetur
-                                                                        adipisicing elit. Ducimus cum dolores assumenda
-                                                                        asperiores facilis porro reprehenderit animi
-                                                                        culpa atque blanditiis commodi perspiciatis
-                                                                        doloremque, possimus, explicabo, autem fugit
-                                                                        beatae quae voluptas!</p>
-                                                                </div><!-- End .review-content -->
-
-                                                                <div class="review-action">
-                                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful
-                                                                        (2)</a>
-                                                                    <a href="#"><i
-                                                                            class="icon-thumbs-down"></i>Unhelpful
-                                                                        (0)</a>
-                                                                </div><!-- End .review-action -->
-                                                            </div><!-- End .col-auto -->
-                                                        </div><!-- End .row -->
-                                                    </div><!-- End .review -->
-
-                                                    <div class="review">
-                                                        <div class="row no-gutters">
-                                                            <div class="col-auto">
-                                                                <h4><a href="#">John Doe</a></h4>
-                                                                <div class="ratings-container">
-                                                                    <div class="ratings">
-                                                                        <div class="ratings-val" style="width: 100%;">
-                                                                        </div><!-- End .ratings-val -->
-                                                                    </div><!-- End .ratings -->
-                                                                </div><!-- End .rating-container -->
-                                                                <span class="review-date">5 days ago</span>
-                                                            </div><!-- End .col -->
-                                                            <div class="col">
-                                                                <h4>Very good</h4>
-
-                                                                <div class="review-content">
-                                                                    <p>Sed, molestias, tempore? Ex dolor esse iure hic
-                                                                        veniam laborum blanditiis laudantium iste amet.
-                                                                        Cum non voluptate eos enim, ab cumque nam, modi,
-                                                                        quas iure illum repellendus, blanditiis
-                                                                        perspiciatis beatae!</p>
-                                                                </div><!-- End .review-content -->
-
-                                                                <div class="review-action">
-                                                                    <a href="#"><i class="icon-thumbs-up"></i>Helpful
-                                                                        (0)</a>
-                                                                    <a href="#"><i
-                                                                            class="icon-thumbs-down"></i>Unhelpful
-                                                                        (0)</a>
-                                                                </div><!-- End .review-action -->
-                                                            </div><!-- End .col-auto -->
-                                                        </div><!-- End .row -->
-                                                    </div><!-- End .review -->
+                                                    <?php
+                                                    while($feedback = mysqli_fetch_assoc($f)){ 
+                                                        $fb_user = mysqli_fetch_assoc(getrecord('user_details','id',$feedback['user_id']))
+                                                        ?>
+                                                        <div class="review">
+                                                            <div class="row no-gutters">
+                                                                <div class="col-auto">
+                                                                    <h4><a href="#"><?=ucfirst($fb_user['firstname']) . ' ' . ucfirst($fb_user['lastname'])?></a></h4>
+                                                                    <div class="ratings-container">
+                                                                        <div class="ratings">
+                                                                            <div class="ratings-val" style="width: 
+                                                                                <?php 
+                                                                                    if ($feedback['rate'] == 1) {
+                                                                                        echo '20%';
+                                                                                    } elseif ($feedback['rate'] == 2) {
+                                                                                        echo '40%';
+                                                                                    } elseif ($feedback['rate'] == 3) {
+                                                                                        echo '60%';
+                                                                                    } elseif ($feedback['rate'] == 4) {
+                                                                                        echo '80%';
+                                                                                    } elseif ($feedback['rate'] == 5) {
+                                                                                        echo '100%';
+                                                                                    } 
+                                                                                ?>
+                                                                            ;">
+                                                                            </div>
+                                                                        </div><!-- End .ratings -->
+                                                                    </div><!-- End .rating-container -->
+                                                                </div><!-- End .col -->
+                                                                <div class="col">
+                                                                    <div class="review-content mt-3">
+                                                                        <p><?=ucfirst($feedback['description'])?></p>
+                                                                    </div><!-- End .review-content -->
+                                                                </div><!-- End .col-auto -->
+                                                            </div><!-- End .row -->
+                                                        </div><!-- End .review -->
+                                                    <?php } ?>
                                                 </div><!-- End .reviews -->
                                             </div><!-- End .card-body -->
                                         </div><!-- End .collapse -->
